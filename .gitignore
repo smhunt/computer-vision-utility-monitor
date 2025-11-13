@@ -29,6 +29,12 @@ logs/*.jsonl
 !docs/**/*.png
 last_reading.json
 
+# Firmware binaries (users should download directly)
+firmware/**/*.bin
+firmware/**/*.tgz
+firmware/**/*.tar.gz
+firmware/**/*.zip
+
 # IDE
 .vscode/
 .idea/
