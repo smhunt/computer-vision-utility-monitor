@@ -1,6 +1,6 @@
 # 🎥 Wyze Cam V2 + Water Meter Reader - Quick Start
 
-**Total setup time: 30 minutes**  
+**Total setup time: 30 minutes**
 **Cost: ~$5 (MicroSD card only - you have the camera!)**
 
 ---
@@ -12,12 +12,43 @@
 - ✅ Computer with SD card reader
 - ✅ WiFi network (2.4GHz)
 - ✅ Anthropic API key
+- ✅ Balena Etcher (installed)
 
 ---
 
 ## ⚡ 5-Step Setup
 
-### 1️⃣ Flash Dafang Hacks Firmware (15 min)
+### 1️⃣ Flash Firmware (15 min)
+
+**Choose one:**
+
+#### Option A: Thingino (RECOMMENDED - Latest, More Features)
+
+```bash
+# File location: ~/Desktop/wyze-cam-2-thingino.img
+# Size: 120MB
+
+# Flash with Balena Etcher:
+# 1. Open Balena Etcher
+# 2. Select: ~/Desktop/wyze-cam-2-thingino.img
+# 3. Select your SD card
+# 4. Click "Flash"
+# 5. Wait for completion
+
+# Boot into installer:
+# 1. Power OFF camera
+# 2. Insert SD card
+# 3. Hold SETUP button
+# 4. Plug in power
+# 5. Release when LED goes blue
+# 6. Wait 3-4 minutes
+```
+
+**Default Credentials (Thingino):**
+- SSH: Check web interface after setup
+- HTTP Snapshot: Camera-dependent (follow setup wizard)
+
+#### Option B: Dafang Hacks (Traditional, Stable)
 
 ```bash
 # Download firmware

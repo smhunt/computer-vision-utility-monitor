@@ -29,8 +29,9 @@ except ImportError:
 # CONFIGURATION
 # ============================================================================
 
-# Claude model to use
-MODEL = "claude-3-5-sonnet-20241022"
+# Claude model to use (using latest available version)
+# Options: claude-opus-4-1, claude-sonnet, claude-haiku, or specific dated versions
+MODEL = "claude-opus-4-1"
 
 # Prompt for water meter reading
 METER_READING_PROMPT = """You are analyzing a water meter image. Please identify and read both components:

@@ -1,6 +1,15 @@
-# Environment and secrets
+# Environment and secrets (CRITICAL - NEVER COMMIT)
 .env
+.env.local
+.env.*.local
 *.key
+*.pem
+credentials/
+secrets/
+auth/
+*_credentials*
+*_password*
+*_token*
 
 # Python
 __pycache__/
