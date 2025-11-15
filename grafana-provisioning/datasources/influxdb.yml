@@ -1,0 +1,17 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    database: water_meter
+    jsonData:
+      version: Flux
+      organization: water-meter
+      defaultBucket: water_meter
+      tlsSkipVerify: true
+    secureJsonData:
+      token: test-token
+    isDefault: true
+    editable: true
