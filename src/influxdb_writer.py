@@ -27,10 +27,14 @@ def write_reading_to_influxdb(reading: Dict, influxdb_url: str = None):
         return False
 
     try:
+        # Get org and bucket from environment
+        org = os.getenv("INFLUXDB_ORG", "ecoworks")
+        bucket = os.getenv("INFLUXDB_BUCKET", "utility_meters")
+
         # Initialize InfluxDB client
         client = InfluxDBClient(
             url=influxdb_url,
-            org="water-meter",
+            org=org,
             token=os.getenv("INFLUXDB_TOKEN", "test-token")
         )
 
@@ -40,9 +44,10 @@ def write_reading_to_influxdb(reading: Dict, influxdb_url: str = None):
         if "error" in reading:
             # Log errors separately
             point = {
-                "measurement": "water_meter_error",
+                "measurement": "meter_reading_error",
                 "tags": {
                     "camera": os.getenv("WYZE_CAM_IP", "unknown"),
+                    "meter_type": reading.get("meter_type", "water"),
                     "error_type": reading.get("error", "unknown")
                 },
                 "fields": {
@@ -53,12 +58,14 @@ def write_reading_to_influxdb(reading: Dict, influxdb_url: str = None):
         else:
             # Log successful reading
             point = {
-                "measurement": "water_meter",
+                "measurement": "meter_reading",
                 "tags": {
                     "camera": os.getenv("WYZE_CAM_IP", "unknown"),
+                    "meter_type": reading.get("meter_type", "water"),
                     "confidence": reading.get("confidence", "unknown")
                 },
                 "fields": {
+                    "value": float(reading.get("total_reading", 0)),
                     "total_reading": float(reading.get("total_reading", 0)),
                     "digital_reading": int(reading.get("digital_reading", 0)),
                     "dial_reading": float(reading.get("dial_reading", 0)),
@@ -70,8 +77,8 @@ def write_reading_to_influxdb(reading: Dict, influxdb_url: str = None):
 
         # Write to InfluxDB
         write_api.write(
-            bucket="water_meter",
-            org="water-meter",
+            bucket=bucket,
+            org=org,
             record=point
         )
 
