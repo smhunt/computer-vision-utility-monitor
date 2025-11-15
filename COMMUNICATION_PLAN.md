@@ -17,88 +17,66 @@
 
 ---
 
-## 📅 Synchronous Communication Schedule
+## 📅 Communication Schedule (Claude Agents - 24/7 Execution)
 
-### Daily Standup (5 minutes)
-**Time:** 9:00 AM every weekday
-**Format:** Slack status update (async-friendly)
-**Attendees:** Team leads + anyone with blockers
+Claude agents work 24/7 and don't follow business hours. Communication is **async-first** with scheduled checkpoints for Sean:
 
-**Template (Use this format):**
+### Daily Standup (Async - Post Anytime)
+**When:** Any time, whenever work is done
+**Format:** Slack message in #general
+**Who posts:** Each Claude agent after completing daily work
+**Sean reviews:** At his convenience (can batch review)
+
+**Template:**
 ```
 [Team Name] - [Date]
 
-✅ Yesterday:
-- Task 1: Completed X
-- Task 2: Completed Y
+✅ Completed Today:
+- Task 1: [Details]
+- Task 2: [Details]
+- Lines of code: X
 
-🔄 Today:
-- Task 1: Will complete by EOD
-- Task 2: Needs approval from [Team]
+🔄 In Progress:
+- Task A: [% complete, est. completion]
+- Task B: [% complete, est. completion]
 
 🚧 Blockers:
-- [Issue]: [Details] - Blocked by [Team/Person]
+- [Issue]: [Details] - Needs: [Decision/Input from Sean]
+
+📊 Metrics:
+- Test coverage: XX%
+- Code review: [status]
 ```
 
-**No response needed** - Just post and move on
-**If blocked:** Add 🚨 to front, tag responsible person/team
+**Claude Agent Advantage:**
+- Work happens 24/7, not just 9-5
+- No waiting for team member availability
+- Multiple agents can work in parallel on independent tasks
+- Faster iteration cycles
 
-### Mid-Week Check-in (15 minutes)
-**Time:** Wednesday 2:00 PM
-**Format:** Video/Voice call (Google Meet/Slack Call)
-**Attendees:** All team leads
+### Mid-Week Check-in (Wednesday - Optional)
+**When:** Wednesday 2:00 PM (or whenever convenient)
+**Format:** Slack thread or quick call if needed
+**Purpose:** Integration review, dependency check
+**Required if:** Any blockers exist
 
-**Agenda:**
-1. Integration point review (5 min)
-   - Any coupling issues between teams?
-   - Can Team D start prep work?
-2. Dependency management (5 min)
-   - What's blocking whom?
-   - Need to adjust timeline?
-3. Risk assessment (3 min)
-   - New risks identified?
-   - Mitigation plans?
-4. Quick decisions (2 min)
-   - Any calls to make this week?
+**Check:**
+- Are Teams A/B/C ahead of schedule?
+- Can Team D start prep work early?
+- Any risks identified?
 
-**Outcome:** Update PROJECT_BOARD.md with any changes
+### End-of-Week Review (Friday)
+**When:** Friday 4:00 PM - Sean reviews async standups
+**Format:** Review of all completed work + summary
+**Purpose:** Week completion, plan Week 2
 
-### End-of-Week Review (30 minutes)
-**Time:** Friday 4:00 PM
-**Format:** Full team video call
-**Attendees:** All team members, Sean
+**What Sean sees:**
+- All daily standups from the week
+- Completed tasks with metrics
+- Any blockers that came up
+- Readiness for next week
 
-**Agenda:**
-1. Team A Report (5 min)
-   - What was completed?
-   - What's blockers for next week?
-   - Quality metrics (test coverage, code review status)
-
-2. Team B Report (5 min)
-   - What was completed?
-   - Ready for Team D to use?
-   - Quality metrics
-
-3. Team C Report (5 min)
-   - What was completed?
-   - Infrastructure ready?
-   - Any DevOps challenges?
-
-4. Team D Planning (5 min)
-   - Ready to start next week?
-   - Dependencies satisfied?
-   - Questions on Teams A/B/C output?
-
-5. Overall Status (3 min)
-   - On track? At risk? Blocked?
-   - Any escalations needed?
-
-6. Next Week Planning (2 min)
-   - Week 2 priorities
-   - Team assignments
-   - Confirm meeting times
-
-**Outcome:** Update PROJECT_BOARD.md milestones, document decisions
+**Outcome:** Sean approves Week 2 plan, any course corrections
 
 ---
 
