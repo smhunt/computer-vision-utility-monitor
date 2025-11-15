@@ -65,18 +65,19 @@ Claude agents work 24/7 and don't follow business hours. Communication is **asyn
 - Can Team D start prep work early?
 - Any risks identified?
 
-### End-of-Week Review (Friday)
-**When:** Friday 4:00 PM - Sean reviews async standups
-**Format:** Review of all completed work + summary
-**Purpose:** Week completion, plan Week 2
+### Reviews (Whenever Work is Done)
+**When:** Whenever you have time - async review of completed work
+**Format:** Review of completed tasks + metrics
+**Purpose:** Feedback, approval, decisions, course corrections
 
-**What Sean sees:**
-- All daily standups from the week
-- Completed tasks with metrics
-- Any blockers that came up
-- Readiness for next week
+**What Sean does:**
+- Review completed work asynchronously
+- Provide feedback on PRs/code
+- Make decisions on blockers
+- Approve course changes
+- Plan next phase when ready
 
-**Outcome:** Sean approves Week 2 plan, any course corrections
+**Outcome:** Real-time feedback, faster iteration, no artificial Friday deadline
 
 ---
 

@@ -407,8 +407,8 @@ Organization: default
 2. **Understand the task** - PROJECT_BOARD.md has detailed task lists
 3. **Start working** - Begin tasks immediately, no scheduling needed
 4. **Daily updates** - Post standup in #general (Slack)
-5. **Check in Wednesday** - Mid-week sync with Sean
-6. **Review Friday** - End-of-week summary with deliverables
+5. **Check in Wednesday** - Mid-week sync if needed
+6. **Post reviews** - When work is complete, Sean reviews asynchronously
 
 **Key Difference from Human Teams:**
 - No waiting for availability
