@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { MeterReading, ChartDataPoint } from '../types/meter';
 
-const INFLUXDB_URL = import.meta.env.VITE_INFLUXDB_URL || 'http://localhost:8086';
+// Use proxy in development to avoid CORS issues
+const INFLUXDB_URL = import.meta.env.DEV ? '/influxdb' : (import.meta.env.VITE_INFLUXDB_URL || 'http://localhost:8086');
 const INFLUXDB_TOKEN = import.meta.env.VITE_INFLUXDB_TOKEN || '';
 const INFLUXDB_ORG = import.meta.env.VITE_INFLUXDB_ORG || 'ecoworks';
 const INFLUXDB_BUCKET = import.meta.env.VITE_INFLUXDB_BUCKET || 'utility_meters';
@@ -11,7 +12,9 @@ const api = axios.create({
   headers: {
     'Authorization': `Token ${INFLUXDB_TOKEN}`,
     'Content-Type': 'application/json',
+    'Accept': 'application/csv',
   },
+  timeout: 5000,
 });
 
 export interface InfluxDBQueryParams {
@@ -35,10 +38,17 @@ export const fetchMeterReadings = async (params: InfluxDBQueryParams): Promise<M
   `;
 
   try {
-    const response = await api.post(`/api/v2/query?org=${INFLUXDB_ORG}`, {
-      query: fluxQuery,
-      type: 'flux',
-    });
+    console.log(`Fetching ${meterType} readings from InfluxDB...`);
+    const response = await api.post(
+      `/api/v2/query?org=${INFLUXDB_ORG}`,
+      fluxQuery,
+      {
+        headers: {
+          'Content-Type': 'application/vnd.flux',
+          'Accept': 'application/csv',
+        },
+      }
+    );
 
     // Parse InfluxDB response
     const data = response.data;
@@ -68,9 +78,11 @@ export const fetchMeterReadings = async (params: InfluxDBQueryParams): Promise<M
       }
     }
 
+    console.log(`✓ Fetched ${readings.length} ${meterType} readings from InfluxDB`);
     return readings;
-  } catch (error) {
-    console.error('Error fetching meter readings:', error);
+  } catch (error: any) {
+    console.warn(`Failed to fetch ${meterType} from InfluxDB:`, error.message);
+    console.log(`Using mock data for ${meterType} meter`);
     // Return mock data for development
     return generateMockData(meterType);
   }
