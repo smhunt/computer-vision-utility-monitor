@@ -1,0 +1,28 @@
+# Example configuration for single water meter monitoring
+# This is a minimal configuration for monitoring one water meter
+
+meters:
+  - name: "water_main"
+    type: "water"
+    camera_ip: "${WATER_CAM_IP:10.10.10.207}"
+    camera_user: "${WATER_CAM_USER:root}"
+    camera_pass: "${WATER_CAM_PASS}"
+    stream_url: "${WATER_CAM_STREAM_URL}"
+    reading_interval: 600  # 10 minutes
+    max_change_per_reading: 10.0  # Maximum m³ change per reading
+
+# InfluxDB configuration (optional)
+influxdb:
+  url: "${INFLUXDB_URL:http://localhost:8086}"
+  token: "${INFLUXDB_TOKEN}"
+  org: "${INFLUXDB_ORG:ecoworks}"
+  bucket: "${INFLUXDB_BUCKET:utility_meters}"
+
+# MQTT configuration (optional)
+mqtt:
+  enabled: false
+  broker: "${MQTT_BROKER:localhost}"
+  port: 1883
+  username: "${MQTT_USERNAME}"
+  password: "${MQTT_PASSWORD}"
+  topic_prefix: "home/meters"

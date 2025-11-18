@@ -1,0 +1,16 @@
+{
+  "domain": "utility_meters",
+  "name": "Utility Meters Vision Monitor",
+  "codeowners": [
+    "@seanhunt"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/seanhunt/computer-vision-utility-monitor",
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/seanhunt/computer-vision-utility-monitor/issues",
+  "requirements": [
+    "influxdb-client>=1.36.0"
+  ],
+  "version": "1.0.0"
+}

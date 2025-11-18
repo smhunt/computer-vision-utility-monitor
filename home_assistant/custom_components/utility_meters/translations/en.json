@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Utility Meters Vision Monitor",
+        "description": "Configure the connection to your InfluxDB instance where meter readings are stored.",
+        "data": {
+          "influxdb_url": "InfluxDB URL",
+          "influxdb_token": "InfluxDB Token",
+          "influxdb_org": "InfluxDB Organization",
+          "influxdb_bucket": "InfluxDB Bucket",
+          "scan_interval": "Scan Interval (seconds)",
+          "camera_tag": "Camera Tag (optional)"
+        },
+        "data_description": {
+          "influxdb_url": "The URL of your InfluxDB instance (e.g., http://localhost:8086)",
+          "influxdb_token": "Authentication token with read access to the bucket",
+          "influxdb_org": "The organization name in InfluxDB",
+          "influxdb_bucket": "The bucket where meter readings are stored",
+          "scan_interval": "How often to poll for new data (10-3600 seconds)",
+          "camera_tag": "Optional identifier for the camera source"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to InfluxDB. Please check the URL and ensure InfluxDB is running.",
+      "invalid_auth": "Invalid authentication. Please check your token and organization name.",
+      "unknown": "An unexpected error occurred. Please check the logs for details."
+    },
+    "abort": {
+      "already_configured": "This InfluxDB instance is already configured. Please use a different URL or bucket."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Utility Meters Options",
+        "description": "Update the integration settings.",
+        "data": {
+          "scan_interval": "Scan Interval (seconds)",
+          "camera_tag": "Camera Tag (optional)"
+        },
+        "data_description": {
+          "scan_interval": "How often to poll for new data (10-3600 seconds)",
+          "camera_tag": "Optional identifier for the camera source"
+        }
+      }
+    }
+  }
+}

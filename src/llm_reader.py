@@ -162,7 +162,8 @@ def read_meter_with_claude(
     image_path: str,
     api_key: str = None,
     model: str = MODEL,
-    prompt: str = METER_READING_PROMPT
+    prompt: str = METER_READING_PROMPT,
+    custom_prompt: str = None
 ) -> Dict:
     """
     Read water meter from image using Claude Vision API
@@ -172,6 +173,7 @@ def read_meter_with_claude(
         api_key: Anthropic API key (defaults to ANTHROPIC_API_KEY env var)
         model: Claude model to use
         prompt: Custom prompt (uses default if not provided)
+        custom_prompt: Alternative way to specify custom prompt (overrides prompt)
 
     Returns:
         Dictionary with reading data:
@@ -190,6 +192,10 @@ def read_meter_with_claude(
             'raw_response': str (optional)
         }
     """
+    # Use custom_prompt if provided, otherwise use prompt
+    if custom_prompt is not None:
+        prompt = custom_prompt
+
     # Get API key
     if api_key is None:
         api_key = os.getenv('ANTHROPIC_API_KEY')
