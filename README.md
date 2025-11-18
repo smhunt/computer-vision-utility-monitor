@@ -175,6 +175,9 @@ computer-vision-utility-monitor/
 ├── SECURITY_SUMMARY.md                 # Security implementation
 │
 ├── wyze_cam_monitor.py                 # Water meter monitor (reference)
+├── meter_preview_ui.py                 # Web UI with camera controls
+├── meter_preview_ui_v2.py              # Alternative UI implementation
+├── camera_presets.py                   # Camera preset management
 ├── view_logs.py                        # Log viewer tool
 │
 ├── src/
@@ -213,6 +216,10 @@ computer-vision-utility-monitor/
 ├── logs/
 │   ├── readings.jsonl                  # [Auto-created] Reading history
 │   └── snapshots/                      # [Auto-created] Snapshot images
+│
+├── tests/                              # Unit tests
+│   ├── test_camera_presets.py          # Camera preset tests
+│   └── test_meter_preview_ui.py        # Web UI tests
 │
 ├── sd_card_ready/                      # Firmware files (ready to flash)
 │   ├── openmiko/demo.bin
@@ -282,6 +289,8 @@ docker-compose ps
 ```
 
 ### Step 5: Run Water Meter Monitor (Reference)
+
+**Option A: Command-line monitoring**
 ```bash
 # Load environment
 set -a && source .env && source .env.local && set +a
@@ -292,6 +301,19 @@ python wyze_cam_monitor.py
 # View logs in another terminal
 python view_logs.py --latest 10
 python view_logs.py --tail  # Real-time monitoring
+```
+
+**Option B: Web UI with camera controls (recommended)**
+```bash
+# Start the web interface
+python meter_preview_ui.py --port 5001
+
+# Open in browser: http://localhost:5001
+# Features:
+# - Live MJPEG camera streams
+# - Camera preset controls (day/night/optimal modes)
+# - Trigger readings on-demand
+# - View latest readings with confidence scores
 ```
 
 ---
@@ -306,6 +328,11 @@ python view_logs.py --tail  # Real-time monitoring
 - ✅ Grafana real-time dashboard
 - ✅ JSON logging with snapshots
 - ✅ Enterprise-grade credential security
+- ✅ Live camera preview with real-time MJPEG streams
+- ✅ Camera preset system (day/night/optimal modes)
+- ✅ Multi-camera support with per-camera configuration
+- ✅ Web UI for camera controls and meter readings
+- ✅ Unit tests for camera and UI components
 
 ### Planned (Week 1-4)
 - 🔄 Electric meter reading (Week 1-2)
@@ -427,6 +454,30 @@ ping 10.10.10.207
 curl -u root:thinginoSh4114! http://10.10.10.207/mjpeg
 ```
 
+### Web UI Not Loading
+```bash
+# Check if the server is running
+python meter_preview_ui.py --port 5001
+
+# Test with different port if 5001 is busy
+python meter_preview_ui.py --port 5002
+
+# Access in browser
+open http://localhost:5001
+```
+
+### Camera Preset Not Applying
+```bash
+# Test preset directly
+python camera_presets.py day_clear
+
+# Check available presets
+python camera_presets.py --list
+
+# Verify camera is accessible
+ping <camera_ip>
+```
+
 ### Docker Services Not Starting
 ```bash
 # Check logs
@@ -502,7 +553,7 @@ MIT
 
 ---
 
-**Last Updated:** November 15, 2025
-**Status:** Week 1 Foundation In Progress
+**Last Updated:** November 18, 2025
+**Status:** Week 1 Foundation In Progress - Camera Controls Complete
 **Next Update:** Friday EOD, Week 1
 **Owner:** Sean Hunt

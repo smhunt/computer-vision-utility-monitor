@@ -15,7 +15,7 @@ import base64
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Union
+from typing import Dict, Union, Optional
 
 try:
     import anthropic
@@ -23,6 +23,12 @@ except ImportError:
     print("Error: anthropic package not installed")
     print("Install with: pip install anthropic")
     exit(1)
+
+try:
+    from image_processor import preprocess_meter_image, image_to_bytes
+    IMAGE_PROCESSING_AVAILABLE = True
+except ImportError:
+    IMAGE_PROCESSING_AVAILABLE = False
 
 
 # ============================================================================
@@ -63,16 +69,21 @@ If you cannot read the meter clearly, explain why in the notes field and set con
 # HELPER FUNCTIONS
 # ============================================================================
 
-def encode_image(image_path: str) -> tuple[str, str]:
+def encode_image(image_path: str, rotation: Optional[int] = None, auto_orient: bool = True) -> tuple[str, str]:
     """
-    Encode image to base64 for Claude API
+    Encode image to base64 for Claude API with optional preprocessing
 
     Args:
         image_path: Path to image file or URL
+        rotation: Rotation angle in degrees (0, 90, 180, 270) or None
+        auto_orient: Automatically correct orientation from EXIF data
 
     Returns:
         Tuple of (base64_data, media_type)
     """
+    # Check if we need preprocessing
+    needs_preprocessing = IMAGE_PROCESSING_AVAILABLE and (rotation or auto_orient)
+
     if image_path.startswith(('http://', 'https://')):
         # For HTTP URLs, we'll need to download first
         import requests
@@ -83,20 +94,33 @@ def encode_image(image_path: str) -> tuple[str, str]:
         content_type = response.headers.get('content-type', 'image/jpeg')
         media_type = content_type if 'image/' in content_type else 'image/jpeg'
     else:
-        # Local file
-        with open(image_path, 'rb') as f:
-            image_data = f.read()
+        # Check if preprocessing is needed
+        if needs_preprocessing:
+            # Preprocess the image (rotation, auto-orient, etc.)
+            img, metadata = preprocess_meter_image(
+                image_path,
+                rotation=rotation,
+                auto_orient=auto_orient
+            )
 
-        # Determine media type from extension
-        ext = Path(image_path).suffix.lower()
-        media_type_map = {
-            '.jpg': 'image/jpeg',
-            '.jpeg': 'image/jpeg',
-            '.png': 'image/png',
-            '.gif': 'image/gif',
-            '.webp': 'image/webp'
-        }
-        media_type = media_type_map.get(ext, 'image/jpeg')
+            # Convert preprocessed image to bytes
+            image_data = image_to_bytes(img, format='JPEG', quality=95)
+            media_type = 'image/jpeg'
+        else:
+            # Local file without preprocessing
+            with open(image_path, 'rb') as f:
+                image_data = f.read()
+
+            # Determine media type from extension
+            ext = Path(image_path).suffix.lower()
+            media_type_map = {
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.png': 'image/png',
+                '.gif': 'image/gif',
+                '.webp': 'image/webp'
+            }
+            media_type = media_type_map.get(ext, 'image/jpeg')
 
     # Encode to base64
     base64_data = base64.standard_b64encode(image_data).decode('utf-8')
@@ -163,7 +187,9 @@ def read_meter_with_claude(
     api_key: str = None,
     model: str = MODEL,
     prompt: str = METER_READING_PROMPT,
-    custom_prompt: str = None
+    custom_prompt: str = None,
+    rotation: Optional[int] = None,
+    auto_orient: bool = True
 ) -> Dict:
     """
     Read water meter from image using Claude Vision API
@@ -174,6 +200,8 @@ def read_meter_with_claude(
         model: Claude model to use
         prompt: Custom prompt (uses default if not provided)
         custom_prompt: Alternative way to specify custom prompt (overrides prompt)
+        rotation: Rotation angle in degrees (0, 90, 180, 270) or None
+        auto_orient: Automatically correct orientation from EXIF data
 
     Returns:
         Dictionary with reading data:
@@ -209,9 +237,13 @@ def read_meter_with_claude(
         # Initialize client
         client = anthropic.Anthropic(api_key=api_key)
 
-        # Encode image
+        # Encode image with optional preprocessing
         try:
-            image_data, media_type = encode_image(image_path)
+            image_data, media_type = encode_image(
+                image_path,
+                rotation=rotation,
+                auto_orient=auto_orient
+            )
         except Exception as e:
             return {
                 'error': f'Failed to load image: {str(e)}'
