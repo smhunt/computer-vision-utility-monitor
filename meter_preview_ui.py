@@ -17,7 +17,7 @@ import subprocess
 import threading
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, render_template, jsonify, send_file
+from flask import Flask, render_template, jsonify, send_file, Response
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -238,6 +238,40 @@ def api_status(meter_type):
     return jsonify({
         'in_progress': meter_type in READING_IN_PROGRESS
     })
+
+
+@app.route('/api/stream/<meter_type>')
+def api_stream(meter_type):
+    """Proxy MJPEG stream from camera"""
+    try:
+        # Find meter config
+        meter_config = None
+        if CONFIG:
+            for m in CONFIG.get('meters', []):
+                if m.get('type') == meter_type:
+                    meter_config = m
+                    break
+
+        if not meter_config:
+            return "Meter not found", 404
+
+        camera_ip = meter_config.get('camera_ip', '').replace('${WATER_CAM_IP:', '').replace('}', '').split(':')[-1] or '10.10.10.207'
+        camera_user = meter_config.get('camera_user', '').replace('${WATER_CAM_USER:', '').replace('}', '').split(':')[-1] or 'root'
+        camera_pass = meter_config.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or '***REMOVED***'
+
+        # Stream MJPEG from camera
+        mjpeg_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/mjpeg"
+
+        def generate():
+            """Stream MJPEG frames from camera"""
+            response = requests.get(mjpeg_url, stream=True, timeout=30)
+            for chunk in response.iter_content(chunk_size=1024):
+                yield chunk
+
+        return Response(generate(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+    except Exception as e:
+        return f"Stream error: {str(e)}", 500
 
 
 @app.route('/api/preset/<meter_type>/<preset_name>', methods=['POST'])
@@ -903,15 +937,9 @@ def create_templates():
 
                 <div class="meter-body">
                     <div class="snapshot-container">
-                        {% if meter.has_snapshot %}
-                            <img src="{{ meter.snapshot_path }}?t={{ meter.reading.timestamp if meter.reading else '' }}"
-                                 alt="{{ meter.name }} snapshot"
-                                 class="snapshot-image">
-                        {% else %}
-                            <div class="no-snapshot">
-                                📷 No snapshot available
-                            </div>
-                        {% endif %}
+                        <img src="/api/stream/{{ meter.type }}"
+                             alt="{{ meter.name }} live stream"
+                             class="snapshot-image">
                     </div>
 
                     <!-- Camera Controls -->
@@ -1105,7 +1133,7 @@ def create_templates():
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    addLogEntry(meterType, `✓ Camera settings applied: ${presetName}`, 'success');
+                    addLogEntry(meterType, `✓ ${presetName} mode applied to live stream`, 'success');
 
                     // Highlight the active preset button
                     buttons.forEach(btn => {
@@ -1113,32 +1141,7 @@ def create_templates():
                     });
                     buttonEl.classList.add('active');
 
-                    showStatus(meterType, '⏳ Waiting for camera to adjust...', 'info');
-
-                    // Wait 2 seconds for camera to apply the new settings
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-
-                    addLogEntry(meterType, '📸 Capturing preview with new settings...');
-
-                    // Capture a fresh snapshot to show the preset effect
-                    const snapResp = await fetch(`/api/snapshot/${meterType}`, {
-                        method: 'POST'
-                    });
-
-                    if (snapResp.ok) {
-                        const snapData = await snapResp.json();
-                        addLogEntry(meterType, `✓ Preview updated!`, 'success');
-
-                        // Reload the page to show new snapshot
-                        showStatus(meterType, `✓ ${presetName} mode active! Refreshing preview...`, 'success');
-                        setTimeout(() => {
-                            location.reload();
-                        }, 500);
-                    } else {
-                        const errorData = await snapResp.json();
-                        addLogEntry(meterType, `⚠️ Preview not updated: ${errorData.message}`, 'error');
-                        showStatus(meterType, `✓ ${presetName} settings applied (preview refresh failed)`, 'success');
-                    }
+                    showStatus(meterType, `✓ ${presetName} mode active! Watch the live stream update.`, 'success');
                 } else {
                     addLogEntry(meterType, `✗ Failed to apply preset: ${data.message}`, 'error');
                     showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
