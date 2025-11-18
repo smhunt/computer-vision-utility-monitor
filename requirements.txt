@@ -3,6 +3,7 @@ anthropic>=0.39.0
 requests>=2.31.0
 influxdb-client>=1.49.0
 pyyaml>=6.0.1
+flask>=3.0.0
 
 # Optional dependencies
 # paho-mqtt>=1.6.1  # For MQTT publishing (uncomment if needed)
