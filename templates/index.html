@@ -489,15 +489,9 @@
 
                 <div class="meter-body">
                     <div class="snapshot-container">
-                        {% if meter.has_snapshot %}
-                            <img src="{{ meter.snapshot_path }}?t={{ meter.reading.timestamp if meter.reading else '' }}"
-                                 alt="{{ meter.name }} snapshot"
-                                 class="snapshot-image">
-                        {% else %}
-                            <div class="no-snapshot">
-                                📷 No snapshot available
-                            </div>
-                        {% endif %}
+                        <img src="/api/stream/{{ meter.type }}"
+                             alt="{{ meter.name }} live stream"
+                             class="snapshot-image">
                     </div>
 
                     <!-- Camera Controls -->
@@ -691,7 +685,7 @@
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    addLogEntry(meterType, `✓ Camera settings changed to ${presetName}`, 'success');
+                    addLogEntry(meterType, `✓ ${presetName} mode applied to live stream`, 'success');
 
                     // Highlight the active preset button
                     buttons.forEach(btn => {
@@ -699,53 +693,7 @@
                     });
                     buttonEl.classList.add('active');
 
-                    showStatus(meterType, '✓ Settings applied, capturing...', 'info');
-
-                    // Wait 1 second for camera to apply settings
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-
-                    addLogEntry(meterType, '📸 Capturing snapshot from camera...');
-
-                    // Add loading indicator to image
-                    const snapshotContainer = document.querySelector('.snapshot-container');
-                    if (snapshotContainer) {
-                        snapshotContainer.classList.add('snapshot-loading');
-                    }
-
-                    // Capture a fresh snapshot from camera
-                    const snapResp = await fetch(`/api/snapshot/${meterType}`, {
-                        method: 'POST'
-                    });
-
-                    if (snapResp.ok) {
-                        const snapData = await snapResp.json();
-                        addLogEntry(meterType, `✓ Snapshot captured: ${snapData.timestamp}`, 'success');
-
-                        // Wait a moment for file to be written
-                        await new Promise(resolve => setTimeout(resolve, 200));
-
-                        // Refresh the snapshot image with cache-busting timestamp
-                        const snapshotImg = document.querySelector('.snapshot-image');
-                        if (snapshotImg) {
-                            const currentSrc = snapshotImg.src.split('?')[0];
-                            snapshotImg.src = currentSrc + '?t=' + Date.now();
-
-                            // Wait for image to load
-                            snapshotImg.onload = () => {
-                                if (snapshotContainer) {
-                                    snapshotContainer.classList.remove('snapshot-loading');
-                                }
-                                addLogEntry(meterType, `✓ Preview updated with ${presetName} mode`, 'success');
-                                showStatus(meterType, '✓ ' + presetName + ' mode active!', 'success');
-                            };
-                        }
-                    } else {
-                        addLogEntry(meterType, '✗ Failed to capture snapshot', 'error');
-                        showStatus(meterType, '✗ Capture failed', 'error');
-                        if (snapshotContainer) {
-                            snapshotContainer.classList.remove('snapshot-loading');
-                        }
-                    }
+                    showStatus(meterType, `✓ ${presetName} mode active! Watch the live stream update.`, 'success');
                 } else {
                     addLogEntry(meterType, `✗ Failed to apply preset: ${data.message}`, 'error');
                     showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
@@ -821,10 +769,33 @@
             buttonEl.disabled = true;
             buttonEl.textContent = '⏳ Processing...';
 
-            addLogEntry(meterType, '🔬 Starting meter reading analysis...');
-            showStatus(meterType, '📸 Capturing image and analyzing... (15-30 seconds)', 'info');
+            // Clear any previous error messages
+            const statusEl = document.getElementById('status-' + meterType);
+            statusEl.style.display = 'none';
+
+            addLogEntry(meterType, '📸 Capturing snapshot with current camera settings...');
+            showStatus(meterType, '📸 Capturing image with current mode...', 'info');
 
             try {
+                // First, capture a snapshot with current camera settings
+                const snapResponse = await fetch(`/api/snapshot/${meterType}`, {
+                    method: 'POST'
+                });
+
+                if (!snapResponse.ok) {
+                    throw new Error(`Snapshot failed: HTTP ${snapResponse.status}`);
+                }
+
+                const snapData = await snapResponse.json();
+
+                if (snapData.status !== 'success') {
+                    throw new Error(snapData.message || 'Failed to capture snapshot');
+                }
+
+                addLogEntry(meterType, '✓ Snapshot captured, analyzing with Claude Vision API...', 'success');
+                showStatus(meterType, '🤖 Analyzing image with Claude Vision API... (15-30 seconds)', 'info');
+
+                // Now trigger the reading analysis
                 const response = await fetch(`/api/trigger/${meterType}`, {
                     method: 'POST'
                 });
@@ -836,10 +807,10 @@
                 const data = await response.json();
 
                 if (data.status === 'triggered') {
-                    addLogEntry(meterType, '✓ Reading triggered, processing with Claude Vision API...', 'success');
-                    showStatus(meterType, '📸 Reading in progress... Auto-refreshing in 30 seconds.', 'info');
+                    addLogEntry(meterType, '✓ Analysis in progress, refreshing page with results...', 'success');
+                    showStatus(meterType, '✓ Analysis complete! Refreshing page...', 'success');
 
-                    // Auto-refresh after 30 seconds
+                    // Auto-refresh after 30 seconds to show results
                     setTimeout(() => {
                         location.reload();
                     }, 30000);

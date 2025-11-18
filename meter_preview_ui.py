@@ -24,6 +24,12 @@ from flask import Flask, render_template, jsonify, send_file, Response
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from utils.config_loader import load_config
+from camera_presets import (
+    apply_preset as apply_camera_preset,
+    DEFAULT_CAMERA_IP,
+    DEFAULT_CAMERA_PASS,
+    DEFAULT_CAMERA_USER,
+)
 
 app = Flask(__name__)
 
@@ -279,25 +285,46 @@ def api_stream(meter_type):
 def api_apply_preset(meter_type, preset_name):
     """Apply a camera preset"""
     try:
-        result = subprocess.run(
-            [sys.executable, 'camera_presets.py', preset_name],
-            capture_output=True,
-            text=True,
-            timeout=15
-        )
-
-        if result.returncode == 0:
-            return jsonify({
-                'status': 'success',
-                'message': f'Applied {preset_name} preset',
-                'output': result.stdout
-            })
-        else:
+        if not CONFIG:
             return jsonify({
                 'status': 'error',
-                'message': 'Failed to apply preset',
-                'error': result.stderr
+                'message': 'Configuration not loaded'
             }), 500
+
+        meter_config = next(
+            (m for m in CONFIG.get('meters', []) if m.get('type') == meter_type),
+            None
+        )
+
+        if not meter_config:
+            return jsonify({
+                'status': 'error',
+                'message': f'Meter type {meter_type} not found'
+            }), 404
+
+        camera_ip = meter_config.get('camera_ip') or DEFAULT_CAMERA_IP
+        camera_user = meter_config.get('camera_user') or DEFAULT_CAMERA_USER
+        camera_pass = meter_config.get('camera_pass') or DEFAULT_CAMERA_PASS
+
+        result = apply_camera_preset(
+            preset_name,
+            camera_ip=camera_ip,
+            camera_user=camera_user,
+            camera_pass=camera_pass
+        )
+
+        if result.get('success'):
+            return jsonify({
+                'status': 'success',
+                'message': f'Applied {preset_name} preset to {camera_ip}',
+                'details': result
+            })
+
+        return jsonify({
+            'status': 'error',
+            'message': f"Failed to apply preset {preset_name}",
+            'details': result
+        }), 500
 
     except Exception as e:
         return jsonify({
@@ -1218,10 +1245,33 @@ def create_templates():
             buttonEl.disabled = true;
             buttonEl.textContent = '⏳ Processing...';
 
-            addLogEntry(meterType, '🔬 Starting meter reading analysis...');
-            showStatus(meterType, '📸 Capturing image and analyzing... (15-30 seconds)', 'info');
+            // Clear any previous error messages
+            const statusEl = document.getElementById('status-' + meterType);
+            statusEl.style.display = 'none';
+
+            addLogEntry(meterType, '📸 Capturing snapshot with current camera settings...');
+            showStatus(meterType, '📸 Capturing image with current mode...', 'info');
 
             try {
+                // First, capture a snapshot with current camera settings
+                const snapResponse = await fetch(`/api/snapshot/${meterType}`, {
+                    method: 'POST'
+                });
+
+                if (!snapResponse.ok) {
+                    throw new Error(`Snapshot failed: HTTP ${snapResponse.status}`);
+                }
+
+                const snapData = await snapResponse.json();
+
+                if (snapData.status !== 'success') {
+                    throw new Error(snapData.message || 'Failed to capture snapshot');
+                }
+
+                addLogEntry(meterType, '✓ Snapshot captured, analyzing with Claude Vision API...', 'success');
+                showStatus(meterType, '🤖 Analyzing image with Claude Vision API... (15-30 seconds)', 'info');
+
+                // Now trigger the reading analysis
                 const response = await fetch(`/api/trigger/${meterType}`, {
                     method: 'POST'
                 });
@@ -1233,10 +1283,10 @@ def create_templates():
                 const data = await response.json();
 
                 if (data.status === 'triggered') {
-                    addLogEntry(meterType, '✓ Reading triggered, processing with Claude Vision API...', 'success');
-                    showStatus(meterType, '📸 Reading in progress... Auto-refreshing in 30 seconds.', 'info');
+                    addLogEntry(meterType, '✓ Analysis in progress, refreshing page with results...', 'success');
+                    showStatus(meterType, '✓ Analysis complete! Refreshing page...', 'success');
 
-                    // Auto-refresh after 30 seconds
+                    // Auto-refresh after 30 seconds to show results
                     setTimeout(() => {
                         location.reload();
                     }, 30000);
