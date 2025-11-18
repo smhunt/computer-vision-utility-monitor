@@ -1,0 +1,38 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Utility Meters Vision Monitor",
+        "description": "Configure the connection to your InfluxDB instance where meter readings are stored.",
+        "data": {
+          "influxdb_url": "InfluxDB URL",
+          "influxdb_token": "InfluxDB Token",
+          "influxdb_org": "InfluxDB Organization",
+          "influxdb_bucket": "InfluxDB Bucket",
+          "scan_interval": "Scan Interval (seconds)",
+          "camera_tag": "Camera Tag (optional)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to InfluxDB",
+      "invalid_auth": "Invalid authentication",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This integration is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Utility Meters Options",
+        "description": "Update the integration settings.",
+        "data": {
+          "scan_interval": "Scan Interval (seconds)",
+          "camera_tag": "Camera Tag (optional)"
+        }
+      }
+    }
+  }
+}

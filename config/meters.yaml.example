@@ -1,0 +1,60 @@
+# Multi-Utility Meter Monitoring Configuration
+# Copy this file to meters.yaml and customize for your setup
+
+# Meter configurations
+meters:
+  # Water Meter
+  - name: "water_main"
+    type: "water"
+    camera_ip: "${WATER_CAM_IP}"
+    camera_user: "${WATER_CAM_USER}"
+    camera_pass: "${WATER_CAM_PASS}"
+    stream_url: "${WATER_CAM_STREAM_URL}"  # Optional: MJPEG stream URL
+    snapshot_url: ""  # Optional: Static snapshot URL (fallback)
+    reading_interval: 600  # Seconds between readings
+    max_change_per_reading: 10.0  # Maximum expected change (m³)
+    log_dir: "logs"
+    mqtt_enabled: false
+
+  # Electric Meter (uncomment to enable)
+  # - name: "electric_main"
+  #   type: "electric"
+  #   camera_ip: "${ELECTRIC_CAM_IP}"
+  #   camera_user: "${ELECTRIC_CAM_USER}"
+  #   camera_pass: "${ELECTRIC_CAM_PASS}"
+  #   stream_url: "${ELECTRIC_CAM_STREAM_URL}"
+  #   reading_interval: 300
+  #   max_change_per_reading: 50.0  # kWh
+
+  # Gas Meter (uncomment to enable)
+  # - name: "gas_main"
+  #   type: "gas"
+  #   camera_ip: "${GAS_CAM_IP}"
+  #   camera_user: "${GAS_CAM_USER}"
+  #   camera_pass: "${GAS_CAM_PASS}"
+  #   stream_url: "${GAS_CAM_STREAM_URL}"
+  #   reading_interval: 900
+  #   max_change_per_reading: 100.0  # CCF
+  #   use_cubic_meters: false
+
+# InfluxDB configuration
+influxdb:
+  url: "${INFLUXDB_URL:http://localhost:8086}"
+  token: "${INFLUXDB_TOKEN}"
+  org: "${INFLUXDB_ORG:ecoworks}"
+  bucket: "${INFLUXDB_BUCKET:utility_meters}"
+
+# MQTT configuration (optional - for Home Assistant)
+mqtt:
+  enabled: false
+  broker: "${MQTT_BROKER:localhost}"
+  port: 1883
+  username: "${MQTT_USERNAME}"
+  password: "${MQTT_PASSWORD}"
+  topic_prefix: "home/meters"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_to_file: true
+  log_dir: "logs"
