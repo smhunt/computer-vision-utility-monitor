@@ -333,12 +333,43 @@ def api_capture_snapshot(meter_type):
         camera_user = meter_config.get('camera_user', '').replace('${WATER_CAM_USER:', '').replace('}', '').split(':')[-1] or 'root'
         camera_pass = meter_config.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or '***REMOVED***'
 
-        # Try to capture from camera
-        snapshot_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/cgi-bin/snapshot.cgi"
+        # Capture from MJPEG stream (extract one frame)
+        mjpeg_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/mjpeg"
 
-        response = requests.get(snapshot_url, timeout=10)
+        # Read MJPEG stream and extract first JPEG frame
+        response = requests.get(mjpeg_url, stream=True, timeout=10)
 
-        if response.status_code == 200 and len(response.content) > 1000:
+        if response.status_code != 200:
+            return jsonify({
+                'status': 'error',
+                'message': f'Camera returned HTTP {response.status_code}'
+            }), 500
+
+        # Read stream until we get a complete JPEG frame
+        jpeg_data = b''
+        found_start = False
+
+        for chunk in response.iter_content(chunk_size=1024):
+            jpeg_data += chunk
+
+            # Look for JPEG start marker (FFD8) and end marker (FFD9)
+            if not found_start and b'\xff\xd8' in jpeg_data:
+                # Found JPEG start, trim everything before it
+                start_idx = jpeg_data.find(b'\xff\xd8')
+                jpeg_data = jpeg_data[start_idx:]
+                found_start = True
+
+            if found_start and b'\xff\xd9' in jpeg_data:
+                # Found JPEG end, extract complete frame
+                end_idx = jpeg_data.find(b'\xff\xd9') + 2
+                jpeg_data = jpeg_data[:end_idx]
+                break
+
+            # Safety: don't read more than 500KB
+            if len(jpeg_data) > 500000:
+                break
+
+        if len(jpeg_data) > 1000 and jpeg_data.startswith(b'\xff\xd8'):
             # Save to snapshot directory
             snapshot_dir = LOG_DIR / f"{meter_type}_snapshots"
             snapshot_dir.mkdir(parents=True, exist_ok=True)
@@ -348,17 +379,18 @@ def api_capture_snapshot(meter_type):
             snapshot_path = snapshot_dir / f"{meter_name}_{timestamp}.jpg"
 
             with open(snapshot_path, 'wb') as f:
-                f.write(response.content)
+                f.write(jpeg_data)
 
             return jsonify({
                 'status': 'success',
                 'message': 'Snapshot captured',
-                'timestamp': timestamp
+                'timestamp': timestamp,
+                'size': len(jpeg_data)
             })
         else:
             return jsonify({
                 'status': 'error',
-                'message': 'Failed to capture snapshot'
+                'message': 'Failed to extract JPEG frame from stream'
             }), 500
 
     except Exception as e:
@@ -1073,7 +1105,7 @@ def create_templates():
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    addLogEntry(meterType, `✓ Camera mode changed to ${presetName}`, 'success');
+                    addLogEntry(meterType, `✓ Camera settings applied: ${presetName}`, 'success');
 
                     // Highlight the active preset button
                     buttons.forEach(btn => {
@@ -1081,7 +1113,32 @@ def create_templates():
                     });
                     buttonEl.classList.add('active');
 
-                    showStatus(meterType, `✓ ${presetName} mode active! Use "Take Reading" to capture.`, 'success');
+                    showStatus(meterType, '⏳ Waiting for camera to adjust...', 'info');
+
+                    // Wait 2 seconds for camera to apply the new settings
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+
+                    addLogEntry(meterType, '📸 Capturing preview with new settings...');
+
+                    // Capture a fresh snapshot to show the preset effect
+                    const snapResp = await fetch(`/api/snapshot/${meterType}`, {
+                        method: 'POST'
+                    });
+
+                    if (snapResp.ok) {
+                        const snapData = await snapResp.json();
+                        addLogEntry(meterType, `✓ Preview updated!`, 'success');
+
+                        // Reload the page to show new snapshot
+                        showStatus(meterType, `✓ ${presetName} mode active! Refreshing preview...`, 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    } else {
+                        const errorData = await snapResp.json();
+                        addLogEntry(meterType, `⚠️ Preview not updated: ${errorData.message}`, 'error');
+                        showStatus(meterType, `✓ ${presetName} settings applied (preview refresh failed)`, 'success');
+                    }
                 } else {
                     addLogEntry(meterType, `✗ Failed to apply preset: ${data.message}`, 'error');
                     showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
