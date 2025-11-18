@@ -18,7 +18,7 @@ import threading
 import requests
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, render_template, jsonify, send_file, Response
+from flask import Flask, render_template, jsonify, send_file, Response, request
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -39,6 +39,9 @@ LOG_DIR = Path("logs")
 
 # Track running readings (to prevent duplicate triggers)
 READING_IN_PROGRESS = set()
+
+# Track rotation settings per meter (in degrees: 0, 90, 180, 270)
+ROTATION_SETTINGS = {}
 
 
 def get_latest_snapshot(meter_name: str, meter_type: str):
@@ -331,6 +334,46 @@ def api_apply_preset(meter_type, preset_name):
             'status': 'error',
             'message': str(e)
         }), 500
+
+
+@app.route('/api/rotation/<meter_type>', methods=['GET', 'POST'])
+def api_rotation(meter_type):
+    """Get or set image rotation for a meter"""
+    if request.method == 'GET':
+        # Get current rotation setting
+        rotation = ROTATION_SETTINGS.get(meter_type, 0)
+        return jsonify({
+            'status': 'success',
+            'rotation': rotation
+        })
+
+    elif request.method == 'POST':
+        # Set rotation
+        try:
+            data = request.get_json() or {}
+            rotation = data.get('rotation', 0)
+
+            # Validate rotation value
+            if rotation not in [0, 90, 180, 270]:
+                return jsonify({
+                    'status': 'error',
+                    'message': f'Invalid rotation: {rotation}. Must be 0, 90, 180, or 270'
+                }), 400
+
+            # Store rotation setting
+            ROTATION_SETTINGS[meter_type] = rotation
+
+            return jsonify({
+                'status': 'success',
+                'rotation': rotation,
+                'message': f'Rotation set to {rotation}°'
+            })
+
+        except Exception as e:
+            return jsonify({
+                'status': 'error',
+                'message': str(e)
+            }), 500
 
 
 @app.route('/api/optimize/<meter_type>', methods=['POST'])
@@ -985,6 +1028,19 @@ def create_templates():
                         </div>
 
                         <div class="control-section">
+                            <h3>🔄 Image Rotation</h3>
+                            <div class="preset-buttons">
+                                <button class="btn-preset" onclick="setRotation(this, '{{ meter.type }}', 0)">0° Normal</button>
+                                <button class="btn-preset" onclick="setRotation(this, '{{ meter.type }}', 90)">⤴️ 90° CW</button>
+                                <button class="btn-preset" onclick="setRotation(this, '{{ meter.type }}', 180)">⤵️ 180° Flip</button>
+                                <button class="btn-preset" onclick="setRotation(this, '{{ meter.type }}', 270)">⤵️ 270° CW</button>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 11px; color: #94a3b8; text-align: center;">
+                                <span id="rotation-status-{{ meter.type }}">Current: 0°</span>
+                            </div>
+                        </div>
+
+                        <div class="control-section">
                             <h3>🔬 Actions</h3>
                             <div class="action-buttons">
                                 <button class="btn-action btn-optimize" onclick="runOptimization(this, '{{ meter.type }}')">
@@ -1180,6 +1236,57 @@ def create_templates():
             } finally {
                 // Re-enable all buttons
                 buttons.forEach(btn => btn.disabled = false);
+            }
+        }
+
+        async function setRotation(buttonEl, meterType, degrees) {
+            // Disable all rotation buttons during operation
+            const rotationButtons = buttonEl.parentElement.querySelectorAll('.btn-preset');
+            rotationButtons.forEach(btn => btn.disabled = true);
+
+            addLogEntry(meterType, `🔄 Setting rotation to ${degrees}°...`);
+
+            try {
+                const response = await fetch(`/api/rotation/${meterType}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ rotation: degrees })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    addLogEntry(meterType, `✓ Rotation set to ${degrees}° (applied on next reading)`, 'success');
+
+                    // Update status display
+                    const statusEl = document.getElementById('rotation-status-' + meterType);
+                    if (statusEl) {
+                        statusEl.textContent = `Current: ${degrees}°`;
+                    }
+
+                    // Highlight the active rotation button
+                    rotationButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    buttonEl.classList.add('active');
+
+                    showStatus(meterType, `✓ Rotation set to ${degrees}°. Will apply on next reading.`, 'success');
+                } else {
+                    addLogEntry(meterType, `✗ Failed to set rotation: ${data.message}`, 'error');
+                    showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                addLogEntry(meterType, `✗ Error: ${error.message}`, 'error');
+                showStatus(meterType, '✗ Error: ' + error.message, 'error');
+            } finally {
+                // Re-enable all buttons
+                rotationButtons.forEach(btn => btn.disabled = false);
             }
         }
 
