@@ -5,13 +5,13 @@ datasources:
     type: influxdb
     access: proxy
     url: http://influxdb:8086
-    database: water_meter
+    database: utility_meters
     jsonData:
       version: Flux
-      organization: water-meter
-      defaultBucket: water_meter
+      organization: ecoworks
+      defaultBucket: utility_meters
       tlsSkipVerify: true
     secureJsonData:
-      token: test-token
+      token: f4-07ZKJbDd4nUoNfTEgab9SlB-zeS4RV2gbYHIUMQrCrMPBMZ4H895HaUjHPSu9ZmTr9vonvcrAgvsHgXRrNA==
     isDefault: true
     editable: true
