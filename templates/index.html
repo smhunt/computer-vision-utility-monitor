@@ -431,22 +431,22 @@
                         <div class="control-section">
                             <h3>📹 Camera Presets</h3>
                             <div class="preset-buttons">
-                                <button class="btn-preset" onclick="applyPreset('{{ meter.type }}', 'night_vision')">🌙 Night Vision</button>
-                                <button class="btn-preset" onclick="applyPreset('{{ meter.type }}', 'day_clear')">☀️ Day Mode</button>
-                                <button class="btn-preset" onclick="applyPreset('{{ meter.type }}', 'low_noise')">🔇 Low Noise</button>
-                                <button class="btn-preset" onclick="applyPreset('{{ meter.type }}', 'high_detail')">🔍 High Detail</button>
-                                <button class="btn-preset" onclick="applyPreset('{{ meter.type }}', 'balanced')">⚖️ Balanced</button>
-                                <button class="btn-preset" onclick="applyPreset('{{ meter.type }}', 'auto_adaptive')">🤖 Auto</button>
+                                <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'night_vision')">🌙 Night Vision</button>
+                                <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'day_clear')">☀️ Day Mode</button>
+                                <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'low_noise')">🔇 Low Noise</button>
+                                <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'high_detail')">🔍 High Detail</button>
+                                <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'balanced')">⚖️ Balanced</button>
+                                <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'auto_adaptive')">🤖 Auto</button>
                             </div>
                         </div>
 
                         <div class="control-section">
                             <h3>🔬 Actions</h3>
                             <div class="action-buttons">
-                                <button class="btn-action btn-optimize" onclick="runOptimization('{{ meter.type }}')">
+                                <button class="btn-action btn-optimize" onclick="runOptimization(this, '{{ meter.type }}')">
                                     🔬 Auto-Optimize (~12 min)
                                 </button>
-                                <button class="btn-action btn-reading" onclick="triggerReading('{{ meter.type }}')">
+                                <button class="btn-action btn-reading" onclick="triggerReading(this, '{{ meter.type }}')">
                                     📸 Take Reading Now
                                 </button>
                             </div>
@@ -563,7 +563,11 @@
             }
         }
 
-        async function applyPreset(meterType, presetName) {
+        async function applyPreset(buttonEl, meterType, presetName) {
+            // Disable all preset buttons during operation
+            const buttons = document.querySelectorAll('.btn-preset');
+            buttons.forEach(btn => btn.disabled = true);
+
             showStatus(meterType, 'Applying ' + presetName + ' preset...', 'info');
 
             try {
@@ -571,25 +575,39 @@
                     method: 'POST'
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
                 const data = await response.json();
 
                 if (data.status === 'success') {
                     showStatus(meterType, '✓ ' + data.message + '. Wait 3 seconds then take a reading.', 'success');
 
                     // Highlight the active preset button
-                    document.querySelectorAll('.btn-preset').forEach(btn => {
+                    buttons.forEach(btn => {
                         btn.classList.remove('active');
                     });
-                    event.target.classList.add('active');
+                    buttonEl.classList.add('active');
                 } else {
-                    showStatus(meterType, '✗ Failed to apply preset: ' + data.message, 'error');
+                    showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
                 }
             } catch (error) {
                 showStatus(meterType, '✗ Error: ' + error.message, 'error');
+            } finally {
+                // Re-enable all buttons
+                buttons.forEach(btn => btn.disabled = false);
             }
         }
 
-        async function runOptimization(meterType) {
+        let optimizationRunning = false;
+
+        async function runOptimization(buttonEl, meterType) {
+            if (optimizationRunning) {
+                alert('Optimization already running. Please wait for it to complete.');
+                return;
+            }
+
             const confirmed = confirm(
                 'This will test 6 different camera configurations and take about 12 minutes.\n\n' +
                 'The optimization will run in the background. Results will be saved to logs/optimization_results.json.\n\n' +
@@ -598,6 +616,11 @@
 
             if (!confirmed) return;
 
+            optimizationRunning = true;
+            const originalText = buttonEl.textContent;
+            buttonEl.disabled = true;
+            buttonEl.textContent = '🔬 Running... (~12 min)';
+
             showStatus(meterType, '🔬 Starting optimization experiment... (~12 minutes)', 'processing');
 
             try {
@@ -605,22 +628,40 @@
                     method: 'POST'
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
                 const data = await response.json();
 
                 if (data.status === 'started') {
                     showStatus(meterType,
-                        '🔬 Optimization running in background. Check logs/optimization_results.json in ~12 minutes.',
+                        '🔬 Optimization running in background. Check logs/optimization_results.json in ~12 minutes. You can close this page safely.',
                         'processing'
                     );
+
+                    // Keep button disabled for 5 minutes to prevent accidental re-runs
+                    setTimeout(() => {
+                        optimizationRunning = false;
+                        buttonEl.disabled = false;
+                        buttonEl.textContent = originalText;
+                    }, 300000);
                 } else {
-                    showStatus(meterType, '✗ Failed to start optimization: ' + data.message, 'error');
+                    throw new Error(data.message || 'Failed to start optimization');
                 }
             } catch (error) {
                 showStatus(meterType, '✗ Error: ' + error.message, 'error');
+                optimizationRunning = false;
+                buttonEl.disabled = false;
+                buttonEl.textContent = originalText;
             }
         }
 
-        async function triggerReading(meterType) {
+        async function triggerReading(buttonEl, meterType) {
+            const originalText = buttonEl.textContent;
+            buttonEl.disabled = true;
+            buttonEl.textContent = '⏳ Processing...';
+
             showStatus(meterType, '📸 Capturing image and analyzing... (15-30 seconds)', 'info');
 
             try {
@@ -628,10 +669,14 @@
                     method: 'POST'
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
                 const data = await response.json();
 
                 if (data.status === 'triggered') {
-                    showStatus(meterType, '📸 Reading in progress... Refresh in 30 seconds to see results.', 'info');
+                    showStatus(meterType, '📸 Reading in progress... Auto-refreshing in 30 seconds.', 'info');
 
                     // Auto-refresh after 30 seconds
                     setTimeout(() => {
@@ -639,11 +684,15 @@
                     }, 30000);
                 } else if (data.status === 'in_progress') {
                     showStatus(meterType, '⏳ Reading already in progress...', 'info');
+                    buttonEl.disabled = false;
+                    buttonEl.textContent = originalText;
                 } else {
-                    showStatus(meterType, '✗ Failed to trigger reading', 'error');
+                    throw new Error(data.message || 'Failed to trigger reading');
                 }
             } catch (error) {
                 showStatus(meterType, '✗ Error: ' + error.message, 'error');
+                buttonEl.disabled = false;
+                buttonEl.textContent = originalText;
             }
         }
 
