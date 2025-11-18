@@ -1073,7 +1073,7 @@ def create_templates():
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    addLogEntry(meterType, `✓ Camera settings changed to ${presetName}`, 'success');
+                    addLogEntry(meterType, `✓ Camera mode changed to ${presetName}`, 'success');
 
                     // Highlight the active preset button
                     buttons.forEach(btn => {
@@ -1081,53 +1081,7 @@ def create_templates():
                     });
                     buttonEl.classList.add('active');
 
-                    showStatus(meterType, '✓ Settings applied, capturing...', 'info');
-
-                    // Wait 1 second for camera to apply settings
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-
-                    addLogEntry(meterType, '📸 Capturing snapshot from camera...');
-
-                    // Add loading indicator to image
-                    const snapshotContainer = document.querySelector('.snapshot-container');
-                    if (snapshotContainer) {
-                        snapshotContainer.classList.add('snapshot-loading');
-                    }
-
-                    // Capture a fresh snapshot from camera
-                    const snapResp = await fetch(`/api/snapshot/${meterType}`, {
-                        method: 'POST'
-                    });
-
-                    if (snapResp.ok) {
-                        const snapData = await snapResp.json();
-                        addLogEntry(meterType, `✓ Snapshot captured: ${snapData.timestamp}`, 'success');
-
-                        // Wait a moment for file to be written
-                        await new Promise(resolve => setTimeout(resolve, 200));
-
-                        // Refresh the snapshot image with cache-busting timestamp
-                        const snapshotImg = document.querySelector('.snapshot-image');
-                        if (snapshotImg) {
-                            const currentSrc = snapshotImg.src.split('?')[0];
-                            snapshotImg.src = currentSrc + '?t=' + Date.now();
-
-                            // Wait for image to load
-                            snapshotImg.onload = () => {
-                                if (snapshotContainer) {
-                                    snapshotContainer.classList.remove('snapshot-loading');
-                                }
-                                addLogEntry(meterType, `✓ Preview updated with ${presetName} mode`, 'success');
-                                showStatus(meterType, '✓ ' + presetName + ' mode active!', 'success');
-                            };
-                        }
-                    } else {
-                        addLogEntry(meterType, '✗ Failed to capture snapshot', 'error');
-                        showStatus(meterType, '✗ Capture failed', 'error');
-                        if (snapshotContainer) {
-                            snapshotContainer.classList.remove('snapshot-loading');
-                        }
-                    }
+                    showStatus(meterType, `✓ ${presetName} mode active! Use "Take Reading" to capture.`, 'success');
                 } else {
                     addLogEntry(meterType, `✗ Failed to apply preset: ${data.message}`, 'error');
                     showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
