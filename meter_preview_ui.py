@@ -763,6 +763,72 @@ def create_templates():
             color: #ddd6fe;
             border-left: 4px solid #8b5cf6;
         }
+
+        .activity-log {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .activity-log h3 {
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .log-entry {
+            font-size: 11px;
+            padding: 4px 8px;
+            margin-bottom: 4px;
+            border-left: 2px solid #334155;
+            color: #cbd5e1;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+        }
+
+        .log-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .log-timestamp {
+            color: #64748b;
+            margin-right: 8px;
+        }
+
+        .log-action {
+            color: #3b82f6;
+        }
+
+        .log-success {
+            border-left-color: #10b981;
+        }
+
+        .log-error {
+            border-left-color: #ef4444;
+        }
+
+        .snapshot-loading {
+            position: relative;
+        }
+
+        .snapshot-loading::after {
+            content: 'Loading...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(15, 23, 42, 0.9);
+            color: #3b82f6;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -843,6 +909,17 @@ def create_templates():
                         </div>
 
                         <div id="status-{{ meter.type }}" class="status-message" style="display: none;"></div>
+                    </div>
+
+                    <!-- Activity Log -->
+                    <div class="activity-log">
+                        <h3>📋 Activity Log</h3>
+                        <div id="log-{{ meter.type }}" class="log-content">
+                            <div class="log-entry">
+                                <span class="log-timestamp">[--:--:--]</span>
+                                <span>Waiting for action...</span>
+                            </div>
+                        </div>
                     </div>
 
                     {% if meter.reading %}
@@ -939,6 +1016,29 @@ def create_templates():
             document.getElementById('lastUpdate').textContent = 'Last update: ' + now;
         }
 
+        function addLogEntry(meterType, message, type = 'info') {
+            const logEl = document.getElementById('log-' + meterType);
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString('en-US', { hour12: false });
+
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            if (type === 'success') entry.classList.add('log-success');
+            if (type === 'error') entry.classList.add('log-error');
+
+            entry.innerHTML = `<span class="log-timestamp">[${timestamp}]</span><span>${message}</span>`;
+
+            logEl.appendChild(entry);
+
+            // Auto-scroll to bottom
+            logEl.parentElement.scrollTop = logEl.parentElement.scrollHeight;
+
+            // Keep only last 20 entries
+            while (logEl.children.length > 20) {
+                logEl.removeChild(logEl.firstChild);
+            }
+        }
+
         function showStatus(meterType, message, type) {
             const statusEl = document.getElementById('status-' + meterType);
             statusEl.textContent = message;
@@ -958,6 +1058,7 @@ def create_templates():
             const buttons = document.querySelectorAll('.btn-preset');
             buttons.forEach(btn => btn.disabled = true);
 
+            addLogEntry(meterType, `📹 Applying ${presetName} preset to camera...`);
             showStatus(meterType, 'Applying ' + presetName + ' preset...', 'info');
 
             try {
@@ -972,18 +1073,26 @@ def create_templates():
                 const data = await response.json();
 
                 if (data.status === 'success') {
+                    addLogEntry(meterType, `✓ Camera settings changed to ${presetName}`, 'success');
+
                     // Highlight the active preset button
                     buttons.forEach(btn => {
                         btn.classList.remove('active');
                     });
                     buttonEl.classList.add('active');
 
-                    showStatus(meterType, '✓ Applying ' + presetName + ' mode...', 'info');
+                    showStatus(meterType, '✓ Settings applied, capturing...', 'info');
 
                     // Wait 1 second for camera to apply settings
                     await new Promise(resolve => setTimeout(resolve, 1000));
 
-                    showStatus(meterType, '📸 Capturing preview...', 'info');
+                    addLogEntry(meterType, '📸 Capturing snapshot from camera...');
+
+                    // Add loading indicator to image
+                    const snapshotContainer = document.querySelector('.snapshot-container');
+                    if (snapshotContainer) {
+                        snapshotContainer.classList.add('snapshot-loading');
+                    }
 
                     // Capture a fresh snapshot from camera
                     const snapResp = await fetch(`/api/snapshot/${meterType}`, {
@@ -991,24 +1100,40 @@ def create_templates():
                     });
 
                     if (snapResp.ok) {
+                        const snapData = await snapResp.json();
+                        addLogEntry(meterType, `✓ Snapshot captured: ${snapData.timestamp}`, 'success');
+
                         // Wait a moment for file to be written
-                        await new Promise(resolve => setTimeout(resolve, 300));
+                        await new Promise(resolve => setTimeout(resolve, 200));
 
                         // Refresh the snapshot image with cache-busting timestamp
                         const snapshotImg = document.querySelector('.snapshot-image');
                         if (snapshotImg) {
                             const currentSrc = snapshotImg.src.split('?')[0];
                             snapshotImg.src = currentSrc + '?t=' + Date.now();
-                        }
 
-                        showStatus(meterType, '✓ ' + presetName + ' mode applied!', 'success');
+                            // Wait for image to load
+                            snapshotImg.onload = () => {
+                                if (snapshotContainer) {
+                                    snapshotContainer.classList.remove('snapshot-loading');
+                                }
+                                addLogEntry(meterType, `✓ Preview updated with ${presetName} mode`, 'success');
+                                showStatus(meterType, '✓ ' + presetName + ' mode active!', 'success');
+                            };
+                        }
                     } else {
-                        showStatus(meterType, '✓ Mode applied. Refresh to see preview.', 'success');
+                        addLogEntry(meterType, '✗ Failed to capture snapshot', 'error');
+                        showStatus(meterType, '✗ Capture failed', 'error');
+                        if (snapshotContainer) {
+                            snapshotContainer.classList.remove('snapshot-loading');
+                        }
                     }
                 } else {
+                    addLogEntry(meterType, `✗ Failed to apply preset: ${data.message}`, 'error');
                     showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
                 }
             } catch (error) {
+                addLogEntry(meterType, `✗ Error: ${error.message}`, 'error');
                 showStatus(meterType, '✗ Error: ' + error.message, 'error');
             } finally {
                 // Re-enable all buttons
@@ -1078,6 +1203,7 @@ def create_templates():
             buttonEl.disabled = true;
             buttonEl.textContent = '⏳ Processing...';
 
+            addLogEntry(meterType, '🔬 Starting meter reading analysis...');
             showStatus(meterType, '📸 Capturing image and analyzing... (15-30 seconds)', 'info');
 
             try {
@@ -1092,6 +1218,7 @@ def create_templates():
                 const data = await response.json();
 
                 if (data.status === 'triggered') {
+                    addLogEntry(meterType, '✓ Reading triggered, processing with Claude Vision API...', 'success');
                     showStatus(meterType, '📸 Reading in progress... Auto-refreshing in 30 seconds.', 'info');
 
                     // Auto-refresh after 30 seconds
@@ -1099,6 +1226,7 @@ def create_templates():
                         location.reload();
                     }, 30000);
                 } else if (data.status === 'in_progress') {
+                    addLogEntry(meterType, '⏳ Reading already in progress, waiting...');
                     showStatus(meterType, '⏳ Reading already in progress...', 'info');
                     buttonEl.disabled = false;
                     buttonEl.textContent = originalText;
@@ -1106,6 +1234,7 @@ def create_templates():
                     throw new Error(data.message || 'Failed to trigger reading');
                 }
             } catch (error) {
+                addLogEntry(meterType, `✗ Error: ${error.message}`, 'error');
                 showStatus(meterType, '✗ Error: ' + error.message, 'error');
                 buttonEl.disabled = false;
                 buttonEl.textContent = originalText;
