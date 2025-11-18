@@ -7,13 +7,13 @@ Use these as quick-apply presets in the dashboard.
 """
 
 import os
-import requests
-from typing import Dict
+from typing import Dict, List
 
-CAMERA_IP = os.getenv("WATER_CAM_IP", "10.10.10.207")
-CAMERA_USER = os.getenv("WATER_CAM_USER", "root")
-CAMERA_PASS = os.getenv("WATER_CAM_PASS", "***REMOVED***")
-CAMERA_BASE_URL = f"http://{CAMERA_USER}:{CAMERA_PASS}@{CAMERA_IP}"
+import requests
+
+DEFAULT_CAMERA_IP = os.getenv("WATER_CAM_IP", "10.10.10.207")
+DEFAULT_CAMERA_USER = os.getenv("WATER_CAM_USER", "root")
+DEFAULT_CAMERA_PASS = os.getenv("WATER_CAM_PASS", "***REMOVED***")
 
 # Preset modes
 PRESETS = {
@@ -87,42 +87,74 @@ PRESETS = {
 }
 
 
-def apply_preset(preset_name: str) -> bool:
+def apply_preset(
+    preset_name: str,
+    camera_ip: str = None,
+    camera_user: str = None,
+    camera_pass: str = None,
+    timeout: int = 5
+) -> Dict[str, object]:
     """
-    Apply a camera preset
+    Apply a camera preset to a specific camera.
 
     Args:
         preset_name: Name of preset to apply (from PRESETS dict)
+        camera_ip: Override camera IP address (defaults to env)
+        camera_user: Override camera username (defaults to env)
+        camera_pass: Override camera password (defaults to env)
+        timeout: HTTP request timeout in seconds
 
     Returns:
-        True if successful
+        Dictionary with success flag, errors list, and metadata
     """
     if preset_name not in PRESETS:
-        print(f"❌ Unknown preset: {preset_name}")
-        print(f"Available presets: {', '.join(PRESETS.keys())}")
-        return False
+        msg = f"Unknown preset: {preset_name}"
+        print(f"❌ {msg}")
+        return {"success": False, "errors": [msg], "applied": []}
 
     preset = PRESETS[preset_name]
     print(f"\n{preset['name']}")
     print(f"{preset['description']}")
     print(f"\nApplying settings...")
 
+    ip = camera_ip or DEFAULT_CAMERA_IP
+    user = camera_user or DEFAULT_CAMERA_USER
+    password = camera_pass or DEFAULT_CAMERA_PASS
+    base_url = f"http://{user}:{password}@{ip}"
+
+    errors: List[str] = []
+    applied: List[str] = []
+
     for setting, value in preset['settings'].items():
         try:
-            # Try Thingino CGI
-            url = f"{CAMERA_BASE_URL}/cgi-bin/configManager.cgi?action=setConfig&{setting}={value}"
-            response = requests.get(url, timeout=5)
+            url = f"{base_url}/cgi-bin/configManager.cgi?action=setConfig&{setting}={value}"
+            response = requests.get(url, timeout=timeout)
 
             if response.status_code == 200:
                 print(f"  ✓ {setting} = {value}")
+                applied.append(setting)
             else:
-                print(f"  ⚠️  {setting} = {value} (may not be supported)")
+                msg = f"{setting}={value} rejected (HTTP {response.status_code})"
+                print(f"  ⚠️  {msg}")
+                errors.append(msg)
 
         except Exception as e:
-            print(f"  ❌ {setting}: {e}")
+            msg = f"{setting}: {e}"
+            print(f"  ❌ {msg}")
+            errors.append(msg)
 
-    print(f"\n✅ Preset '{preset_name}' applied!")
-    return True
+    if errors:
+        print(f"\n✗ Preset '{preset_name}' failed on {len(errors)} setting(s)")
+    else:
+        print(f"\n✅ Preset '{preset_name}' applied!")
+
+    return {
+        "success": len(errors) == 0,
+        "errors": errors,
+        "applied": applied,
+        "camera_ip": ip,
+        "preset": preset_name
+    }
 
 
 def list_presets():
@@ -149,7 +181,9 @@ def main():
         sys.exit(0)
 
     preset_name = sys.argv[1]
-    apply_preset(preset_name)
+    result = apply_preset(preset_name)
+    if not result.get("success"):
+        sys.exit(1)
 
 
 if __name__ == "__main__":
