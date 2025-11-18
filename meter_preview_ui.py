@@ -531,10 +531,15 @@ def create_templates():
             border-radius: 6px;
             padding: 8px;
             margin-bottom: 12px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .snapshot-image {
             width: 100%;
+            max-height: 400px;
+            object-fit: contain;
             border-radius: 6px;
             display: block;
         }
@@ -973,12 +978,12 @@ def create_templates():
                     });
                     buttonEl.classList.add('active');
 
-                    showStatus(meterType, '✓ Preset applied! Waiting 3s for camera...', 'success');
+                    showStatus(meterType, '✓ Applying ' + presetName + ' mode...', 'info');
 
-                    // Wait 3 seconds for camera to adjust
-                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    // Wait 1 second for camera to apply settings
+                    await new Promise(resolve => setTimeout(resolve, 1000));
 
-                    showStatus(meterType, '📸 Capturing fresh snapshot...', 'info');
+                    showStatus(meterType, '📸 Capturing preview...', 'info');
 
                     // Capture a fresh snapshot from camera
                     const snapResp = await fetch(`/api/snapshot/${meterType}`, {
@@ -987,7 +992,7 @@ def create_templates():
 
                     if (snapResp.ok) {
                         // Wait a moment for file to be written
-                        await new Promise(resolve => setTimeout(resolve, 500));
+                        await new Promise(resolve => setTimeout(resolve, 300));
 
                         // Refresh the snapshot image with cache-busting timestamp
                         const snapshotImg = document.querySelector('.snapshot-image');
@@ -996,9 +1001,9 @@ def create_templates():
                             snapshotImg.src = currentSrc + '?t=' + Date.now();
                         }
 
-                        showStatus(meterType, '✓ Preview updated with ' + presetName + ' mode!', 'success');
+                        showStatus(meterType, '✓ ' + presetName + ' mode applied!', 'success');
                     } else {
-                        showStatus(meterType, '✓ Preset applied. Refresh page to see preview.', 'success');
+                        showStatus(meterType, '✓ Mode applied. Refresh to see preview.', 'success');
                     }
                 } else {
                     showStatus(meterType, '✗ Failed: ' + (data.message || 'Unknown error'), 'error');
