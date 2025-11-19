@@ -156,11 +156,6 @@
         .confidence-high { background: #d4edda; color: #155724; }
         .confidence-medium { background: #fff3cd; color: #856404; }
         .confidence-low { background: #f8d7da; color: #721c24; }
-        .temperature {
-            color: #666;
-            font-size: 14px;
-            margin-top: 10px;
-        }
         .modal {
             display: none;
             position: fixed;
@@ -309,8 +304,6 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        let checkInterval = null;
-
         async function captureSnapshot() {
             const btn = document.getElementById('captureBtn');
             const progressContainer = document.getElementById('progressContainer');
@@ -324,77 +317,59 @@
             // Show progress
             progressContainer.classList.add('active');
             progressResult.style.display = 'none';
-            progressBar.style.width = '0%';
-            progressBar.textContent = '0%';
-            progressMessage.textContent = 'Starting capture...';
+            progressBar.style.width = '50%';
+            progressBar.textContent = '50%';
+            progressMessage.textContent = 'Capturing snapshot from camera...';
 
             try {
-                // Start capture
                 const response = await fetch('/api/snapshot/{{ meter_type }}', {
                     method: 'POST'
                 });
 
-                if (!response.ok) {
-                    throw new Error('Failed to start capture');
-                }
-
                 const data = await response.json();
-                const captureId = data.capture_id;
 
-                // Poll for status
-                checkInterval = setInterval(async () => {
-                    try {
-                        const statusResponse = await fetch(`/api/capture/${captureId}/status`);
-                        const status = await statusResponse.json();
+                if (data.status === 'success') {
+                    progressBar.style.width = '100%';
+                    progressBar.textContent = '100%';
+                    progressMessage.textContent = 'Snapshot captured successfully!';
 
-                        if (status.status === 'capturing' || status.status === 'processing') {
-                            const progress = (status.step / status.total_steps) * 100;
-                            progressBar.style.width = progress + '%';
-                            progressBar.textContent = Math.round(progress) + '%';
-                            progressMessage.textContent = status.message;
-                        } else if (status.status === 'complete') {
-                            clearInterval(checkInterval);
-                            progressBar.style.width = '100%';
-                            progressBar.textContent = '100%';
-                            progressMessage.textContent = status.message;
+                    // Show success result
+                    progressResult.className = 'progress-result';
+                    progressResult.innerHTML = `
+                        ✅ <strong>Success!</strong><br>
+                        Snapshot captured and saved.<br>
+                        Size: <strong>${Math.round(data.size / 1024)} KB</strong>
+                    `;
+                    progressResult.style.display = 'block';
 
-                            // Show success result
-                            progressResult.className = 'progress-result';
-                            progressResult.innerHTML = `
-                                ✅ <strong>Success!</strong><br>
-                                Reading: <strong>${status.reading} m³</strong><br>
-                                Confidence: <strong>${status.confidence}</strong>
-                            `;
-                            progressResult.style.display = 'block';
+                    // Reload page after 1.5 seconds to show new snapshot
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    progressBar.style.width = '100%';
+                    progressBar.textContent = 'Error';
+                    progressMessage.textContent = 'Capture failed';
 
-                            // Re-enable button and reload page after 2 seconds
-                            setTimeout(() => {
-                                location.reload();
-                            }, 2000);
-                        } else if (status.status === 'error') {
-                            clearInterval(checkInterval);
-                            progressBar.style.width = '100%';
-                            progressBar.textContent = 'Error';
-                            progressMessage.textContent = 'Capture failed';
+                    // Show error result
+                    progressResult.className = 'progress-result error';
+                    progressResult.innerHTML = `❌ <strong>Error:</strong> ${data.message}`;
+                    progressResult.style.display = 'block';
 
-                            // Show error result
-                            progressResult.className = 'progress-result error';
-                            progressResult.innerHTML = `❌ <strong>Error:</strong> ${status.message}`;
-                            progressResult.style.display = 'block';
-
-                            // Re-enable button
-                            btn.disabled = false;
-                        }
-                    } catch (e) {
-                        console.error('Status check error:', e);
-                    }
-                }, 500);  // Check every 500ms
-
+                    // Re-enable button
+                    btn.disabled = false;
+                }
             } catch (error) {
-                btn.disabled = false;
+                progressBar.style.width = '100%';
+                progressBar.textContent = 'Error';
+                progressMessage.textContent = 'Capture failed';
+
                 progressResult.className = 'progress-result error';
                 progressResult.innerHTML = `❌ <strong>Error:</strong> ${error.message}`;
                 progressResult.style.display = 'block';
+
+                // Re-enable button
+                btn.disabled = false;
             }
         }
     </script>
