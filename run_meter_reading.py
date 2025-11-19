@@ -5,6 +5,7 @@ Capture -> Analyze -> Validate -> Archive -> Log
 """
 import sys
 import json
+import shutil
 from pathlib import Path
 from datetime import datetime
 
@@ -13,8 +14,6 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from utils.config_loader import load_config
 from llm_reader import read_meter_with_claude
-from snapshot_manager import archive_snapshot_with_metadata
-from influx_logger import MeterInfluxLogger
 
 def main():
     # Load config
@@ -72,11 +71,28 @@ def main():
 
     # Step 3: Archive snapshot with metadata
     print(f"📦 Archiving snapshot...", file=sys.stderr)
-    archive_result = archive_snapshot_with_metadata(
-        temp_path,
-        meter_name,
-        reading
-    )
+    archive_dir = Path('logs/meter_snapshots') / meter_name
+    archive_dir.mkdir(parents=True, exist_ok=True)
+
+    timestamp_str = reading.get('timestamp', datetime.now().isoformat())
+    snapshot_filename = f"{meter_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
+    snapshot_path = archive_dir / snapshot_filename
+    metadata_path = archive_dir / f"{snapshot_filename.replace('.jpg', '.json')}"
+
+    # Copy image to archive
+    shutil.copy2(temp_path, snapshot_path)
+
+    # Save metadata
+    metadata = {
+        'snapshot': {
+            'filename': snapshot_filename,
+            'timestamp': timestamp_str,
+            'size': snapshot_path.stat().st_size
+        },
+        'meter_reading': reading
+    }
+    with open(metadata_path, 'w') as f:
+        json.dump(metadata, f, indent=2)
 
     # Step 4: Log to JSONL
     print(f"📝 Logging to JSONL...", file=sys.stderr)
@@ -89,6 +105,7 @@ def main():
 
     # Step 5: Try InfluxDB (optional)
     try:
+        from influx_logger import MeterInfluxLogger
         logger = MeterInfluxLogger()
         logger.log_reading(meter_name, meter_type, reading)
         print(f"✅ Logged to InfluxDB", file=sys.stderr)
