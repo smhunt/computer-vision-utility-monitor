@@ -512,83 +512,38 @@ def api_list_presets():
 
 @app.route('/api/snapshot/<meter_type>', methods=['POST'])
 def api_capture_snapshot(meter_type):
-    """Capture a fresh snapshot from camera"""
+    """Capture snapshot and run full analysis/logging workflow"""
     try:
-        # Find meter config
-        meter_config = None
-        if CONFIG:
-            for m in CONFIG.get('meters', []):
-                if m.get('type') == meter_type:
-                    meter_config = m
-                    break
+        # Run the complete workflow script
+        result = subprocess.run(
+            ['python3', 'run_meter_reading.py'],
+            capture_output=True,
+            text=True,
+            timeout=60,
+            cwd=Path(__file__).parent
+        )
 
-        if not meter_config:
-            return jsonify({'status': 'error', 'message': 'Meter not found'}), 404
-
-        camera_ip = meter_config.get('camera_ip', '').replace('${WATER_CAM_IP:', '').replace('}', '').split(':')[-1] or '10.10.10.207'
-        camera_user = meter_config.get('camera_user', '').replace('${WATER_CAM_USER:', '').replace('}', '').split(':')[-1] or 'root'
-        camera_pass = meter_config.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or '***REMOVED***'
-
-        # Capture from MJPEG stream (extract one frame)
-        mjpeg_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/mjpeg"
-
-        # Read MJPEG stream and extract first JPEG frame
-        response = requests.get(mjpeg_url, stream=True, timeout=10)
-
-        if response.status_code != 200:
-            return jsonify({
-                'status': 'error',
-                'message': f'Camera returned HTTP {response.status_code}'
-            }), 500
-
-        # Read stream until we get a complete JPEG frame
-        jpeg_data = b''
-        found_start = False
-
-        for chunk in response.iter_content(chunk_size=1024):
-            jpeg_data += chunk
-
-            # Look for JPEG start marker (FFD8) and end marker (FFD9)
-            if not found_start and b'\xff\xd8' in jpeg_data:
-                # Found JPEG start, trim everything before it
-                start_idx = jpeg_data.find(b'\xff\xd8')
-                jpeg_data = jpeg_data[start_idx:]
-                found_start = True
-
-            if found_start and b'\xff\xd9' in jpeg_data:
-                # Found JPEG end, extract complete frame
-                end_idx = jpeg_data.find(b'\xff\xd9') + 2
-                jpeg_data = jpeg_data[:end_idx]
-                break
-
-            # Safety: don't read more than 500KB
-            if len(jpeg_data) > 500000:
-                break
-
-        if len(jpeg_data) > 1000 and jpeg_data.startswith(b'\xff\xd8'):
-            # Save to snapshot directory
-            snapshot_dir = LOG_DIR / f"{meter_type}_snapshots"
-            snapshot_dir.mkdir(parents=True, exist_ok=True)
-
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            meter_name = meter_config.get('name', 'unknown')
-            snapshot_path = snapshot_dir / f"{meter_name}_{timestamp}.jpg"
-
-            with open(snapshot_path, 'wb') as f:
-                f.write(jpeg_data)
-
-            return jsonify({
-                'status': 'success',
-                'message': 'Snapshot captured',
-                'timestamp': timestamp,
-                'size': len(jpeg_data)
-            })
+        if result.returncode == 0:
+            # Parse JSON output
+            try:
+                data = json.loads(result.stdout)
+                return jsonify(data)
+            except json.JSONDecodeError:
+                return jsonify({
+                    'status': 'error',
+                    'message': f'Failed to parse output: {result.stdout}'
+                }), 500
         else:
             return jsonify({
                 'status': 'error',
-                'message': 'Failed to extract JPEG frame from stream'
+                'message': f'Workflow failed: {result.stderr}'
             }), 500
 
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            'status': 'error',
+            'message': 'Analysis timed out (60s)'
+        }), 500
     except Exception as e:
         return jsonify({
             'status': 'error',
