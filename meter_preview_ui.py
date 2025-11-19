@@ -173,11 +173,44 @@ def meter_detail(meter_name):
     # Reverse to show newest first
     readings.reverse()
 
+    # Get all snapshots with metadata
+    snapshots = []
+    snapshot_dir = LOG_DIR / "meter_snapshots" / meter_name
+
+    if snapshot_dir.exists():
+        # Get all JSON metadata files
+        json_files = sorted(
+            snapshot_dir.glob("*.json"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True  # Newest first
+        )
+
+        for json_file in json_files:
+            try:
+                with open(json_file, 'r') as f:
+                    metadata = json.load(f)
+                    # Add the relative path for web serving
+                    image_filename = json_file.stem + '.jpg'
+                    metadata['image_url'] = f'/static/snapshots/{meter_name}/{image_filename}'
+                    snapshots.append(metadata)
+            except (json.JSONDecodeError, FileNotFoundError):
+                continue
+
     return render_template('meter.html',
                          meter_name=meter_name,
                          meter_type=meter_type,
                          readings=readings,
+                         snapshots=snapshots,
                          format_timestamp=format_timestamp)
+
+
+@app.route('/static/snapshots/<meter_name>/<filename>')
+def serve_snapshot(meter_name, filename):
+    """Serve snapshot images from logs directory"""
+    snapshot_path = LOG_DIR / "meter_snapshots" / meter_name / filename
+    if snapshot_path.exists():
+        return send_file(snapshot_path, mimetype='image/jpeg')
+    return "Snapshot not found", 404
 
 
 @app.route('/api/meters')
