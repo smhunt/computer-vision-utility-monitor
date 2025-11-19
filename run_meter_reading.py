@@ -32,25 +32,40 @@ def main():
     print(f"📸 Capturing from {meter_name}...", file=sys.stderr)
 
     # Step 1: Capture image
-    import subprocess
-    mjpeg_url = f"http://root:***REMOVED***@{camera_ip}/mjpeg"
+    import requests
+    camera_user = meter.get('camera_user', '').replace('${WATER_CAM_USER:', '').replace('}', '').split(':')[-1] or 'root'
+    camera_pass = meter.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or '***REMOVED***'
+    mjpeg_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/mjpeg"
 
-    result = subprocess.run(
-        ['curl', '-s', '--max-time', '10', mjpeg_url],
-        capture_output=True
-    )
+    try:
+        response = requests.get(mjpeg_url, stream=True, timeout=10)
+        if response.status_code != 200:
+            print(json.dumps({'error': f'Camera returned HTTP {response.status_code}'}))
+            sys.exit(1)
 
-    if result.returncode != 0:
-        print(json.dumps({'error': 'Failed to capture image'}))
+        # Read stream until we get a complete JPEG frame
+        jpeg_data = b''
+        found_start = False
+
+        for chunk in response.iter_content(chunk_size=1024):
+            jpeg_data += chunk
+
+            if not found_start and b'\xff\xd8' in jpeg_data:
+                start_idx = jpeg_data.find(b'\xff\xd8')
+                jpeg_data = jpeg_data[start_idx:]
+                found_start = True
+
+            if found_start and b'\xff\xd9' in jpeg_data:
+                end_idx = jpeg_data.find(b'\xff\xd9') + 2
+                jpeg_data = jpeg_data[:end_idx]
+                break
+
+            if len(jpeg_data) > 500000:
+                break
+
+    except Exception as e:
+        print(json.dumps({'error': f'Failed to capture image: {str(e)}'}))
         sys.exit(1)
-
-    jpeg_data = result.stdout
-
-    # Extract first JPEG frame
-    if b'\xff\xd8' in jpeg_data and b'\xff\xd9' in jpeg_data:
-        start_idx = jpeg_data.find(b'\xff\xd8')
-        end_idx = jpeg_data.find(b'\xff\xd9', start_idx) + 2
-        jpeg_data = jpeg_data[start_idx:end_idx]
 
     # Save temp image
     temp_path = Path(f'/tmp/meter_capture_{datetime.now().strftime("%Y%m%d_%H%M%S")}.jpg')
