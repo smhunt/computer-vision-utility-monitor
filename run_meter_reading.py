@@ -12,7 +12,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from utils.config_loader import load_config
-from llm_reader import read_meter_image
+from llm_reader import read_meter_with_claude
 from snapshot_manager import archive_snapshot_with_metadata
 from influx_logger import MeterInfluxLogger
 
@@ -62,7 +62,7 @@ def main():
 
     # Step 2: Analyze with LLM
     print(f"🤖 Analyzing image...", file=sys.stderr)
-    reading = read_meter_image(str(temp_path), meter_type=meter_type)
+    reading = read_meter_with_claude(str(temp_path), meter_type=meter_type)
 
     if 'error' in reading:
         print(json.dumps(reading))
