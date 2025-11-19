@@ -12,7 +12,6 @@ Take a snapshot from a configured meter and process it through the **COMPLETE PR
 5. Create metadata JSON file
 6. Log to JSONL file (logs/{meter_type}_readings.jsonl)
 7. Log to InfluxDB (if configured)
-8. Capture temperature (optional)
 
 Perfect for development/testing without running the full daemon.
 
@@ -280,28 +279,7 @@ else:
 EOF
 ```
 
-### Step 8: Capture Temperature (Optional)
-
-```bash
-python3 << 'EOF'
-import sys
-sys.path.insert(0, 'src')
-
-try:
-    from temperature_reader import get_temperature
-
-    temp_data = get_temperature(source="camera")
-    if temp_data.get('available'):
-        print(f"\n🌡️  TEMPERATURE:")
-        print(f"  Camera SoC: {temp_data.get('temperature_c')}°C")
-    else:
-        print(f"\n🌡️  TEMPERATURE: Unavailable")
-except Exception as e:
-    print(f"\n🌡️  TEMPERATURE: Error - {e}")
-EOF
-```
-
-### Step 9: Show Final Summary
+### Step 8: Show Final Summary
 
 ```bash
 python3 << 'EOF'
