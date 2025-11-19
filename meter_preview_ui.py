@@ -91,7 +91,19 @@ def format_timestamp(iso_timestamp):
 
 @app.route('/')
 def index():
-    """Main dashboard showing all meters"""
+    """Main view - show first meter's historical readings"""
+    if CONFIG and CONFIG.get('meters'):
+        # Auto-load first meter
+        first_meter = CONFIG['meters'][0]
+        meter_name = first_meter.get('name', 'unknown')
+        return meter_detail(meter_name)
+    else:
+        return "No meters configured", 404
+
+
+@app.route('/settings')
+def settings():
+    """Settings utility page with live preview and camera controls"""
     meters = []
 
     if CONFIG:
@@ -115,7 +127,7 @@ def index():
 
             meters.append(meter_info)
 
-    return render_template('index.html', meters=meters, format_timestamp=format_timestamp)
+    return render_template('settings.html', meters=meters, format_timestamp=format_timestamp)
 
 
 @app.route('/snapshot/<meter_type>')
