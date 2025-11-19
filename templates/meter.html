@@ -273,20 +273,17 @@
         <div class="snapshot-grid">
             {% for snapshot in snapshots %}
             <div class="snapshot-card">
-                <img src="{{ snapshot.path }}"
-                     alt="{{ snapshot.filename }}"
+                <img src="{{ snapshot.image_url }}"
+                     alt="{{ snapshot.snapshot.filename if snapshot.snapshot else 'snapshot' }}"
                      class="snapshot-image"
-                     onclick="openModal('{{ snapshot.path }}')">
+                     onclick="openModal('{{ snapshot.image_url }}')">
                 <div class="snapshot-info">
-                    <div class="snapshot-time">{{ snapshot.timestamp }}</div>
-                    {% if snapshot.reading %}
-                        <div class="reading">{{ snapshot.reading }} m³</div>
-                        <span class="confidence confidence-{{ snapshot.confidence }}">
-                            {{ snapshot.confidence }}
+                    <div class="snapshot-time">{{ snapshot.snapshot.timestamp if snapshot.snapshot else 'Unknown' }}</div>
+                    {% if snapshot.meter_reading %}
+                        <div class="reading">{{ snapshot.meter_reading.total_reading }} m³</div>
+                        <span class="confidence confidence-{{ snapshot.meter_reading.confidence }}">
+                            {{ snapshot.meter_reading.confidence }}
                         </span>
-                    {% endif %}
-                    {% if snapshot.temperature %}
-                        <div class="temperature">🌡️ {{ snapshot.temperature }}°C</div>
                     {% endif %}
                 </div>
             </div>
