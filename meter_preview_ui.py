@@ -6,7 +6,7 @@ Provides a web interface to preview camera captures and meter readings
 in real-time. Useful for positioning cameras and debugging.
 
 Usage:
-    python meter_preview_ui.py [--port 5000]
+    python meter_preview_ui.py [--port 2500]
 """
 
 import os
@@ -1768,7 +1768,7 @@ def create_templates():
 
 def main():
     parser = argparse.ArgumentParser(description='Meter Preview Web UI')
-    parser.add_argument('--port', type=int, default=5000, help='Port to run server on')
+    parser.add_argument('--port', type=int, default=2500, help='Port to run server on')
     parser.add_argument('--host', default='127.0.0.1', help='Host to bind to')
     parser.add_argument('--config', default='config/meters.yaml', help='Config file path')
     args = parser.parse_args()
