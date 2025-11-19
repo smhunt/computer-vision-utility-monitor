@@ -141,6 +141,45 @@ def snapshot(meter_type):
     return send_file(latest_snapshot, mimetype='image/jpeg')
 
 
+@app.route('/meter/<meter_name>')
+def meter_detail(meter_name):
+    """Show detailed reading history for a specific meter"""
+    # Find meter config
+    meter_config = None
+    if CONFIG:
+        for m in CONFIG.get('meters', []):
+            if m.get('name') == meter_name:
+                meter_config = m
+                break
+
+    if not meter_config:
+        return f"Meter '{meter_name}' not found", 404
+
+    meter_type = meter_config.get('type', 'unknown')
+
+    # Get all readings from JSONL
+    readings = []
+    log_file = LOG_DIR / f"{meter_type}_readings.jsonl"
+
+    if log_file.exists():
+        with open(log_file, 'r') as f:
+            for line in f:
+                try:
+                    reading = json.loads(line.strip())
+                    readings.append(reading)
+                except json.JSONDecodeError:
+                    continue
+
+    # Reverse to show newest first
+    readings.reverse()
+
+    return render_template('meter.html',
+                         meter_name=meter_name,
+                         meter_type=meter_type,
+                         readings=readings,
+                         format_timestamp=format_timestamp)
+
+
 @app.route('/api/meters')
 def api_meters():
     """API endpoint returning meter data as JSON"""
@@ -309,6 +348,10 @@ def api_apply_preset(meter_type, preset_name):
         camera_user = meter_config.get('camera_user') or DEFAULT_CAMERA_USER
         camera_pass = meter_config.get('camera_pass') or DEFAULT_CAMERA_PASS
 
+        # Debug logging
+        print(f"🔧 Applying preset '{preset_name}' to {meter_type}")
+        print(f"   Camera: {camera_ip}, User: {camera_user}")
+
         result = apply_camera_preset(
             preset_name,
             camera_ip=camera_ip,
@@ -330,6 +373,9 @@ def api_apply_preset(meter_type, preset_name):
         }), 500
 
     except Exception as e:
+        import traceback
+        print(f"❌ Error applying preset: {e}")
+        print(traceback.format_exc())
         return jsonify({
             'status': 'error',
             'message': str(e)
@@ -502,6 +548,145 @@ def api_capture_snapshot(meter_type):
         return jsonify({
             'status': 'error',
             'message': str(e)
+        }), 500
+
+
+@app.route('/api/snapshot/delete/<meter_type>', methods=['POST'])
+def api_delete_snapshot(meter_type):
+    """Delete the latest snapshot"""
+    try:
+        # Find meter config
+        meter_config = None
+        if CONFIG:
+            for m in CONFIG.get('meters', []):
+                if m.get('type') == meter_type:
+                    meter_config = m
+                    break
+
+        if not meter_config:
+            return jsonify({'status': 'error', 'message': 'Meter not found'}), 404
+
+        meter_name = meter_config.get('name', 'unknown')
+        latest_snapshot = get_latest_snapshot(meter_name, meter_type)
+
+        if not latest_snapshot:
+            return jsonify({'status': 'error', 'message': 'No snapshot to delete'}), 404
+
+        # Delete the snapshot file
+        snapshot_path = Path(latest_snapshot)
+        metadata_path = snapshot_path.with_suffix('.json')
+
+        # Delete snapshot
+        if snapshot_path.exists():
+            snapshot_path.unlink()
+
+        # Delete associated metadata if exists
+        if metadata_path.exists():
+            metadata_path.unlink()
+
+        return jsonify({
+            'status': 'success',
+            'message': 'Snapshot deleted',
+            'deleted_file': snapshot_path.name
+        })
+
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+
+@app.route('/api/snapshot/reanalyze/<meter_type>', methods=['POST'])
+def api_reanalyze_snapshot(meter_type):
+    """Reanalyze the latest snapshot"""
+    try:
+        # Find meter config
+        meter_config = None
+        if CONFIG:
+            for m in CONFIG.get('meters', []):
+                if m.get('type') == meter_type:
+                    meter_config = m
+                    break
+
+        if not meter_config:
+            return jsonify({'status': 'error', 'message': 'Meter not found'}), 404
+
+        meter_name = meter_config.get('name', 'unknown')
+        latest_snapshot = get_latest_snapshot(meter_name, meter_type)
+
+        if not latest_snapshot:
+            return jsonify({'status': 'error', 'message': 'No snapshot to analyze'}), 404
+
+        # Import and use llm_reader
+        sys.path.insert(0, str(Path(__file__).parent / "src"))
+        from llm_reader import read_meter_with_claude
+
+        # Analyze the existing snapshot
+        result = read_meter_with_claude(str(latest_snapshot))
+
+        if 'error' in result:
+            return jsonify({
+                'status': 'error',
+                'message': f"Analysis failed: {result['error']}",
+                'details': result
+            }), 500
+
+        # Update metadata file
+        snapshot_path = Path(latest_snapshot)
+        metadata_path = snapshot_path.with_suffix('.json')
+
+        metadata = {
+            "snapshot": {
+                "filename": snapshot_path.name,
+                "timestamp": datetime.now().isoformat(),
+                "path": str(snapshot_path)
+            },
+            "meter_reading": {
+                "digital_reading": result.get('digital_reading'),
+                "black_digit": result.get('black_digit'),
+                "dial_reading": result.get('dial_reading'),
+                "total_reading": result.get('total_reading'),
+                "confidence": result.get('confidence'),
+                "notes": result.get('notes')
+            },
+            "api_usage": result.get('api_usage', {}),
+            "camera": {
+                "source_file": snapshot_path.name,
+                "model": "Wyze Cam V2 (Thingino)",
+                "ip": meter_config.get('camera_ip', 'N/A')
+            },
+            "reanalyzed": True,
+            "reanalyzed_at": datetime.now().isoformat()
+        }
+
+        with open(metadata_path, 'w') as f:
+            json.dump(metadata, f, indent=2)
+
+        # Also update the readings JSONL file
+        log_file = LOG_DIR / f"{meter_type}_readings.jsonl"
+        reading_entry = {
+            **result,
+            "meter_type": meter_type,
+            "reanalyzed": True,
+            "timestamp": datetime.now().isoformat()
+        }
+
+        with open(log_file, 'a') as f:
+            f.write(json.dumps(reading_entry) + '\n')
+
+        return jsonify({
+            'status': 'success',
+            'message': 'Snapshot reanalyzed',
+            'reading': result
+        })
+
+    except Exception as e:
+        import traceback
+        return jsonify({
+            'status': 'error',
+            'message': str(e),
+            'traceback': traceback.format_exc()
         }), 500
 
 
@@ -679,6 +864,49 @@ def create_templates():
             object-fit: contain;
             border-radius: 6px;
             display: block;
+        }
+
+        .snapshot-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .btn-snapshot-action {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-snapshot-action:hover {
+            background: #475569;
+            transform: translateY(-1px);
+        }
+
+        .btn-snapshot-action:active {
+            transform: translateY(0);
+        }
+
+        .btn-snapshot-action.btn-reanalyze:hover {
+            background: #3b82f6;
+        }
+
+        .btn-snapshot-action.btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .btn-snapshot-action:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .no-snapshot {
@@ -1011,10 +1239,26 @@ def create_templates():
                         <img src="/api/stream/{{ meter.type }}"
                              alt="{{ meter.name }} live stream"
                              class="snapshot-image">
+
+                        <!-- Snapshot Actions -->
+                        <div class="snapshot-actions">
+                            <button class="btn-snapshot-action btn-reanalyze"
+                                    onclick="reanalyzeSnapshot('{{ meter.type }}')"
+                                    title="Reanalyze this snapshot with Claude">
+                                🔄 Reanalyze
+                            </button>
+                            <button class="btn-snapshot-action btn-delete"
+                                    onclick="deleteSnapshot('{{ meter.type }}')"
+                                    title="Delete this snapshot">
+                                🗑️ Delete
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Camera Controls -->
                     <div class="camera-controls">
+                        <!-- Camera Presets: Temporarily disabled - Thingino firmware uses different API endpoints -->
+                        <!--
                         <div class="control-section">
                             <h3>📹 Camera Presets</h3>
                             <div class="preset-buttons">
@@ -1026,6 +1270,7 @@ def create_templates():
                                 <button class="btn-preset" onclick="applyPreset(this, '{{ meter.type }}', 'auto_adaptive')">🤖 Auto</button>
                             </div>
                         </div>
+                        -->
 
                         <div class="control-section">
                             <h3>🔄 Image Rotation</h3>
@@ -1410,6 +1655,70 @@ def create_templates():
                 showStatus(meterType, '✗ Error: ' + error.message, 'error');
                 buttonEl.disabled = false;
                 buttonEl.textContent = originalText;
+            }
+        }
+
+        async function reanalyzeSnapshot(meterType) {
+            if (!confirm('Reanalyze this snapshot? This will use Claude API credits.')) {
+                return;
+            }
+
+            addLogEntry(meterType, '🔄 Reanalyzing snapshot...');
+            showStatus(meterType, '🔄 Reanalyzing snapshot...', 'info');
+
+            try {
+                const response = await fetch(`/api/snapshot/reanalyze/${meterType}`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    addLogEntry(meterType, '✓ Snapshot reanalyzed successfully!', 'success');
+                    showStatus(meterType, '✓ Reanalysis complete! Refreshing...', 'success');
+
+                    // Refresh page to show new results
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    throw new Error(data.message || 'Reanalysis failed');
+                }
+            } catch (error) {
+                addLogEntry(meterType, `✗ Reanalysis error: ${error.message}`, 'error');
+                showStatus(meterType, '✗ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function deleteSnapshot(meterType) {
+            if (!confirm('Delete this snapshot? This action cannot be undone.')) {
+                return;
+            }
+
+            addLogEntry(meterType, '🗑️ Deleting snapshot...');
+            showStatus(meterType, '🗑️ Deleting snapshot...', 'info');
+
+            try {
+                const response = await fetch(`/api/snapshot/delete/${meterType}`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    addLogEntry(meterType, '✓ Snapshot deleted successfully!', 'success');
+                    showStatus(meterType, '✓ Deleted! Refreshing...', 'success');
+
+                    // Refresh page to show updated state
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    throw new Error(data.message || 'Delete failed');
+                }
+            } catch (error) {
+                addLogEntry(meterType, `✗ Delete error: ${error.message}`, 'error');
+                showStatus(meterType, '✗ Error: ' + error.message, 'error');
             }
         }
 
