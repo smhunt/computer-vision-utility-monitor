@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ meter_name }} - Snapshot History</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .capture-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .capture-btn:hover {
+            background: #0056b3;
+        }
+        .capture-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .progress-container {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .progress-container.active {
+            display: block;
+        }
+        .progress-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .progress-bar-container {
+            background: #e9ecef;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .progress-message {
+            color: #666;
+            font-size: 14px;
+        }
+        .progress-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            color: #155724;
+        }
+        .progress-result.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .progress-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .snapshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .snapshot-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .snapshot-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .snapshot-info {
+            padding: 15px;
+        }
+        .snapshot-time {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .reading {
+            font-size: 24px;
+            font-weight: 600;
+            color: #007bff;
+            margin: 5px 0;
+        }
+        .confidence {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .confidence-high { background: #d4edda; color: #155724; }
+        .confidence-medium { background: #fff3cd; color: #856404; }
+        .confidence-low { background: #f8d7da; color: #721c24; }
+        .temperature {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .live-preview-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .live-preview-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #dc3545;
+        }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #dc3545;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .stream-wrapper {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+        .stream-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .stream-error {
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to meters</a>
+    <h1>📊 {{ meter_name }} - Snapshot History</h1>
+
+    <div class="live-preview-container">
+        <div class="live-preview-header">
+            <span>📹 Live Camera Preview</span>
+            <span class="live-indicator">
+                <span class="live-dot"></span>
+                LIVE
+            </span>
+        </div>
+        <div class="stream-wrapper">
+            <img src="/api/stream/{{ meter_type }}"
+                 alt="Live camera feed"
+                 class="stream-image"
+                 onerror="this.parentElement.innerHTML='<div class=\'stream-error\'>⚠️ Stream unavailable</div>'">
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+            <button class="capture-btn" id="captureBtn" onclick="captureSnapshot()">
+                📸 Capture Now
+            </button>
+        </div>
+    </div>
+
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-header">
+            <span class="progress-spinner"></span>
+            <span id="progressTitle">Capturing Snapshot...</span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        <div class="progress-message" id="progressMessage">Initializing...</div>
+        <div class="progress-result" id="progressResult" style="display: none;"></div>
+    </div>
+
+    {% if snapshots %}
+        <div class="snapshot-grid">
+            {% for snapshot in snapshots %}
+            <div class="snapshot-card">
+                <img src="{{ snapshot.path }}"
+                     alt="{{ snapshot.filename }}"
+                     class="snapshot-image"
+                     onclick="openModal('{{ snapshot.path }}')">
+                <div class="snapshot-info">
+                    <div class="snapshot-time">{{ snapshot.timestamp }}</div>
+                    {% if snapshot.reading %}
+                        <div class="reading">{{ snapshot.reading }} m³</div>
+                        <span class="confidence confidence-{{ snapshot.confidence }}">
+                            {{ snapshot.confidence }}
+                        </span>
+                    {% endif %}
+                    {% if snapshot.temperature %}
+                        <div class="temperature">🌡️ {{ snapshot.temperature }}°C</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="color: #666; font-size: 18px; text-align: center; margin-top: 50px;">
+            No snapshots found for this meter.
+        </p>
+    {% endif %}
+
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <img id="modalImage" src="">
+    </div>
+
+    <script>
+        function openModal(imagePath) {
+            document.getElementById('modalImage').src = imagePath;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        let checkInterval = null;
+
+        async function captureSnapshot() {
+            const btn = document.getElementById('captureBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressMessage = document.getElementById('progressMessage');
+            const progressResult = document.getElementById('progressResult');
+
+            // Disable button
+            btn.disabled = true;
+
+            // Show progress
+            progressContainer.classList.add('active');
+            progressResult.style.display = 'none';
+            progressBar.style.width = '0%';
+            progressBar.textContent = '0%';
+            progressMessage.textContent = 'Starting capture...';
+
+            try {
+                // Start capture
+                const response = await fetch('/api/snapshot/{{ meter_type }}', {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to start capture');
+                }
+
+                const data = await response.json();
+                const captureId = data.capture_id;
+
+                // Poll for status
+                checkInterval = setInterval(async () => {
+                    try {
+                        const statusResponse = await fetch(`/api/capture/${captureId}/status`);
+                        const status = await statusResponse.json();
+
+                        if (status.status === 'capturing' || status.status === 'processing') {
+                            const progress = (status.step / status.total_steps) * 100;
+                            progressBar.style.width = progress + '%';
+                            progressBar.textContent = Math.round(progress) + '%';
+                            progressMessage.textContent = status.message;
+                        } else if (status.status === 'complete') {
+                            clearInterval(checkInterval);
+                            progressBar.style.width = '100%';
+                            progressBar.textContent = '100%';
+                            progressMessage.textContent = status.message;
+
+                            // Show success result
+                            progressResult.className = 'progress-result';
+                            progressResult.innerHTML = `
+                                ✅ <strong>Success!</strong><br>
+                                Reading: <strong>${status.reading} m³</strong><br>
+                                Confidence: <strong>${status.confidence}</strong>
+                            `;
+                            progressResult.style.display = 'block';
+
+                            // Re-enable button and reload page after 2 seconds
+                            setTimeout(() => {
+                                location.reload();
+                            }, 2000);
+                        } else if (status.status === 'error') {
+                            clearInterval(checkInterval);
+                            progressBar.style.width = '100%';
+                            progressBar.textContent = 'Error';
+                            progressMessage.textContent = 'Capture failed';
+
+                            // Show error result
+                            progressResult.className = 'progress-result error';
+                            progressResult.innerHTML = `❌ <strong>Error:</strong> ${status.message}`;
+                            progressResult.style.display = 'block';
+
+                            // Re-enable button
+                            btn.disabled = false;
+                        }
+                    } catch (e) {
+                        console.error('Status check error:', e);
+                    }
+                }, 500);  // Check every 500ms
+
+            } catch (error) {
+                btn.disabled = false;
+                progressResult.className = 'progress-result error';
+                progressResult.innerHTML = `❌ <strong>Error:</strong> ${error.message}`;
+                progressResult.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
