@@ -20,14 +20,36 @@
             justify-content: space-between;
             align-items: center;
         }
-        .back-link {
-            display: inline-block;
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            color: #007bff;
-            text-decoration: none;
+            padding: 15px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .back-link:hover {
-            text-decoration: underline;
+        .nav-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        .settings-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .settings-link:hover {
+            background: #5a6268;
         }
         .capture-btn {
             background: #007bff;
@@ -228,8 +250,12 @@
     </style>
 </head>
 <body>
-    <a href="/" class="back-link">← Back to meters</a>
-    <h1>📊 {{ meter_name }} - Snapshot History</h1>
+    <div class="nav-header">
+        <div class="nav-title">📊 {{ meter_name }} - Meter Readings</div>
+        <a href="/settings" class="settings-link">
+            ⚙️ Settings & Camera Control
+        </a>
+    </div>
 
     <div class="live-preview-container">
         <div class="live-preview-header">
