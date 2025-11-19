@@ -35,33 +35,151 @@ except ImportError:
 # CONFIGURATION
 # ============================================================================
 
+# Project identifier for API usage tracking
+# This helps track API usage across different projects in your Anthropic dashboard
+PROJECT_ID = os.getenv("PROJECT_ID", "utility-meter-monitor")
+
 # Claude model to use (using latest available version)
-# Options: claude-opus-4-1, claude-sonnet, claude-haiku, or specific dated versions
-MODEL = "claude-opus-4-1"
+# Options: claude-sonnet-4-5-20250929, claude-sonnet-3-5-20241022, claude-haiku, or specific dated versions
+# Using Sonnet 4.5 for best performance with max tier access
+MODEL = "claude-sonnet-4-5-20250929"
 
 # Prompt for water meter reading
-METER_READING_PROMPT = """You are analyzing a water meter image. Please identify and read both components:
+METER_READING_PROMPT = """You are analyzing a Badger Meter "Absolute Digital" residential water meter.
 
-1. **Digital Display**: The main numerical display showing cubic meters (usually 4-5 digits)
-2. **Dial/Analog Component**: The circular dial with a needle (shows fractional cubic meters, usually 0.000-0.999)
+**DISPLAY FORMAT - CRITICAL:**
+This meter has:
+- 5 WHITE digits (whole m³): "02271" = 2271 m³
+- 1 BLACK digit (tenths): "2" = 0.2 m³
+- Red dial (hundredths): position "5" = 0.05 m³
+- **Total: 2271.25 cubic meters**
 
-Please provide:
-- The complete digital reading (integer part)
-- The dial reading (fractional part to 3 decimal places)
-- Total reading (digital + dial)
-- Confidence level (high/medium/low)
-- Any issues or concerns
+**THE THREE COMPONENTS:**
+
+1. **WHITE ROLLER DIGITS (Left portion of display):**
+   - Shows EXACTLY 5 WHITE digits representing whole cubic meters
+   - Example: "0 2 2 7 1" = 2271 m³ (integer part)
+   - Example: "0 0 1 5 8" = 158 m³ (integer part)
+   - Ignore leading zeros
+   - COUNT CAREFULLY: Read from LEFT to RIGHT
+
+2. **BLACK DIGIT (6th digit, right side of display):**
+   - This is a single BLACK digit (0-9) showing TENTHS of a cubic meter
+   - Example: Black digit "2" = 0.2 m³
+   - Example: Black digit "7" = 0.7 m³
+   - This is the FIRST decimal place (0.X m³)
+
+3. **RED SWEEP HAND DIAL (Bottom circular gauge):**
+   - This shows HUNDREDTHS of a cubic meter (0.0X m³)
+   - One full rotation = 0.10 m³ (advances the black digit by 1)
+   - The dial is numbered 0-10 going CLOCKWISE
+   - **CRITICAL - DIAL ORIENTATION**: Imagine the dial as a clock face:
+     * 0 (zero) is at the TOP (12 o'clock position)
+     * 2.5 is on the RIGHT (3 o'clock position)
+     * 5 is at the BOTTOM (6 o'clock position)
+     * 7.5 is on the LEFT (9 o'clock position)
+     * 10 wraps back to 0 at TOP
+   - **HOW TO READ THE DIAL - STEP BY STEP:**
+     1. Look at where the TIP of the red sweep hand is pointing
+     2. Read the NUMBER on the dial (0-10 scale) where the hand points
+     3. Divide that number by 100 to get cubic meters (hundredths)
+   - **DETAILED EXAMPLES:**
+     * Hand at dial position 0 → 0 ÷ 100 = **0.00 m³**
+     * Hand at dial position 1 → 1 ÷ 100 = **0.01 m³**
+     * Hand at dial position 2 → 2 ÷ 100 = **0.02 m³**
+     * Hand at dial position 2.5 → 2.5 ÷ 100 = **0.025 m³**
+     * Hand at dial position 5 → 5 ÷ 100 = **0.05 m³**
+     * Hand at dial position 7 → 7 ÷ 100 = **0.07 m³**
+     * Hand at dial position 9.5 → 9.5 ÷ 100 = **0.095 m³**
+   - **USING CLOCK POSITIONS AS REFERENCE:**
+     * 12 o'clock = dial position 0 = 0.00 m³
+     * 3 o'clock = dial position 2.5 = 0.025 m³
+     * 6 o'clock = dial position 5 = 0.05 m³
+     * 9 o'clock = dial position 7.5 = 0.075 m³
+   - **CRITICAL - COMMON MISTAKES TO AVOID:**
+     * If hand is "between 0 and 1", that's dial position ~0.5, which = 0.005 m³ (NOT 0.05 or 0.5!)
+     * If hand is "between 1 and 2", that's dial position ~1.5, which = 0.015 m³ (NOT 0.15!)
+     * If hand is "between 7 and 8", that's dial position ~7.5, which = 0.075 m³
+     * Always divide dial position by 100 to get the final reading!
+   - Ignore any printed flow rate numbers (like "0.03", "0.04") - these are NOT the dial scale!
+   - The dial scale you need is the 0-10 circular scale with numbers around the edge
+
+**STEP-BY-STEP READING:**
+
+Example: White digits "02271", black digit "2", red dial at "5"
+
+Step 1: Read white roller digits (integer part)
+- White digits: "0 2 2 7 1"
+- Remove leading zeros: "2271"
+- Integer part: 2271 m³
+
+Step 2: Read black digit (tenths)
+- Black digit: "2"
+- Tenths: 0.2 m³
+
+Step 3: Read red dial (hundredths)
+- Dial position: "5"
+- Calculation: 5 ÷ 100 = 0.05 m³
+
+Step 4: Calculate total
+- 2271 + 0.2 + 0.05 = **2271.25 m³**
+
+**MORE EXAMPLES:**
+
+Example 1: White "00158" + Black "7" + Dial "3"
+- Integer: 158 m³
+- Tenths: 0.7 m³
+- Hundredths: 0.03 m³
+- Total: **158.73 m³**
+
+Example 2: White "02315" + Black "4" + Dial "0"
+- Integer: 2315 m³
+- Tenths: 0.4 m³
+- Hundredths: 0.00 m³
+- Total: **2315.40 m³**
+
+Example 3: White "00995" + Black "9" + Dial "8"
+- Integer: 995 m³
+- Tenths: 0.9 m³
+- Hundredths: 0.08 m³
+- Total: **995.98 m³**
+
+**CRITICAL: COUNT AND DESCRIBE ALL COMPONENTS**
+In your notes, MUST include:
+1. List EXACTLY 5 WHITE digits you see on the rollers from left to right
+2. Identify the BLACK digit (should be 0-9)
+3. Describe the red dial position as both clock position AND dial number (0-10 scale)
+4. Show your calculation: dial position ÷ 100 = hundredths in m³
+
+**CRITICAL OUTPUT FORMAT:**
 
 Return your response in JSON format:
 {
-    "digital_reading": <integer>,
-    "dial_reading": <float, 0.000-0.999>,
-    "total_reading": <float>,
+    "digital_reading": <integer, 5 white digits with leading zeros removed, e.g., 2271>,
+    "black_digit": <integer, the black tenths digit 0-9, e.g., 2>,
+    "dial_reading": <float, red dial hundredths as 0.00-0.09, e.g., 0.05>,
+    "total_reading": <float, MUST equal digital_reading + (black_digit/10) + dial_reading, e.g., 2271.25>,
     "confidence": "high|medium|low",
-    "notes": "any observations or concerns"
+    "notes": "White: 0 2 2 7 1 (5 digits) = 2271 m³. Black: 2 = 0.2 m³. Red dial: 6 o'clock = position 5 → 5÷100 = 0.05 m³. Total: 2271.25 m³"
 }
 
-If you cannot read the meter clearly, explain why in the notes field and set confidence to "low".
+**VALIDATION CHECKS - CRITICAL FOR CONFIDENCE:**
+- Water meters only increase, never decrease
+- THIS SPECIFIC METER: Expected range is 2000-3000 m³ (NOT 20,000+!)
+- If your total_reading is outside 1000-5000 m³ range, you likely miscounted digits - RECOUNT!
+- **BLACK DIGIT CHECK:**
+  * black_digit MUST be 0-9 (single digit)
+  * If black_digit is not in response, YOU MADE AN ERROR - there is ALWAYS a black digit
+- **DIAL READING SANITY CHECK:**
+  * dial_reading MUST be between 0.00 and 0.099 (hundredths only!)
+  * If dial_reading is >= 0.10, YOU ARE WRONG (that would be in the black digit)
+  * If you see "hand between 0 and 1" → dial position ~0.5 → reading should be ~0.005 m³
+  * Your notes MUST show: dial position ÷ 100 = dial_reading value
+- **TOTAL CALCULATION CHECK:**
+  * total_reading = digital_reading + (black_digit ÷ 10) + dial_reading
+  * Example: 2271 + (2÷10) + 0.05 = 2271 + 0.2 + 0.05 = 2271.25 m³
+- If you read exactly 5 white digits + 1 black digit + dial, and result is in expected range (2000-3000 m³), confidence should be HIGH
+- Only mark confidence as LOW if the image is blurry, digits are unclear, or you're uncertain
 """
 
 
@@ -153,13 +271,27 @@ def parse_claude_response(response_text: str) -> Dict:
         data = json.loads(text)
 
         # Validate required fields
-        required_fields = ['digital_reading', 'dial_reading', 'total_reading', 'confidence']
+        required_fields = ['digital_reading', 'black_digit', 'dial_reading', 'total_reading', 'confidence']
         for field in required_fields:
             if field not in data:
                 return {
                     'error': f'Missing required field: {field}',
                     'raw_response': response_text
                 }
+
+        # Validate black_digit is 0-9
+        if not (0 <= data.get('black_digit', -1) <= 9):
+            return {
+                'error': f'Invalid black_digit: {data.get("black_digit")} (must be 0-9)',
+                'raw_response': response_text
+            }
+
+        # Validate dial_reading is hundredths (0.00-0.099)
+        if not (0.0 <= data.get('dial_reading', -1) < 0.10):
+            return {
+                'error': f'Invalid dial_reading: {data.get("dial_reading")} (must be 0.00-0.099)',
+                'raw_response': response_text
+            }
 
         # Add timestamp
         data['timestamp'] = datetime.now().isoformat()
@@ -206,12 +338,13 @@ def read_meter_with_claude(
     Returns:
         Dictionary with reading data:
         {
-            'digital_reading': int,
-            'dial_reading': float,
-            'total_reading': float,
-            'confidence': str,
-            'notes': str,
-            'timestamp': str
+            'digital_reading': int,          # 5 white digits (whole m³)
+            'black_digit': int,               # Black digit (tenths, 0-9)
+            'dial_reading': float,            # Red dial (hundredths, 0.00-0.099)
+            'total_reading': float,           # Complete reading
+            'confidence': str,                # high|medium|low
+            'notes': str,                     # Detailed observations
+            'timestamp': str                  # ISO format timestamp
         }
 
         Or on error:
@@ -234,8 +367,13 @@ def read_meter_with_claude(
         }
 
     try:
-        # Initialize client
-        client = anthropic.Anthropic(api_key=api_key)
+        # Initialize client with custom headers for project tracking
+        client = anthropic.Anthropic(
+            api_key=api_key,
+            default_headers={
+                "anthropic-client-id": PROJECT_ID,
+            }
+        )
 
         # Encode image with optional preprocessing
         try:
@@ -249,10 +387,13 @@ def read_meter_with_claude(
                 'error': f'Failed to load image: {str(e)}'
             }
 
-        # Make API call
+        # Make API call with metadata for usage tracking
         response = client.messages.create(
             model=model,
             max_tokens=1024,
+            metadata={
+                "user_id": PROJECT_ID,
+            },
             messages=[
                 {
                     "role": "user",
@@ -340,8 +481,10 @@ def main():
     else:
         print("✅ Reading successful!")
         print()
-        print(f"Digital Reading: {result['digital_reading']}")
-        print(f"Dial Reading:    {result['dial_reading']:.3f}")
+        print(f"White Digits:    {result['digital_reading']} m³")
+        print(f"Black Digit:     {result['black_digit']} → 0.{result['black_digit']} m³")
+        print(f"Red Dial:        {result['dial_reading']:.3f} m³")
+        print(f"─" * 40)
         print(f"Total Reading:   {result['total_reading']:.3f} m³")
         print(f"Confidence:      {result['confidence']}")
 
