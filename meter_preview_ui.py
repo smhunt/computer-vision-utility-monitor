@@ -858,7 +858,25 @@ def api_get_consumption(meter_type):
         interval_data = defaultdict(lambda: {'readings': [], 'timestamps': []})
 
         for reading in readings:
-            if interval == 'hour':
+            if interval == '5min':
+                # Round to nearest 5-minute interval
+                minute = (reading['timestamp'].minute // 5) * 5
+                rounded_time = reading['timestamp'].replace(minute=minute, second=0, microsecond=0)
+                key = rounded_time.strftime('%Y-%m-%d %H:%M')
+                label = rounded_time.strftime('%H:%M')
+            elif interval == '15min':
+                # Round to nearest 15-minute interval
+                minute = (reading['timestamp'].minute // 15) * 15
+                rounded_time = reading['timestamp'].replace(minute=minute, second=0, microsecond=0)
+                key = rounded_time.strftime('%Y-%m-%d %H:%M')
+                label = rounded_time.strftime('%H:%M')
+            elif interval == '30min':
+                # Round to nearest 30-minute interval
+                minute = (reading['timestamp'].minute // 30) * 30
+                rounded_time = reading['timestamp'].replace(minute=minute, second=0, microsecond=0)
+                key = rounded_time.strftime('%Y-%m-%d %H:%M')
+                label = rounded_time.strftime('%H:%M')
+            elif interval == 'hour':
                 key = reading['timestamp'].strftime('%Y-%m-%d %H:00')
                 label = reading['timestamp'].strftime('%H:00')
             elif interval == 'day':
