@@ -250,17 +250,18 @@ def test_with_opencv(image_path: str) -> Dict:
             largest = max(contours, key=cv2.contourArea)
             # Fit line to contour
             [vx, vy, x, y] = cv2.fitLine(largest, cv2.DIST_L2, 0, 0.01, 0.01)
-            angle = np.arctan2(vy, vx)
-            needle_angle = (np.degrees(angle) + 90) % 360
+            # Convert numpy types to Python float
+            angle = float(np.arctan2(float(vy), float(vx)))
+            needle_angle = float((np.degrees(angle) + 90) % 360)
 
         # Estimate dial value from needle angle
         dial_value = (needle_angle / 360.0) * 0.10
 
         return {
             'odometer_value': 0.0,  # Can't read without OCR/ML
-            'dial_value': round(dial_value, 3),
-            'total_reading': round(dial_value, 3),
-            'needle_angle_degrees': round(needle_angle, 1),
+            'dial_value': float(round(dial_value, 3)),
+            'total_reading': float(round(dial_value, 3)),
+            'needle_angle_degrees': float(round(needle_angle, 1)),
             'confidence': 0.3,
             'notes': 'OpenCV only - no digit recognition, needle detection only',
             'method': 'opencv',
@@ -362,7 +363,12 @@ def print_comparison_summary(results: Dict[str, Dict]):
             ]
         else:
             reading = f"{result.get('total_reading', 'N/A')} m³"
-            confidence = f"{result.get('confidence', 0):.2f}"
+            # Handle confidence as either string or number
+            conf_val = result.get('confidence', 0)
+            if isinstance(conf_val, str):
+                confidence = conf_val
+            else:
+                confidence = f"{conf_val:.2f}"
             elapsed = f"{result.get('elapsed_time', 0):.2f}s"
 
             # Estimate cost
