@@ -10,8 +10,8 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import { ChartDataPoint } from '../types/meter';
-import { format } from 'date-fns';
+import type { ChartDataPoint } from '../types/meter';
+import { formatForChart } from '../utils/timezone';
 
 ChartJS.register(
   CategoryScale,
@@ -33,7 +33,7 @@ interface MeterChartProps {
 
 export function MeterChart({ data, title, color, unit }: MeterChartProps) {
   const chartData = {
-    labels: data.map(d => format(new Date(d.timestamp), 'MMM dd HH:mm')),
+    labels: data.map(d => formatForChart(d.timestamp)),
     datasets: [
       {
         label: title,
@@ -88,7 +88,7 @@ export function MeterChart({ data, title, color, unit }: MeterChartProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
       <div style={{ height: '300px' }}>
         <Line data={chartData} options={options} />
       </div>

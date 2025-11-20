@@ -5,7 +5,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 4173,
+    port: 5173,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
     proxy: {
       '/influxdb': {
         target: 'http://localhost:8086',
@@ -13,5 +16,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/influxdb/, ''),
       },
     },
+  },
+  optimizeDeps: {
+    force: true,
   },
 })

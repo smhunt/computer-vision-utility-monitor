@@ -1,5 +1,6 @@
 import { Droplets, Zap, Flame, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { MeterData } from '../types/meter';
+import type { MeterData } from '../types/meter';
+import { formatInLocalTimezone } from '../utils/timezone';
 
 interface MeterCardProps {
   type: 'water' | 'electric' | 'gas';
@@ -43,7 +44,7 @@ export function MeterCard({ type, data }: MeterCardProps) {
   const TrendIcon = data.trend === 'up' ? TrendingUp : data.trend === 'down' ? TrendingDown : Minus;
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -51,8 +52,10 @@ export function MeterCard({ type, data }: MeterCardProps) {
             <Icon className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-800">{config.label}</h3>
-            <p className="text-xs text-gray-500">Last updated: {new Date(data.lastUpdated).toLocaleTimeString()}</p>
+            <h3 className="text-lg font-semibold text-neutral-800">{config.label}</h3>
+            <p className="text-xs text-neutral-500">
+              {formatInLocalTimezone(data.lastUpdated, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            </p>
           </div>
         </div>
         <span className={`px-3 py-1 rounded-full text-xs font-medium ${confidenceBadgeColors[data.confidence]}`}>
@@ -62,17 +65,17 @@ export function MeterCard({ type, data }: MeterCardProps) {
 
       {/* Current Reading */}
       <div className="mb-4">
-        <div className="text-3xl font-bold text-gray-900">
+        <div className="text-3xl font-bold text-neutral-900">
           {data.current.toLocaleString()}
-          <span className="text-lg font-normal text-gray-500 ml-2">{data.unit}</span>
+          <span className="text-lg font-normal text-neutral-500 ml-2">{data.unit}</span>
         </div>
       </div>
 
       {/* 24h Change */}
       <div className="flex items-center gap-2">
-        <TrendIcon className={`w-4 h-4 ${data.trend === 'up' ? 'text-red-500' : data.trend === 'down' ? 'text-green-500' : 'text-gray-400'}`} />
-        <span className="text-sm text-gray-600">
-          <span className={`font-semibold ${data.trend === 'up' ? 'text-red-600' : data.trend === 'down' ? 'text-green-600' : 'text-gray-600'}`}>
+        <TrendIcon className={`w-4 h-4 ${data.trend === 'up' ? 'text-red-500' : data.trend === 'down' ? 'text-green-500' : 'text-neutral-400'}`} />
+        <span className="text-sm text-neutral-600">
+          <span className={`font-semibold ${data.trend === 'up' ? 'text-red-600' : data.trend === 'down' ? 'text-green-600' : 'text-neutral-600'}`}>
             {Math.abs(data.change24h).toFixed(2)} {data.unit}
           </span>
           <span className="ml-1">in last 24h</span>
