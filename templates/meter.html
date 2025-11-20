@@ -256,6 +256,64 @@
             height: 24px;
         }
 
+        /* Auto-capture toggle switch */
+        .auto-capture-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .auto-capture-label {
+            font-size: 14px;
+            color: #666;
+            user-select: none;
+        }
+        .auto-capture-status {
+            font-size: 12px;
+            color: #28a745;
+            font-weight: 600;
+        }
+
         .json-tooltip {
             cursor: pointer;
             margin-left: 8px;
@@ -396,6 +454,14 @@
             <button class="capture-btn" id="captureBtn" onclick="captureSnapshot()">
                 📸 Capture Now
             </button>
+        </div>
+        <div class="auto-capture-toggle">
+            <span class="auto-capture-label">Auto-capture every 1 min</span>
+            <label class="switch">
+                <input type="checkbox" id="autoCaptureToggle" onchange="toggleAutoCapture(this.checked)">
+                <span class="slider"></span>
+            </label>
+            <span class="auto-capture-status" id="autoCaptureStatus" style="display: none;">ON</span>
         </div>
     </div>
 
@@ -791,6 +857,34 @@
                         </div>
                     `;
                 }
+            }
+        }
+
+        // Auto-capture functionality
+        let autoCaptureInterval = null;
+
+        function toggleAutoCapture(isEnabled) {
+            const statusElement = document.getElementById('autoCaptureStatus');
+
+            if (isEnabled) {
+                // Start auto-capture every 60 seconds
+                autoCaptureInterval = setInterval(() => {
+                    console.log('🔄 Auto-capture triggered');
+                    captureSnapshot();
+                }, 60000); // 60 seconds
+
+                statusElement.style.display = 'inline';
+                statusElement.textContent = 'ON';
+                console.log('✅ Auto-capture enabled (every 1 min)');
+            } else {
+                // Stop auto-capture
+                if (autoCaptureInterval) {
+                    clearInterval(autoCaptureInterval);
+                    autoCaptureInterval = null;
+                }
+
+                statusElement.style.display = 'none';
+                console.log('⏸️ Auto-capture disabled');
             }
         }
     </script>
