@@ -197,6 +197,55 @@
             background: #ccc;
             cursor: not-allowed;
         }
+
+        /* Skeleton loading styles */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        .skeleton-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .skeleton-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        .skeleton-info {
+            padding: 15px;
+        }
+        .skeleton-line {
+            height: 14px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        .skeleton-line.short {
+            width: 60%;
+        }
+        .skeleton-line.medium {
+            width: 80%;
+        }
+        .skeleton-line.tall {
+            height: 24px;
+        }
+
         .json-tooltip {
             cursor: pointer;
             margin-left: 8px;
@@ -598,8 +647,29 @@
             }
         }
 
+        function showSkeletonCards(count = 3) {
+            const grid = document.querySelector('.snapshot-grid');
+            if (!grid) return;
+
+            // Show skeleton placeholders
+            grid.innerHTML = Array(count).fill(null).map(() => `
+                <div class="skeleton-card">
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-info">
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line tall medium"></div>
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line medium"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         async function refreshSnapshotCards() {
             try {
+                // Show skeleton while loading
+                showSkeletonCards(3);
+
                 const response = await fetch('/api/snapshots/{{ meter_name }}');
                 const data = await response.json();
 
@@ -687,6 +757,16 @@
                 }
             } catch (error) {
                 console.error('Failed to refresh snapshots:', error);
+
+                // Show error message in grid
+                const grid = document.querySelector('.snapshot-grid');
+                if (grid) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">
+                            ⚠️ Failed to load snapshots. Please refresh the page.
+                        </div>
+                    `;
+                }
             }
         }
     </script>
