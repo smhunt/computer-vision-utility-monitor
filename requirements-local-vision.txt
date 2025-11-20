@@ -1,0 +1,41 @@
+# Alternative Vision Model Dependencies
+# Install with: pip install -r requirements-local-vision.txt
+
+# ==========================================
+# OPTION 1: API-based (Cheap alternatives)
+# ==========================================
+
+# OpenAI GPT-4o-mini (cheap API, ~$0.0002 per image)
+openai>=1.0.0
+
+# Google Gemini Flash (free tier available)
+google-generativeai>=0.3.0
+
+# ==========================================
+# OPTION 2: LOCAL (Truly free, no internet)
+# ==========================================
+
+# Ollama Python client (requires ollama installed)
+# Install ollama from: https://ollama.ai/download
+# Then: ollama pull llama3.2-vision:11b
+ollama>=0.1.0
+
+# Basic OpenCV (minimal dependencies)
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# ==========================================
+# OPTIONAL: Advanced local ML (future)
+# ==========================================
+
+# EasyOCR for digit recognition
+# easyocr>=1.7.0
+
+# Image processing
+# scikit-image>=0.21.0
+# Pillow>=10.0.0
+
+# Deep learning frameworks (if you want to train custom models)
+# tensorflow>=2.13.0
+# torch>=2.0.0
+# torchvision>=0.15.0
