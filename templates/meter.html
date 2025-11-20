@@ -76,9 +76,14 @@
             padding: 20px;
             margin: 20px 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: opacity 1s ease-out;
+            opacity: 1;
         }
         .progress-container.active {
             display: block;
+        }
+        .progress-container.fade-out {
+            opacity: 0;
         }
         .progress-header {
             font-size: 18px;
@@ -116,11 +121,16 @@
             border: 1px solid #c3e6cb;
             border-radius: 6px;
             color: #155724;
+            transition: opacity 1s ease-out;
+            opacity: 1;
         }
         .progress-result.error {
             background: #f8d7da;
             border-color: #f5c6cb;
             color: #721c24;
+        }
+        .progress-result.fade-out {
+            opacity: 0;
         }
         .progress-spinner {
             display: inline-block;
@@ -584,8 +594,10 @@
             // Disable button
             btn.disabled = true;
 
-            // Show progress
+            // Show progress (reset any fade-out state)
             progressContainer.classList.add('active');
+            progressContainer.classList.remove('fade-out');
+            progressResult.classList.remove('fade-out');
             progressResult.style.display = 'none';
             progressBar.style.width = '50%';
             progressBar.textContent = '50%';
@@ -620,6 +632,18 @@
                     setTimeout(() => {
                         btn.disabled = false;
                     }, 2000);
+
+                    // Fade out success message after 15 seconds
+                    setTimeout(() => {
+                        progressResult.classList.add('fade-out');
+                        progressContainer.classList.add('fade-out');
+
+                        // After fade completes, hide completely
+                        setTimeout(() => {
+                            progressResult.style.display = 'none';
+                            progressContainer.classList.remove('active');
+                        }, 1000); // Wait for 1s fade animation
+                    }, 15000); // Wait 15 seconds before fading
                 } else {
                     progressBar.style.width = '100%';
                     progressBar.textContent = 'Error';
