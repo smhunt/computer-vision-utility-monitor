@@ -535,9 +535,10 @@ def api_reprocess_snapshot(meter_type):
 
         # Import and run analysis
         sys.path.insert(0, str(Path(__file__).parent / "src"))
-        from llm_reader import read_meter_with_claude
+        from gemini_reader import read_meter
 
-        reading = read_meter_with_claude(str(image_path))
+        # Use Gemini (free) with Claude fallback
+        reading = read_meter(str(image_path), fallback_to_claude=True)
 
         if 'error' in reading:
             return jsonify({'status': 'error', 'error': reading['error']})
