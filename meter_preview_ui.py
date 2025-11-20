@@ -796,6 +796,81 @@ def api_get_snapshots(meter_name):
         }), 500
 
 
+@app.route('/api/consumption/<meter_type>', methods=['GET'])
+def api_get_consumption(meter_type):
+    """Get hourly consumption data for graphing"""
+    try:
+        from datetime import datetime, timedelta
+        from collections import defaultdict
+
+        log_file = LOG_DIR / f"{meter_type}_readings.jsonl"
+        if not log_file.exists():
+            return jsonify({
+                'status': 'success',
+                'hours': [],
+                'consumption': []
+            })
+
+        # Read all valid readings from JSONL
+        readings = []
+        with open(log_file, 'r') as f:
+            for line in f:
+                try:
+                    data = json.loads(line.strip())
+                    if 'total_reading' in data and data.get('total_reading') is not None:
+                        readings.append({
+                            'timestamp': datetime.fromisoformat(data['timestamp'].replace('Z', '+00:00')),
+                            'total': float(data['total_reading'])
+                        })
+                except (json.JSONDecodeError, KeyError, ValueError):
+                    continue
+
+        if not readings:
+            return jsonify({
+                'status': 'success',
+                'hours': [],
+                'consumption': []
+            })
+
+        # Sort by timestamp
+        readings.sort(key=lambda x: x['timestamp'])
+
+        # Calculate hourly consumption
+        hourly_data = defaultdict(lambda: {'readings': [], 'timestamps': []})
+
+        for reading in readings:
+            hour_key = reading['timestamp'].strftime('%Y-%m-%d %H:00')
+            hourly_data[hour_key]['readings'].append(reading['total'])
+            hourly_data[hour_key]['timestamps'].append(reading['timestamp'])
+
+        # Calculate consumption (max - min) for each hour
+        hours = []
+        consumption = []
+
+        sorted_hours = sorted(hourly_data.keys())
+        for hour in sorted_hours[-24:]:  # Last 24 hours
+            data = hourly_data[hour]
+            if len(data['readings']) >= 2:
+                hour_consumption = max(data['readings']) - min(data['readings'])
+                hours.append(hour.split(' ')[1])  # Just the hour part
+                consumption.append(round(hour_consumption, 3))
+
+        return jsonify({
+            'status': 'success',
+            'hours': hours,
+            'consumption': consumption,
+            'unit': 'm³'
+        })
+
+    except Exception as e:
+        import traceback
+        return jsonify({
+            'status': 'error',
+            'message': str(e),
+            'traceback': traceback.format_exc()
+        }), 500
+
+
 @app.template_filter('timestamp')
 def timestamp_filter(iso_timestamp):
     """Template filter for formatting timestamps"""
