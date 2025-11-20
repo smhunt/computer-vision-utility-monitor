@@ -709,6 +709,21 @@
                     // Refresh snapshot cards to show new capture
                     refreshSnapshotCards();
 
+                    // Reset auto-capture countdown and interval if auto-capture is enabled
+                    if (countdownInterval && autoCaptureInterval) {
+                        countdownSeconds = 60;
+
+                        // Restart the auto-capture interval
+                        clearInterval(autoCaptureInterval);
+                        autoCaptureInterval = setInterval(() => {
+                            console.log('🔄 Auto-capture triggered');
+                            countdownSeconds = 60;
+                            captureSnapshot();
+                        }, 60000);
+
+                        console.log('🔄 Manual capture triggered - resetting auto-capture countdown and timer');
+                    }
+
                     setTimeout(() => {
                         btn.disabled = false;
                     }, 2000);
