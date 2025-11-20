@@ -63,46 +63,68 @@ This meter has:
    - Ignore leading zeros
    - COUNT CAREFULLY: Read from LEFT to RIGHT
 
-2. **BLACK DIGIT (6th digit, right side of display):**
-   - This is a single BLACK digit (0-9) showing TENTHS of a cubic meter
-   - Example: Black digit "2" = 0.2 m³
-   - Example: Black digit "7" = 0.7 m³
-   - This is the FIRST decimal place (0.X m³)
+2. **BLACK DIGIT (6th digit, right side of display - SEPARATE from white digits):**
+   - This is a SINGLE BLACK DIGIT (0-9) on the RIGHT side of the display
+   - It is PHYSICALLY SEPARATED from the 5 white digits with a small gap
+   - The black digit shows TENTHS of a cubic meter (first decimal place)
+   - **CRITICAL - DO NOT CONFUSE:**
+     * The rightmost WHITE digit and the BLACK digit are DIFFERENT
+     * If you see "02271  5" → white digits = "02271", black digit = "5"
+     * If you see "02271  1" → white digits = "02271", black digit = "1"
+     * The black digit has its own housing/frame, slightly separated
+   - Examples:
+     * Black digit "5" = 0.5 m³
+     * Black digit "2" = 0.2 m³
+     * Black digit "7" = 0.7 m³
+     * Black digit "0" = 0.0 m³
 
 3. **RED SWEEP HAND DIAL (Bottom circular gauge):**
-   - This shows HUNDREDTHS of a cubic meter (0.0X m³)
-   - One full rotation = 0.10 m³ (advances the black digit by 1)
-   - The dial is numbered 0-10 going CLOCKWISE
-   - **CRITICAL - DIAL ORIENTATION**: Imagine the dial as a clock face:
-     * 0 (zero) is at the TOP (12 o'clock position)
-     * 2.5 is on the RIGHT (3 o'clock position)
-     * 5 is at the BOTTOM (6 o'clock position)
-     * 7.5 is on the LEFT (9 o'clock position)
-     * 10 wraps back to 0 at TOP
-   - **HOW TO READ THE DIAL - STEP BY STEP:**
-     1. Look at where the TIP of the red sweep hand is pointing
-     2. Read the NUMBER on the dial (0-10 scale) where the hand points
-     3. Divide that number by 100 to get cubic meters (hundredths)
-   - **DETAILED EXAMPLES:**
-     * Hand at dial position 0 → 0 ÷ 100 = **0.00 m³**
-     * Hand at dial position 1 → 1 ÷ 100 = **0.01 m³**
-     * Hand at dial position 2 → 2 ÷ 100 = **0.02 m³**
-     * Hand at dial position 2.5 → 2.5 ÷ 100 = **0.025 m³**
-     * Hand at dial position 5 → 5 ÷ 100 = **0.05 m³**
-     * Hand at dial position 7 → 7 ÷ 100 = **0.07 m³**
-     * Hand at dial position 9.5 → 9.5 ÷ 100 = **0.095 m³**
-   - **USING CLOCK POSITIONS AS REFERENCE:**
-     * 12 o'clock = dial position 0 = 0.00 m³
-     * 3 o'clock = dial position 2.5 = 0.025 m³
-     * 6 o'clock = dial position 5 = 0.05 m³
-     * 9 o'clock = dial position 7.5 = 0.075 m³
-   - **CRITICAL - COMMON MISTAKES TO AVOID:**
-     * If hand is "between 0 and 1", that's dial position ~0.5, which = 0.005 m³ (NOT 0.05 or 0.5!)
-     * If hand is "between 1 and 2", that's dial position ~1.5, which = 0.015 m³ (NOT 0.15!)
-     * If hand is "between 7 and 8", that's dial position ~7.5, which = 0.075 m³
-     * Always divide dial position by 100 to get the final reading!
-   - Ignore any printed flow rate numbers (like "0.03", "0.04") - these are NOT the dial scale!
-   - The dial scale you need is the 0-10 circular scale with numbers around the edge
+
+   **FIND THE SINGLE RED HAND - IT'S THE ONLY RED THING ON THE METER**
+
+   The red sweep hand is:
+   - The ONLY red element on the entire meter face
+   - A SINGLE HAND that rotates around the center point of the dial
+   - It has a POINTED TIP that indicates the reading
+   - Like the hour hand on a clock, but it's RED
+
+   **CRITICAL - WHICH WAY IS THE HAND POINTING?**
+   Look at the red hand and identify which EDGE of the meter face the pointed tip is nearest to:
+   - Is the tip near the TOP edge? → 0° (12 o'clock)
+   - Is the tip near the RIGHT edge? → 90° (3 o'clock)
+   - Is the tip near the BOTTOM edge? → 180° (6 o'clock)
+   - Is the tip near the LEFT edge? → 270° (9 o'clock)
+
+   **MEASURE THE ANGLE IN DEGREES:**
+   * 0° = pointing straight UP (12 o'clock, north, top of circle)
+   * 90° = pointing straight RIGHT (3 o'clock, east, right side)
+   * 180° = pointing straight DOWN (6 o'clock, south, bottom)
+   * 270° = pointing straight LEFT (9 o'clock, west, left side)
+
+   **EXAMPLES:**
+   - Red hand pointing straight up → 0°
+   - Red hand pointing up and slightly right → 30°
+   - Red hand pointing to upper right → 60°
+   - Red hand pointing straight right → 90°
+   - Red hand pointing down-right → 120°
+   - Red hand pointing straight down → 180°
+   - Red hand pointing down-left → 240°
+   - Red hand pointing straight left → 270°
+   - Red hand pointing up-left → 330°
+
+   **YOUR TASK:**
+   - Find the red hand (it's the only red thing!)
+   - Estimate its angle from vertical (0° = straight up / 12 o'clock)
+   - Report the angle as a number (0-359)
+   - BE PRECISE: The dial scale goes 0-10 for one full rotation
+
+   **CRITICAL ANGLE CHECK:**
+   - Is the hand pointing UP? → Should be near 0°
+   - Is the hand pointing RIGHT? → Should be near 90°
+   - Is the hand pointing DOWN? → Should be near 180°
+   - Is the hand pointing LEFT? → Should be near 270°
+
+   Set dial_reading to (dial_angle_degrees / 3600) and dial_angle_degrees to your angle estimate
 
 **STEP-BY-STEP READING:**
 
@@ -144,23 +166,27 @@ Example 3: White "00995" + Black "9" + Dial "8"
 - Hundredths: 0.08 m³
 - Total: **995.98 m³**
 
-**CRITICAL: COUNT AND DESCRIBE ALL COMPONENTS**
-In your notes, MUST include:
-1. List EXACTLY 5 WHITE digits you see on the rollers from left to right
-2. Identify the BLACK digit (should be 0-9)
-3. Describe the red dial position as both clock position AND dial number (0-10 scale)
-4. Show your calculation: dial position ÷ 100 = hundredths in m³
+**CRITICAL: COUNT AND DESCRIBE ALL COMPONENTS - REQUIRED FORMAT**
+In your notes, you MUST describe what you see in this EXACT format:
+
+"White digits (5 digits on left): [digit] [digit] [digit] [digit] [digit] = [value] m³.
+Black digit (single digit on right, separated): [digit] = [value] m³.
+Red dial hand: [angle]° (the red hand is pointing at [angle] degrees).
+Total: [sum]"
+
+Example: "White digits (5 digits on left): 0 2 2 7 1 = 2271 m³. Black digit (single digit on right, separated): 5 = 0.5 m³. Red dial hand: 90° (the red hand is pointing at 90 degrees). Dial reading: 90/3600 = 0.025 m³. Total: 2271.525 m³"
 
 **CRITICAL OUTPUT FORMAT:**
 
 Return your response in JSON format:
 {
     "digital_reading": <integer, 5 white digits with leading zeros removed, e.g., 2271>,
-    "black_digit": <integer, the black tenths digit 0-9, e.g., 2>,
-    "dial_reading": <float, red dial hundredths as 0.00-0.09, e.g., 0.05>,
-    "total_reading": <float, MUST equal digital_reading + (black_digit/10) + dial_reading, e.g., 2271.25>,
+    "black_digit": <integer, the black tenths digit 0-9, e.g., 5>,
+    "dial_reading": <float, calculated as dial_angle_degrees / 3600, e.g., 0.025>,
+    "dial_angle_degrees": <integer, angle 0-359 where 0=UP, 90=RIGHT, 180=DOWN, 270=LEFT>,
+    "total_reading": <float, digital_reading + (black_digit/10) + dial_reading, e.g., 2271.525>,
     "confidence": "high|medium|low",
-    "notes": "White: 0 2 2 7 1 (5 digits) = 2271 m³. Black: 2 = 0.2 m³. Red dial: 6 o'clock = position 5 → 5÷100 = 0.05 m³. Total: 2271.25 m³"
+    "notes": "<follow the format above>"
 }
 
 **VALIDATION CHECKS - CRITICAL FOR CONFIDENCE:**

@@ -510,6 +510,72 @@ def api_list_presets():
     return jsonify(presets)
 
 
+@app.route('/api/reprocess/<meter_type>', methods=['POST'])
+def api_reprocess_snapshot(meter_type):
+    """Reprocess an existing snapshot image"""
+    try:
+        data = request.get_json()
+        filename = data.get('filename')
+
+        if not filename:
+            return jsonify({'status': 'error', 'error': 'No filename provided'})
+
+        # Find the meter config
+        if not CONFIG or 'meters' not in CONFIG:
+            return jsonify({'status': 'error', 'error': 'No meters configured'})
+
+        meter = CONFIG['meters'][0]
+        meter_name = meter.get('name', 'unknown')
+
+        # Get the image path
+        image_path = LOG_DIR / 'meter_snapshots' / meter_name / filename
+
+        if not image_path.exists():
+            return jsonify({'status': 'error', 'error': f'Image not found: {filename}'})
+
+        # Import and run analysis
+        sys.path.insert(0, str(Path(__file__).parent / "src"))
+        from llm_reader import read_meter_with_claude
+
+        reading = read_meter_with_claude(str(image_path))
+
+        if 'error' in reading:
+            return jsonify({'status': 'error', 'error': reading['error']})
+
+        # Update the metadata JSON file
+        metadata_path = image_path.with_suffix('.json')
+        if metadata_path.exists():
+            with open(metadata_path, 'r') as f:
+                metadata = json.load(f)
+
+            metadata['meter_reading'] = reading
+
+            with open(metadata_path, 'w') as f:
+                json.dump(metadata, f, indent=2)
+
+        # Log to JSONL
+        log_file = LOG_DIR / f"{meter_type}_readings.jsonl"
+        with open(log_file, 'a') as f:
+            f.write(json.dumps(reading) + '\n')
+
+        # Try InfluxDB (optional)
+        try:
+            from influx_logger import MeterInfluxLogger
+            logger = MeterInfluxLogger()
+            logger.log_reading(meter_name, meter_type, reading)
+        except Exception:
+            pass
+
+        return jsonify({
+            'status': 'success',
+            'reading': reading.get('total_reading'),
+            'confidence': reading.get('confidence'),
+            'dial_angle_degrees': reading.get('dial_angle_degrees')
+        })
+
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)})
+
 @app.route('/api/snapshot/<meter_type>', methods=['POST'])
 def api_capture_snapshot(meter_type):
     """Capture snapshot and run full analysis/logging workflow"""
