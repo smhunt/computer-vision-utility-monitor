@@ -649,30 +649,35 @@
 
             // Step 1: Loading image
             updateProgress(10, '📂 Loading saved image...');
-            await new Promise(resolve => setTimeout(resolve, 300));
+            await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Step 2: Analyzing
+            // Step 2: Start AI analysis
             updateProgress(20, '🤖 Re-analyzing meter reading with AI...');
+            await new Promise(resolve => setTimeout(resolve, 400));
+
+            updateProgress(30, '🤖 Re-analyzing meter reading with AI...');
 
             try {
-                // Simulate AI processing progress
-                let aiProgress = 20;
-                const aiProgressInterval = setInterval(() => {
-                    if (aiProgress < 70) {
-                        aiProgress += 5;
-                        updateProgress(aiProgress, '🤖 Re-analyzing meter reading with AI...');
-                    }
-                }, 500);
-
-                const response = await fetch('/api/reprocess/{{ meter_type }}', {
+                // Start the fetch in parallel with progress simulation
+                const fetchPromise = fetch('/api/reprocess/{{ meter_type }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ filename: filename })
-                });
+                }).then(r => r.json());
 
-                const data = await response.json();
+                // Simulate AI processing progress while waiting for fetch
+                let aiProgress = 30;
+                const aiProgressInterval = setInterval(() => {
+                    if (aiProgress < 75) {
+                        aiProgress += 3;
+                        updateProgress(aiProgress, '🤖 Re-analyzing meter reading with AI...');
+                    }
+                }, 400);
+
+                // Wait for fetch to complete
+                const data = await fetchPromise;
                 clearInterval(aiProgressInterval);
 
                 if (data.status === 'success') {
@@ -766,29 +771,32 @@
 
             // Step 1: Connecting to camera
             updateProgress(10, '📡 Connecting to camera...');
+            await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Step 2: Capturing image (after 300ms)
-            await new Promise(resolve => setTimeout(resolve, 300));
+            // Step 2: Capturing image
             updateProgress(20, '📸 Capturing image from meter...');
+            await new Promise(resolve => setTimeout(resolve, 600));
+
+            // Step 3: Start AI analysis
+            updateProgress(30, '🤖 Analyzing meter reading with AI...');
 
             try {
-                const response = await fetch('/api/snapshot/{{ meter_type }}', {
+                // Start the fetch in parallel with progress simulation
+                const fetchPromise = fetch('/api/snapshot/{{ meter_type }}', {
                     method: 'POST'
-                });
+                }).then(r => r.json());
 
-                // Step 3: Processing (show progress during fetch)
-                updateProgress(30, '🤖 Analyzing meter reading with AI...');
-
-                // Simulate AI processing progress
+                // Simulate AI processing progress while waiting for fetch
                 let aiProgress = 30;
                 const aiProgressInterval = setInterval(() => {
-                    if (aiProgress < 70) {
-                        aiProgress += 5;
+                    if (aiProgress < 75) {
+                        aiProgress += 3;
                         updateProgress(aiProgress, '🤖 Analyzing meter reading with AI...');
                     }
-                }, 500);
+                }, 400);
 
-                const data = await response.json();
+                // Wait for fetch to complete
+                const data = await fetchPromise;
                 clearInterval(aiProgressInterval);
 
                 if (data.status === 'success') {
