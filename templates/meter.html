@@ -463,6 +463,85 @@
             color: #666;
             font-weight: normal;
         }
+        /* Confirmation Modal */
+        .confirm-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            animation: fadeIn 0.2s;
+        }
+        .confirm-modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .confirm-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.3s;
+        }
+        .confirm-modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .confirm-modal-message {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .confirm-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .confirm-modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .confirm-modal-btn-cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+        .confirm-modal-btn-cancel:hover {
+            background: #e0e0e0;
+        }
+        .confirm-modal-btn-confirm {
+            background: #007bff;
+            color: white;
+        }
+        .confirm-modal-btn-confirm:hover {
+            background: #0056b3;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -593,6 +672,18 @@
         <img id="modalImage" src="">
     </div>
 
+    <!-- Confirmation Modal -->
+    <div class="confirm-modal-overlay" id="confirmModalOverlay">
+        <div class="confirm-modal">
+            <div class="confirm-modal-title" id="confirmModalTitle">Confirm Action</div>
+            <div class="confirm-modal-message" id="confirmModalMessage">Are you sure?</div>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-modal-btn confirm-modal-btn-cancel" onclick="hideConfirmModal(false)">Cancel</button>
+                <button class="confirm-modal-btn confirm-modal-btn-confirm" onclick="hideConfirmModal(true)">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openModal(imagePath) {
             document.getElementById('modalImage').src = imagePath;
@@ -601,6 +692,26 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Confirmation Modal
+        let confirmModalResolve = null;
+
+        function showConfirmModal(title, message) {
+            return new Promise((resolve) => {
+                confirmModalResolve = resolve;
+                document.getElementById('confirmModalTitle').textContent = title;
+                document.getElementById('confirmModalMessage').textContent = message;
+                document.getElementById('confirmModalOverlay').classList.add('active');
+            });
+        }
+
+        function hideConfirmModal(confirmed) {
+            document.getElementById('confirmModalOverlay').classList.remove('active');
+            if (confirmModalResolve) {
+                confirmModalResolve(confirmed);
+                confirmModalResolve = null;
+            }
         }
 
         function showJSON(data) {
@@ -658,7 +769,12 @@
         async function reprocessImage(filename) {
             if (!filename) return;
 
-            if (!confirm('Reprocess this image with the latest analysis settings?')) {
+            const confirmed = await showConfirmModal(
+                'Reprocess Image',
+                'Reprocess this image with the latest analysis settings?'
+            );
+
+            if (!confirmed) {
                 return;
             }
 
@@ -896,6 +1012,10 @@
                         console.log('🔄 Manual capture triggered - resetting auto-capture countdown and timer');
                     }
 
+                    // Update button to show success
+                    btn.textContent = '✅ Captured Successfully';
+                    btn.style.background = '#28a745';
+
                     setTimeout(() => {
                         btn.disabled = false;
                     }, 2000);
@@ -905,10 +1025,14 @@
                         progressResult.classList.add('fade-out');
                         progressContainer.classList.add('fade-out');
 
-                        // After fade completes, hide completely
+                        // After fade completes, hide completely and reset button
                         setTimeout(() => {
                             progressResult.style.display = 'none';
                             progressContainer.classList.remove('active');
+
+                            // Reset button text and color
+                            btn.textContent = '📸 Capture Now';
+                            btn.style.background = '';
                         }, 1000); // Wait for 1s fade animation
                     }, 5000); // Wait 5 seconds before fading
                 } else {
