@@ -44,7 +44,8 @@ def read_meter(image_path: str, fallback_to_claude: bool = True) -> Dict:
 
     # If Gemini failed and fallback enabled, try Claude
     if 'error' in result and fallback_to_claude:
-        print("⚠️  Gemini failed, falling back to Claude...")
+        import sys
+        print("⚠️  Gemini failed, falling back to Claude...", file=sys.stderr)
         from llm_reader import read_meter_with_claude
         result = read_meter_with_claude(image_path)
         result['fallback_used'] = True

@@ -114,8 +114,8 @@ def test_with_gemini(image_path: str, prompt_format: str = "simple") -> Dict:
     model = genai.GenerativeModel('gemini-2.5-flash')
 
     try:
-        print(f"🚀 Calling Google Gemini Flash...")
-        print(f"📝 Using {prompt_format} prompt")
+        print(f"🚀 Calling Google Gemini Flash...", file=sys.stderr)
+        print(f"📝 Using {prompt_format} prompt", file=sys.stderr)
 
         # Upload image
         with open(image_path, 'rb') as f:
@@ -127,7 +127,7 @@ def test_with_gemini(image_path: str, prompt_format: str = "simple") -> Dict:
         ])
 
         response_text = response.text
-        print(f"\n📄 Raw response:\n{response_text}\n")
+        print(f"\n📄 Raw response:\n{response_text}\n", file=sys.stderr)
 
         # Parse response
         result = parse_simple_response(response_text)
