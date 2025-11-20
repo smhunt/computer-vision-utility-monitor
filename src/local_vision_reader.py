@@ -91,9 +91,15 @@ def test_with_gemini(image_path: str, prompt_format: str = "simple") -> Dict:
     except ImportError:
         return {'error': 'Run: pip install google-generativeai'}
 
+    # Load API key from .env if not in environment
     api_key = os.getenv('GOOGLE_API_KEY')
     if not api_key:
-        return {'error': 'Set GOOGLE_API_KEY environment variable'}
+        from dotenv import load_dotenv
+        load_dotenv()
+        api_key = os.getenv('GOOGLE_API_KEY')
+
+    if not api_key:
+        return {'error': 'Set GOOGLE_API_KEY environment variable or add to .env file'}
 
     # Load prompts
     sys.path.insert(0, os.path.dirname(__file__))
@@ -276,14 +282,35 @@ def test_with_opencv(image_path: str) -> Dict:
         return {'error': f'OpenCV error: {str(e)}'}
 
 
-def compare_all_methods(image_path: str) -> Dict[str, Dict]:
-    """Compare all available vision methods"""
+def compare_all_methods(image_path: str, ollama_model: str = None) -> Dict[str, Dict]:
+    """
+    Compare all available vision methods
+
+    Args:
+        image_path: Path to meter image
+        ollama_model: Ollama model to use (default: auto-detect)
+    """
+    # Auto-detect available Ollama model if not specified
+    if ollama_model is None:
+        try:
+            import subprocess
+            result = subprocess.run(['ollama', 'list'], capture_output=True, text=True)
+            if 'llava:13b' in result.stdout:
+                ollama_model = 'llava:13b'
+            elif 'llama3.2-vision:11b' in result.stdout:
+                ollama_model = 'llama3.2-vision:11b'
+            elif 'llava:7b' in result.stdout:
+                ollama_model = 'llava:7b'
+            else:
+                ollama_model = 'llama3.2-vision:11b'  # Default
+        except:
+            ollama_model = 'llama3.2-vision:11b'
 
     methods = {
         'claude': lambda: test_with_claude(image_path),
         'openai': lambda: test_with_openai(image_path),
         'gemini': lambda: test_with_gemini(image_path),
-        'ollama': lambda: test_with_ollama(image_path),
+        'ollama': lambda: test_with_ollama(image_path, model=ollama_model),
         'opencv': lambda: test_with_opencv(image_path)
     }
 
