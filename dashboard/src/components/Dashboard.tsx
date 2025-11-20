@@ -4,15 +4,16 @@ import { Activity, RefreshCw } from 'lucide-react';
 import { MeterCard } from './MeterCard';
 import { MeterChart } from './MeterChart';
 import { CostTracker } from './CostTracker';
+import { ThemeToggle } from './ThemeToggle';
 import { fetchLatestReading, fetchHistoricalData } from '../api/influxdb';
 import type { MeterData, CostData } from '../types/meter';
 import { getUserTimezone, getTimezoneAbbreviation, getUTCOffset, formatWithTimezone } from '../utils/timezone';
 
-// Cost rates (configurable)
+// Cost rates (configurable) - Canadian rates
 const COST_RATES = {
-  water: 0.005, // per gallon
+  water: 0.0013, // per litre (approx $1.30 per cubic meter)
   electric: 0.12, // per kWh
-  gas: 0.85, // per CCF
+  gas: 0.30, // per cubic meter
 };
 
 export function Dashboard() {
@@ -89,9 +90,9 @@ export function Dashboard() {
     };
   };
 
-  const waterData = calculateMeterData(waterReading, waterHistory || [], 'gal');
+  const waterData = calculateMeterData(waterReading, waterHistory || [], 'L');
   const electricData = calculateMeterData(electricReading, electricHistory || [], 'kWh');
-  const gasData = calculateMeterData(gasReading, gasHistory || [], 'CCF');
+  const gasData = calculateMeterData(gasReading, gasHistory || [], 'm³');
 
   // Calculate costs
   const costs: CostData[] = [
@@ -99,19 +100,19 @@ export function Dashboard() {
       meterType: 'water',
       dailyCost: waterData.change24h * COST_RATES.water,
       monthlyCost: waterData.change24h * COST_RATES.water * 30,
-      currency: 'USD',
+      currency: 'CAD',
     },
     {
       meterType: 'electric',
       dailyCost: electricData.change24h * COST_RATES.electric,
       monthlyCost: electricData.change24h * COST_RATES.electric * 30,
-      currency: 'USD',
+      currency: 'CAD',
     },
     {
       meterType: 'gas',
       dailyCost: gasData.change24h * COST_RATES.gas,
       monthlyCost: gasData.change24h * COST_RATES.gas * 30,
-      currency: 'USD',
+      currency: 'CAD',
     },
   ];
 
@@ -132,72 +133,98 @@ export function Dashboard() {
   const utcOffset = getUTCOffset();
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-neutral-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-b border-slate-300/50 dark:border-slate-700/50 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Activity className="w-8 h-8 text-neutral-700" />
+            <div className="flex items-center gap-4">
+              <div className="p-2.5 bg-blue-500/20 rounded-xl border border-blue-500/30">
+                <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
               <div>
-                <h1 className="text-2xl font-semibold text-neutral-900">Utility Monitor Dashboard</h1>
-                <p className="text-sm text-neutral-600">Real-time meter readings with AI vision</p>
+                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Utility Monitor</h1>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5">Real-time meter readings</p>
               </div>
             </div>
-            <button
-              onClick={handleRefresh}
-              className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white rounded-md hover:bg-neutral-900 transition-colors shadow-sm"
-            >
-              <RefreshCw className="w-4 h-4" />
-              Refresh
-            </button>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <button
+                onClick={handleRefresh}
+                className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-900/30"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Refresh
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Meter Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <MeterCard type="water" data={waterData} />
-          <MeterCard type="electric" data={electricData} />
-          <MeterCard type="gas" data={gasData} />
-        </div>
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
 
-        {/* Cost Tracker */}
-        <div className="mb-8">
+        {/* Current Readings Section */}
+        <section className="mb-8">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+            <div className="w-1 h-5 bg-blue-500 rounded-full"></div>
+            Current Readings
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <MeterCard type="water" data={waterData} />
+            <MeterCard type="electric" data={electricData} />
+            <MeterCard type="gas" data={gasData} />
+          </div>
+        </section>
+
+        {/* Cost Tracking Section */}
+        <section className="mb-8">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+            <div className="w-1 h-5 bg-green-500 rounded-full"></div>
+            Cost Tracking
+          </h2>
           <CostTracker costs={costs} />
-        </div>
+        </section>
 
-        {/* Charts */}
-        <div className="space-y-6">
-          <MeterChart
-            data={waterHistory || []}
-            title="Water Usage (7 Days)"
-            color="#3b82f6"
-            unit="gal"
-          />
-          <MeterChart
-            data={electricHistory || []}
-            title="Electric Usage (7 Days)"
-            color="#eab308"
-            unit="kWh"
-          />
-          <MeterChart
-            data={gasHistory || []}
-            title="Gas Usage (7 Days)"
-            color="#f97316"
-            unit="CCF"
-          />
-        </div>
+        {/* Usage History Section */}
+        <section className="mb-8">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+            <div className="w-1 h-5 bg-purple-500 rounded-full"></div>
+            Usage History (7 Days)
+          </h2>
+          <div className="space-y-5">
+            <MeterChart
+              data={waterHistory || []}
+              title="Water Usage"
+              color="#3b82f6"
+              unit="L"
+            />
+            <MeterChart
+              data={electricHistory || []}
+              title="Electric Usage"
+              color="#eab308"
+              unit="kWh"
+            />
+            <MeterChart
+              data={gasHistory || []}
+              title="Gas Usage"
+              color="#f97316"
+              unit="m³"
+            />
+          </div>
+        </section>
 
         {/* Footer */}
-        <footer className="mt-12 pt-6 border-t border-neutral-200">
-          <div className="text-center text-sm text-neutral-500 space-y-2">
-            <p className="font-medium">Last updated: {formatWithTimezone(lastUpdate)}</p>
-            <p>Timezone: {userTimezone} ({timezoneAbbr}) • {utcOffset}</p>
-            <p className="text-xs text-neutral-400 mt-3">
-              Powered by Claude Vision AI • InfluxDB • Grafana
+        <footer className="mt-12 pt-6 border-t border-slate-300/50 dark:border-slate-700/50">
+          <div className="text-center space-y-2">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Last updated: {formatWithTimezone(lastUpdate)}
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-500">
+              {userTimezone} ({timezoneAbbr}) • {utcOffset}
+            </p>
+            <p className="text-xs text-slate-400 dark:text-slate-600 mt-3">
+              Powered by Claude Vision AI • Flask • React
             </p>
           </div>
         </footer>
