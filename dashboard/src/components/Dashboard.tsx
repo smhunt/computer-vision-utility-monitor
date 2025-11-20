@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Activity, RefreshCw } from 'lucide-react';
+import { Activity, RefreshCw, Play, Pause } from 'lucide-react';
 import { MeterCard } from './MeterCard';
 import { MeterChart } from './MeterChart';
 import { CostTracker } from './CostTracker';
@@ -18,43 +18,52 @@ const COST_RATES = {
 
 export function Dashboard() {
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(() => {
+    const stored = localStorage.getItem('auto-refresh-enabled');
+    return stored === null ? true : stored === 'true'; // Default to true
+  });
+
+  // Save auto-refresh preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('auto-refresh-enabled', autoRefreshEnabled.toString());
+  }, [autoRefreshEnabled]);
 
   // Fetch latest readings for all meters
   const { data: waterReading, refetch: refetchWater } = useQuery({
     queryKey: ['meter', 'water'],
     queryFn: () => fetchLatestReading('water'),
-    refetchInterval: 60000, // Refetch every minute
+    refetchInterval: autoRefreshEnabled ? 60000 : false, // Refetch every minute if enabled
   });
 
   const { data: electricReading, refetch: refetchElectric } = useQuery({
     queryKey: ['meter', 'electric'],
     queryFn: () => fetchLatestReading('electric'),
-    refetchInterval: 60000,
+    refetchInterval: autoRefreshEnabled ? 60000 : false,
   });
 
   const { data: gasReading, refetch: refetchGas } = useQuery({
     queryKey: ['meter', 'gas'],
     queryFn: () => fetchLatestReading('gas'),
-    refetchInterval: 60000,
+    refetchInterval: autoRefreshEnabled ? 60000 : false,
   });
 
   // Fetch historical data for charts
   const { data: waterHistory, refetch: refetchWaterHistory } = useQuery({
     queryKey: ['history', 'water'],
     queryFn: () => fetchHistoricalData('water', '-7d'),
-    refetchInterval: 300000, // Refetch every 5 minutes
+    refetchInterval: autoRefreshEnabled ? 300000 : false, // Refetch every 5 minutes if enabled
   });
 
   const { data: electricHistory, refetch: refetchElectricHistory } = useQuery({
     queryKey: ['history', 'electric'],
     queryFn: () => fetchHistoricalData('electric', '-7d'),
-    refetchInterval: 300000,
+    refetchInterval: autoRefreshEnabled ? 300000 : false,
   });
 
   const { data: gasHistory, refetch: refetchGasHistory } = useQuery({
     queryKey: ['history', 'gas'],
     queryFn: () => fetchHistoricalData('gas', '-7d'),
-    refetchInterval: 300000,
+    refetchInterval: autoRefreshEnabled ? 300000 : false,
   });
 
   // Calculate meter data
@@ -150,11 +159,32 @@ export function Dashboard() {
             <div className="flex items-center gap-3">
               <ThemeToggle />
               <button
+                onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
+                className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
+                  autoRefreshEnabled
+                    ? 'bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-900/30'
+                    : 'bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300'
+                }`}
+                title={autoRefreshEnabled ? 'Auto-refresh enabled' : 'Auto-refresh disabled'}
+              >
+                {autoRefreshEnabled ? (
+                  <>
+                    <Pause className="w-4 h-4" />
+                    <span className="hidden sm:inline">Auto</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4" />
+                    <span className="hidden sm:inline">Manual</span>
+                  </>
+                )}
+              </button>
+              <button
                 onClick={handleRefresh}
                 className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-900/30"
               >
                 <RefreshCw className="w-4 h-4" />
-                Refresh
+                <span className="hidden sm:inline">Refresh</span>
               </button>
             </div>
           </div>
