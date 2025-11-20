@@ -94,6 +94,8 @@ This meter has:
    **HOW TO IDENTIFY "UP" ON THE METER:**
    - Look for the "BADGER METER" brand text - this should be at the TOP of the meter face
    - The digital display (white and black digits) should be horizontal and readable from left to right
+   - **KEY ORIENTATION MARKER:** The rolling digits are ABOVE the center-mounted red dial needle - this helps determine which way is up
+   - The M³ label on the dial is at the TOP (12 o'clock position) of the dial circle
    - If you need to tilt your head to read "BADGER METER" or the digits, the image may be rotated
    - The circular dial is BELOW the digital display (at the bottom of the meter face)
 
@@ -296,6 +298,7 @@ METER CHARACTERISTICS:
 • The leftmost five wheels show whole cubic meters and tenths (0–99999.0 m³).
 • The rightmost white wheel (black digits) shows the tenths place (0.0–0.9 m³).
 • The small red pointer needle on the circular dial (0–9 scale) shows hundredths of a cubic meter (0.00–0.09 m³).
+• **ORIENTATION MARKERS:** The rolling digits are ABOVE the center-mounted red dial needle. The M³ label is at the top of the dial (12 o'clock position). These markers help determine correct image orientation.
 • Ignore any extra markings or branding.
 • Wheels advance clockwise; dial numbers increase clockwise.
 • Camera angle may be off-axis; compensate for perspective and glare.
