@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_041402.jpg",
+    "timestamp": "2025-11-20T04:14:02.384774",
+    "size": 372410
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels read 02271.0. The '0' for the whole cubic meters is faded but visible. The '0' for the tenths place is slightly blurry but centered. The red needle points precisely to 0.04 on the circular dial.",
+    "timestamp": "2025-11-20T04:14:02.384774",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 140,
+      "total_tokens": 3333,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

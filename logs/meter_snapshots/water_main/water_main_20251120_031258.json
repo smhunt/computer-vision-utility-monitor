@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_031258.jpg",
+    "timestamp": "2025-11-20T03:12:58.098541",
+    "size": 372483
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.06,
+    "total_reading": 2271.16,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.1. The red needle is positioned between 0.06 and 0.07, approximately one-third of the way from 0.06 towards 0.07. Following the rule for 0.01 resolution, it rounds down to 0.06.",
+    "timestamp": "2025-11-20T03:12:58.098541",
+    "format": "simple",
+    "dial_angle_degrees": 228,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 158,
+      "total_tokens": 5029,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

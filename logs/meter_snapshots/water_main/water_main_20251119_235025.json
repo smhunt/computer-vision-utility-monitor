@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_235025.jpg",
+    "timestamp": "2025-11-19T23:50:25.095894",
+    "size": 372552
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels clearly display 02271.0. The red needle on the circular dial is positioned between 0.03 and 0.04. It appears to be approximately at 0.037 on the scale. Following the rule to interpolate to 0.01 resolution for the dial_value, it is rounded to the nearest hundredth, resulting in 0.04. The needle angle is calculated based on the estimated 0.037 position.",
+    "timestamp": "2025-11-19T23:50:25.095894",
+    "format": "simple",
+    "dial_angle_degrees": 133,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 189,
+      "total_tokens": 4578,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

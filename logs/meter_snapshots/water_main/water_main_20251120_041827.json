@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_041827.jpg",
+    "timestamp": "2025-11-20T04:18:27.377593",
+    "size": 373168
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 2271.0. The red needle points very close to the 0.05 mark (unlabeled) on the dial, exactly halfway around from the 0.00 mark, which corresponds to 180 degrees.",
+    "timestamp": "2025-11-20T04:18:27.377593",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 140,
+      "total_tokens": 3100,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

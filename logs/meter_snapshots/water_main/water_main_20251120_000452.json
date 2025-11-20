@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_000452.jpg",
+    "timestamp": "2025-11-20T00:04:52.256102",
+    "size": 375109
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.035,
+    "total_reading": 2271.035,
+    "confidence": "high",
+    "confidence_numeric": 0.99,
+    "notes": "Odometer wheels clearly display 02271.0 (leftmost five for whole, rightmost for tenths). The red needle on the circular dial is precisely at the 5th minor tick between 0.03 and 0.04, indicating 0.035. The 'interpolate to one decimal tick' instruction, combined with the visible minor ticks, supports this 0.001 m\u00b3 resolution from the dial.",
+    "timestamp": "2025-11-20T00:04:52.256102",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 182,
+      "total_tokens": 6136,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

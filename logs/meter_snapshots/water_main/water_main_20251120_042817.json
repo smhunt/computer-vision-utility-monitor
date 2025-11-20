@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_042817.jpg",
+    "timestamp": "2025-11-20T04:28:17.435853",
+    "size": 373253
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels clearly show 02271.0 m\u00b3. The red needle is positioned between the 0.03 and 0.04 marks on the dial. It appears to be slightly past the halfway point, closer to 0.04. Therefore, 0.04 was chosen for the hundredths digit. Angle is estimated based on the 0.01 mark being 0 degrees, 0.02 at 90 degrees, 0.03 at 135 degrees, and 0.04 at 180 degrees, with the needle pointing approximately at 162 degrees.",
+    "timestamp": "2025-11-20T04:28:17.435853",
+    "format": "simple",
+    "dial_angle_degrees": 162,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 221,
+      "total_tokens": 7178,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

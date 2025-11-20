@@ -16,9 +16,11 @@ import argparse
 import subprocess
 import threading
 import requests
+import yaml
 from pathlib import Path
 from datetime import datetime
-from flask import Flask, render_template, jsonify, send_file, Response, request
+from flask import Flask, render_template, jsonify, send_file, Response, request, redirect, url_for, flash
+from flask_cors import CORS
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -32,9 +34,23 @@ from camera_presets import (
 )
 
 app = Flask(__name__)
+app.secret_key = 'meter-preview-secret-key-change-in-production'
+
+# Enable CORS for React dashboard (supports both dev server ports)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:5173", "http://127.0.0.1:5173",
+            "http://localhost:4176", "http://127.0.0.1:4176"
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 # Global config
 CONFIG = None
+CONFIG_PATH = None
 LOG_DIR = Path("logs")
 
 # Track running readings (to prevent duplicate triggers)
@@ -921,6 +937,174 @@ def api_get_consumption(meter_type):
             'message': str(e),
             'traceback': traceback.format_exc()
         }), 500
+
+
+@app.route('/api/config/meters', methods=['GET'])
+def api_config_meters():
+    """Get meter configuration with display metadata"""
+    try:
+        meters_config = []
+
+        if CONFIG and 'meters' in CONFIG:
+            # Meter display configuration (icons, colors, labels)
+            meter_display = {
+                'water': {
+                    'icon': 'droplets',
+                    'label': 'Water Meter',
+                    'color': '#3b82f6',  # blue
+                    'lightColor': '#eff6ff',
+                    'darkColor': '#1e3a8a',
+                    'unit': 'm³'
+                },
+                'electric': {
+                    'icon': 'zap',
+                    'label': 'Electric Meter',
+                    'color': '#eab308',  # yellow
+                    'lightColor': '#fefce8',
+                    'darkColor': '#713f12',
+                    'unit': 'kWh'
+                },
+                'gas': {
+                    'icon': 'flame',
+                    'label': 'Gas Meter',
+                    'color': '#f97316',  # orange
+                    'lightColor': '#fff7ed',
+                    'darkColor': '#7c2d12',
+                    'unit': 'm³'
+                }
+            }
+
+            for meter in CONFIG['meters']:
+                meter_type = meter.get('type', 'unknown')
+                display = meter_display.get(meter_type, {})
+
+                meters_config.append({
+                    'name': meter.get('name'),
+                    'type': meter_type,
+                    'display': display,
+                    'reading_interval': meter.get('reading_interval'),
+                    'camera_ip': meter.get('camera_ip')
+                })
+
+        return jsonify({
+            'status': 'success',
+            'meters': meters_config
+        })
+
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+
+@app.route('/api/config/pricing', methods=['GET'])
+def api_config_pricing():
+    """Get pricing configuration from pricing.json"""
+    try:
+        pricing_file = Path('config/pricing.json')
+
+        if not pricing_file.exists():
+            return jsonify({
+                'status': 'error',
+                'message': 'Pricing configuration not found'
+            }), 404
+
+        with open(pricing_file, 'r') as f:
+            pricing_data = json.load(f)
+
+        return jsonify({
+            'status': 'success',
+            'pricing': pricing_data.get('utility_rates', {}),
+            'household': pricing_data.get('household', {}),
+            'metadata': pricing_data.get('utility_rates', {}).get('metadata', {})
+        })
+
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+
+@app.route('/config/edit', methods=['GET'])
+def config_edit():
+    """Configuration editor page"""
+    # Load current meter configuration
+    meters_config_raw = ""
+    if CONFIG_PATH and Path(CONFIG_PATH).exists():
+        with open(CONFIG_PATH, 'r') as f:
+            meters_config_raw = f.read()
+
+    # Load current pricing configuration
+    pricing_config_raw = ""
+    pricing_file = Path('config/pricing.json')
+    if pricing_file.exists():
+        with open(pricing_file, 'r') as f:
+            pricing_config_raw = json.dumps(json.load(f), indent=2)
+
+    return render_template('config_edit.html',
+                         meters_config=meters_config_raw,
+                         pricing_config=pricing_config_raw)
+
+
+@app.route('/config/save/meters', methods=['POST'])
+def config_save_meters():
+    """Save meter configuration"""
+    try:
+        meters_config = request.form.get('meters_config', '')
+
+        if not CONFIG_PATH:
+            flash('Error: Config path not set', 'error')
+            return redirect(url_for('config_edit'))
+
+        # Validate YAML syntax
+        try:
+            yaml.safe_load(meters_config)
+        except yaml.YAMLError as e:
+            flash(f'Invalid YAML syntax: {str(e)}', 'error')
+            return redirect(url_for('config_edit'))
+
+        # Save to file
+        with open(CONFIG_PATH, 'w') as f:
+            f.write(meters_config)
+
+        # Reload configuration
+        global CONFIG
+        CONFIG = load_config(CONFIG_PATH)
+
+        flash('✅ Meter configuration saved successfully!', 'success')
+        return redirect(url_for('config_edit'))
+
+    except Exception as e:
+        flash(f'Error saving meter configuration: {str(e)}', 'error')
+        return redirect(url_for('config_edit'))
+
+
+@app.route('/config/save/pricing', methods=['POST'])
+def config_save_pricing():
+    """Save pricing configuration"""
+    try:
+        pricing_config = request.form.get('pricing_config', '')
+
+        # Validate JSON syntax
+        try:
+            pricing_data = json.loads(pricing_config)
+        except json.JSONDecodeError as e:
+            flash(f'Invalid JSON syntax: {str(e)}', 'error')
+            return redirect(url_for('config_edit'))
+
+        # Save to file
+        pricing_file = Path('config/pricing.json')
+        with open(pricing_file, 'w') as f:
+            json.dump(pricing_data, f, indent=2)
+
+        flash('✅ Pricing configuration saved successfully!', 'success')
+        return redirect(url_for('config_edit'))
+
+    except Exception as e:
+        flash(f'Error saving pricing configuration: {str(e)}', 'error')
+        return redirect(url_for('config_edit'))
 
 
 @app.route('/api/bill/upload', methods=['POST'])
@@ -2027,6 +2211,359 @@ def create_templates():
     with open(templates_dir / "index.html", "w") as f:
         f.write(index_html)
 
+    # Create config_edit.html template
+    config_edit_html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+
+        .nav-links {
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            background: #334155;
+            color: #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #475569;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .flash.success {
+            background: #064e3b;
+            color: #6ee7b7;
+            border-left-color: #10b981;
+        }
+
+        .flash.error {
+            background: #7f1d1d;
+            color: #fecaca;
+            border-left-color: #ef4444;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .config-section {
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            background: #334155;
+            padding: 20px;
+            border-bottom: 1px solid #475569;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 0.95em;
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 500px;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: #6b7280;
+        }
+
+        button.secondary:hover {
+            background: #4b5563;
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+        }
+
+        .help-text {
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            margin-top: 20px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .help-text strong {
+            color: #dbeafe;
+        }
+
+        .help-text code {
+            background: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+        }
+
+        .warning-box {
+            background: #7f1d1d;
+            color: #fecaca;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+            margin-bottom: 20px;
+        }
+
+        .warning-box strong {
+            color: #fee2e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚙️ Configuration Editor</h1>
+        <p>Edit meter hardware settings and utility pricing rates</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="/">← Back to Dashboard</a>
+        <a href="/settings">View Live Meters</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="warning-box">
+        <strong>⚠️ Warning:</strong> Changes to configuration files will reload the system. Make sure your YAML and JSON syntax is correct before saving.
+    </div>
+
+    <div class="config-grid">
+        <!-- Meter Configuration -->
+        <div class="config-section">
+            <div class="section-header">
+                <h2>📹 Meter Configuration</h2>
+                <p>Camera IPs, reading intervals, and meter hardware setup</p>
+            </div>
+            <div class="section-body">
+                <form method="POST" action="/config/save/meters">
+                    <label for="meters_config">meters.yaml</label>
+                    <textarea id="meters_config" name="meters_config" spellcheck="false">{{ meters_config }}</textarea>
+
+                    <div class="button-group">
+                        <button type="submit">💾 Save Meter Config</button>
+                        <button type="button" class="secondary" onclick="location.reload()">🔄 Reset</button>
+                    </div>
+
+                    <div class="help-text">
+                        <strong>Format:</strong> YAML<br>
+                        <strong>Example:</strong><br>
+                        <code>meters:</code><br>
+                        <code>  - name: "water_main"</code><br>
+                        <code>    type: "water"</code><br>
+                        <code>    camera_ip: "10.10.10.207"</code><br>
+                        <code>    reading_interval: 600</code>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Pricing Configuration -->
+        <div class="config-section">
+            <div class="section-header">
+                <h2>💰 Pricing Configuration</h2>
+                <p>Utility rates, household info, and cost calculations</p>
+            </div>
+            <div class="section-body">
+                <form method="POST" action="/config/save/pricing">
+                    <label for="pricing_config">pricing.json</label>
+                    <textarea id="pricing_config" name="pricing_config" spellcheck="false">{{ pricing_config }}</textarea>
+
+                    <div class="button-group">
+                        <button type="submit">💾 Save Pricing Config</button>
+                        <button type="button" class="secondary" onclick="location.reload()">🔄 Reset</button>
+                    </div>
+
+                    <div class="help-text">
+                        <strong>Format:</strong> JSON<br>
+                        <strong>Contains:</strong><br>
+                        • Household address and timezone<br>
+                        • Utility account numbers<br>
+                        • Water, electricity, and gas rates<br>
+                        • Bill upload history
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-grow textareas
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.style.height = textarea.scrollHeight + 'px';
+        });
+
+        // Confirm before leaving with unsaved changes
+        let formChanged = false;
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', () => {
+                formChanged = true;
+            });
+        });
+
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', () => {
+                formChanged = false;
+            });
+        });
+
+        window.addEventListener('beforeunload', (e) => {
+            if (formChanged) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        });
+    </script>
+</body>
+</html>
+"""
+
+    with open(templates_dir / "config_edit.html", "w") as f:
+        f.write(config_edit_html)
+
 
 def main():
     parser = argparse.ArgumentParser(description='Meter Preview Web UI')
@@ -2036,13 +2573,22 @@ def main():
     args = parser.parse_args()
 
     # Load configuration
-    global CONFIG
+    global CONFIG, CONFIG_PATH
+    CONFIG_PATH = args.config
     try:
         CONFIG = load_config(args.config)
         print(f"✅ Loaded config with {len(CONFIG.get('meters', []))} meter(s)")
     except Exception as e:
         print(f"⚠️  Warning: Could not load config: {e}")
         print("   Preview UI will run with limited functionality")
+
+    # Register database API routes
+    try:
+        from src.api_routes import register_api_routes
+        register_api_routes(app)
+        print("✅ Database API routes registered")
+    except Exception as e:
+        print(f"⚠️  Warning: Could not register database routes: {e}")
 
     # Create templates
     create_templates()
@@ -2052,9 +2598,11 @@ def main():
     print("=" * 60)
     print(f"\n📍 Server running at: http://{args.host}:{args.port}")
     print(f"📁 Watching logs in: {LOG_DIR.absolute()}")
+    print(f"📊 Database API available at: http://{args.host}:{args.port}/api/db/*")
     print("\n💡 Tips:")
     print("   - Use 'Auto-refresh' to see updates in real-time")
     print("   - Run 'python multi_meter_monitor.py --run-once' to capture new readings")
+    print("   - Access /api/db/meters to see meters in PostgreSQL")
     print("   - Press Ctrl+C to stop the server")
     print("\n" + "=" * 60 + "\n")
 

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_094414.jpg",
+    "timestamp": "2025-11-20T09:44:14.653593",
+    "size": 381481
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 3,
+    "dial_reading": 0.04,
+    "total_reading": 2271.34,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels read 02271.3. The rightmost wheel (tenths place) is clearly showing 3, with the top of 4 just starting to appear below. The red needle on the circular dial is pointing between the 0.03 and 0.04 marks, visually closer to 0.04 (approximately 3/4 of the way from 0.03 to 0.04). Therefore, it's rounded to 0.04 for the 0.01 resolution. The angle is estimated based on the needle's position between 0.03 (108 degrees) and 0.04 (144 degrees).",
+    "timestamp": "2025-11-20T09:44:14.653593",
+    "format": "simple",
+    "dial_angle_degrees": 135,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 232,
+      "total_tokens": 4952,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

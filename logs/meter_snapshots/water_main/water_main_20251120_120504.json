@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_120504.jpg",
+    "timestamp": "2025-11-20T12:05:04.606391",
+    "size": 375059
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.03,
+    "total_reading": 2271.43,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 02271.4. The red needle on the circular dial points directly to the 0.03 mark.",
+    "timestamp": "2025-11-20T12:05:04.606391",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 115,
+      "total_tokens": 2363,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

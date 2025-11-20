@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_021744.jpg",
+    "timestamp": "2025-11-20T02:17:44.835220",
+    "size": 373212
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer and red dial pointer readings are clear and unambiguous. The needle points directly to the 0.04 mark on the dial, which is estimated to be at approximately 155 degrees clockwise from the 12 o'clock position (where 'm\u00b3' is located).",
+    "timestamp": "2025-11-20T02:17:44.835220",
+    "format": "simple",
+    "dial_angle_degrees": 155,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 144,
+      "total_tokens": 5944,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

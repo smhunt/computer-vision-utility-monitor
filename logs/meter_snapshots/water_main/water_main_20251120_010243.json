@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_010243.jpg",
+    "timestamp": "2025-11-20T01:02:43.572482",
+    "size": 376937
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.032,
+    "total_reading": 2271.032,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.0. The units digit is 1, and the tenths digit is 0. The red needle is past 0.03 and points to the first small tick after 0.03. Each small tick represents 0.002 m\u00b3, making the dial reading 0.032 m\u00b3. The angle is calculated relative to the 0 mark (12 o'clock) clockwise.",
+    "timestamp": "2025-11-20T01:02:43.572482",
+    "format": "simple",
+    "dial_angle_degrees": 115,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 178,
+      "total_tokens": 3907,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

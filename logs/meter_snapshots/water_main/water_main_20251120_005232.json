@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_005232.jpg",
+    "timestamp": "2025-11-20T00:52:32.018423",
+    "size": 377345
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.0. The rightmost white wheel (tenths place) clearly displays '0'. The small red pointer on the circular dial is positioned between the 0.03 and 0.04 marks. It is visibly past the halfway point towards 0.04, so it is read as 0.04 when rounded to 0.01 resolution.",
+    "timestamp": "2025-11-20T00:52:32.018423",
+    "format": "simple",
+    "dial_angle_degrees": 129,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 172,
+      "total_tokens": 3725,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

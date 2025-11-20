@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_004930.jpg",
+    "timestamp": "2025-11-20T00:49:30.152342",
+    "size": 381335
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.038,
+    "total_reading": 2271.138,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.1, which is 2271.1 cubic meters. The red needle is past the 0.03 mark and approximately 8/10ths of the way towards the 0.04 mark, indicating 0.038 hundredths. The M\u00b3 label and 0.01 mark are at the 12 o'clock position (0 degrees), and the needle's position at 0.038 translates to an angle of 100.8 degrees clockwise from 12 o'clock.",
+    "timestamp": "2025-11-20T00:49:30.152342",
+    "format": "simple",
+    "dial_angle_degrees": 100,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 215,
+      "total_tokens": 7775,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

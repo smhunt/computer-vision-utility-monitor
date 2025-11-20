@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_011913.jpg",
+    "timestamp": "2025-11-20T01:19:13.844680",
+    "size": 381094
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly display '022711', which translates to 2271.1 cubic meters (with the rightmost '1' being the tenths place). The small red needle on the circular dial points directly to the '0,04' mark, indicating 0.04 cubic meters. This mark is at the 6 o'clock position relative to the 'm\u00b3' label at 12 o'clock, hence 180 degrees. The total reading is 2271.1 + 0.04 = 2271.14 m\u00b3.",
+    "timestamp": "2025-11-20T01:19:13.844680",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 215,
+      "total_tokens": 6026,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

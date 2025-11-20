@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_040923.jpg",
+    "timestamp": "2025-11-20T04:09:23.028853",
+    "size": 372802
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.05,
+    "total_reading": 2271.15,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels show 02271.1. The red needle is between 0.04 and 0.05, appearing closer to 0.05, thus 0.05 is selected for the hundredths place. The estimated angle reflects its precise visual position.",
+    "timestamp": "2025-11-20T04:09:23.028853",
+    "format": "simple",
+    "dial_angle_degrees": 169,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 147,
+      "total_tokens": 3646,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

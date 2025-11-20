@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_092545.jpg",
+    "timestamp": "2025-11-20T09:25:45.587628",
+    "size": 380773
+  },
+  "meter_reading": {
+    "digital_reading": 2274,
+    "black_digit": 5,
+    "dial_reading": 0.03,
+    "total_reading": 2274.53,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels read 02274.5, simplifying to 2274.5. The red needle on the circular dial points precisely to the 3rd major mark after 0.00 (which corresponds to 0.03 m\u00b3). The angle is measured clockwise from the dial's 0 mark (indicated by '0,00' at approximately 290 degrees from 12 o'clock) to the needle tip (at approximately 175 degrees from 12 o'clock).",
+    "timestamp": "2025-11-20T09:25:45.587628",
+    "format": "simple",
+    "dial_angle_degrees": 245,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 197,
+      "total_tokens": 7219,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

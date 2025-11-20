@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_225336.jpg",
+    "timestamp": "2025-11-19T22:53:36.744777",
+    "size": 379440
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.02,
+    "total_reading": 2271.82,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels read 02271.8. The red needle on the circular dial points directly at the '2' mark, indicating 0.02 m\u00b3. The total reading is 2271.8 + 0.02 = 2271.82 m\u00b3.",
+    "timestamp": "2025-11-19T22:53:36.744777",
+    "format": "simple",
+    "dial_angle_degrees": 72,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 148,
+      "total_tokens": 2450,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

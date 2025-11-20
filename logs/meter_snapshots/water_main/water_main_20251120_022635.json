@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_022635.jpg",
+    "timestamp": "2025-11-20T02:26:35.738588",
+    "size": 373139
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.06,
+    "total_reading": 2271.16,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 02271.1. The red needle on the hundredths dial is pointing directly at the 0.06 mark. Assuming 0 (0.00) is at 12 o'clock (0 degrees), the 0.06 mark is at 216 degrees clockwise.",
+    "timestamp": "2025-11-20T02:26:35.738588",
+    "format": "simple",
+    "dial_angle_degrees": 216,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 156,
+      "total_tokens": 4229,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

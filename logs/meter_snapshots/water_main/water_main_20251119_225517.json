@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_225517.jpg",
+    "timestamp": "2025-11-19T22:55:17.431680",
+    "size": 380707
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.02,
+    "total_reading": 2271.82,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels show 02271.8. The red pointer is directly aligned with the '2' mark on the hundredths dial, indicating 0.02 m\u00b3.",
+    "timestamp": "2025-11-19T22:55:17.431680",
+    "format": "simple",
+    "dial_angle_degrees": 72,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 124,
+      "total_tokens": 2588,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

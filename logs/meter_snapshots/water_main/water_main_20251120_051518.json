@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_051518.jpg",
+    "timestamp": "2025-11-20T05:15:18.213675",
+    "size": 372599
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly read 02271.1, simplifying to 2271.1 m\u00b3. The small red needle on the circular dial points directly to the 0.04 mark. The dial numbers are interpreted to increase clockwise as per the instructions (0.00, 0.01, 0.02, 0.03, 0.04,...). The needle angle is calculated assuming 0.00 mark is at approximately 60 degrees clockwise from the top (12 o'clock) and each 0.01 increment is 36 degrees.",
+    "timestamp": "2025-11-20T05:15:18.213675",
+    "format": "simple",
+    "dial_angle_degrees": 204,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 214,
+      "total_tokens": 6012,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_001958.jpg",
+    "timestamp": "2025-11-20T00:19:58.184941",
+    "size": 376232
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.8,
+    "notes": "Odometer wheels clearly show 2271.0. The red dial needle is positioned between 0.04 and 0.05. It appears slightly closer to 0.04, so 0.04 was chosen. The physical angle is estimated at 4.45 units past 0, which is 4.45 * 36 = 160.2 degrees.",
+    "timestamp": "2025-11-20T00:19:58.184941",
+    "format": "simple",
+    "dial_angle_degrees": 160,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 173,
+      "total_tokens": 4176,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

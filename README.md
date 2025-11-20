@@ -325,7 +325,11 @@ python meter_preview_ui.py --port 5001
 - ✅ Claude Vision API meter reading
 - ✅ Confidence scoring (high/medium/low)
 - ✅ InfluxDB time-series storage
+- ✅ PostgreSQL database for relational data (meters, bills, settings)
 - ✅ Grafana real-time dashboard
+- ✅ React dashboard with shadcn/ui components
+- ✅ Dark/light mode with theme toggle
+- ✅ Auto-refresh with localStorage persistence
 - ✅ JSON logging with snapshots
 - ✅ Enterprise-grade credential security
 - ✅ Live camera preview with real-time MJPEG streams

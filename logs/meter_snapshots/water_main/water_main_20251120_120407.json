@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_120407.jpg",
+    "timestamp": "2025-11-20T12:04:07.659943",
+    "size": 375152
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.04,
+    "total_reading": 2271.44,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 02271.4. The red needle is clearly past the 0.03 mark and points very close to the 0.04 mark, making 0.04 the closest hundredths value.",
+    "timestamp": "2025-11-20T12:04:07.659943",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 137,
+      "total_tokens": 2947,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

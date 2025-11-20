@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_002757.jpg",
+    "timestamp": "2025-11-20T00:27:57.439219",
+    "size": 380905
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.056,
+    "total_reading": 2271.056,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 2271.0. The rightmost wheel (tenths) shows 0, with 1 just starting to appear, but the hundredths dial confirms the tenths digit is 0. The red needle on the circular dial indicates hundredths. Following the 'dial numbers increase clockwise' rule, 0.04 is at 6 o'clock and 0.05 at approximately 7 o'clock. The needle is precisely on the 3rd small tick mark after 0.04, which translates to 0.046. Assuming 12 o'clock is 0 degrees and increasing clockwise, 0.04 is at 180 degrees (6 o'clock), and each 0.002 subdivision is 7.2 degrees (36 degrees per 0.01 unit divided by 5 ticks). Thus, 180 + (3 * 7.2) = 201.6 degrees. The value 0.056 for the dial is derived from (201.6 / 360) * 0.10. Initial ambiguity in dial numbering was resolved by strictly adhering to the 'dial numbers increase clockwise' rule and visible segment values.",
+    "timestamp": "2025-11-20T00:27:57.439219",
+    "format": "simple",
+    "dial_angle_degrees": 201,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 354,
+      "total_tokens": 13301,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_040455.jpg",
+    "timestamp": "2025-11-20T04:04:55.469015",
+    "size": 373574
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.042,
+    "total_reading": 2271.842,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels clearly display 02271.8, translating to 2271.8 m\u00b3. The red pointer on the circular dial is observed just past the 0.04 mark, specifically pointing to the second minor tick after 0.04. Each minor tick represents 0.001 m\u00b3, making the dial reading 0.042 m\u00b3. The total reading is the sum of these two values. The angle calculation assumes 0.00 on the dial starts at 36 degrees clockwise from the 12 o'clock position (top center), with a full 0.10 m\u00b3 revolution being 360 degrees.",
+    "timestamp": "2025-11-20T04:04:55.469015",
+    "format": "simple",
+    "dial_angle_degrees": 187,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 231,
+      "total_tokens": 6043,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

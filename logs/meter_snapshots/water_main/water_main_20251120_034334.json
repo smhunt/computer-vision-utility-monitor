@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_034334.jpg",
+    "timestamp": "2025-11-20T03:43:34.623707",
+    "size": 373613
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.06,
+    "total_reading": 2271.06,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels read as 2271.0 (the rightmost tenths wheel shows '0' clearly, with '1' just starting to appear from below). The red needle is past the 0.05 mark and appears to be closer to 0.06 than 0.05, so it's rounded up to 0.06 based on 0.01 resolution. 0.05 is at 180 degrees, 0.06 is at 216 degrees. The needle is pointing approximately at 216 degrees.",
+    "timestamp": "2025-11-20T03:43:34.623707",
+    "format": "simple",
+    "dial_angle_degrees": 216,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 209,
+      "total_tokens": 4487,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

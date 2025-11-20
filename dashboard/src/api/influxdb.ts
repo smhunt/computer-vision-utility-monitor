@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { MeterReading, ChartDataPoint } from '../types/meter';
+import type { MeterReading, ChartDataPoint, MeterConfig, PricingConfig, HouseholdConfig } from '../types/meter';
 
 // Use Flask backend API instead of InfluxDB
 const FLASK_API_URL = import.meta.env.VITE_FLASK_API_URL || 'http://127.0.0.1:2500';
@@ -104,3 +104,47 @@ function generateMockData(meterType: 'water' | 'electric' | 'gas'): MeterReading
 
   return readings.reverse();
 }
+
+// Fetch meter configuration
+export const fetchMeterConfig = async (): Promise<MeterConfig[]> => {
+  try {
+    console.log('Fetching meter configuration from Flask backend...');
+    const response = await api.get('/api/config/meters');
+
+    if (response.data.status === 'success') {
+      console.log(`✓ Fetched configuration for ${response.data.meters.length} meters`);
+      return response.data.meters;
+    }
+
+    throw new Error('Failed to fetch meter configuration');
+  } catch (error: any) {
+    console.warn('Failed to fetch meter configuration:', error.message);
+    return [];
+  }
+};
+
+// Fetch pricing configuration
+export const fetchPricingConfig = async (): Promise<{
+  pricing: PricingConfig;
+  household: HouseholdConfig;
+  metadata: any;
+} | null> => {
+  try {
+    console.log('Fetching pricing configuration from Flask backend...');
+    const response = await api.get('/api/config/pricing');
+
+    if (response.data.status === 'success') {
+      console.log('✓ Fetched pricing configuration');
+      return {
+        pricing: response.data.pricing,
+        household: response.data.household,
+        metadata: response.data.metadata
+      };
+    }
+
+    throw new Error('Failed to fetch pricing configuration');
+  } catch (error: any) {
+    console.warn('Failed to fetch pricing configuration:', error.message);
+    return null;
+  }
+};

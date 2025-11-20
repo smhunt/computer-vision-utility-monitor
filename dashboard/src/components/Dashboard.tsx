@@ -5,15 +5,54 @@ import { MeterCard } from './MeterCard';
 import { MeterChart } from './MeterChart';
 import { CostTracker } from './CostTracker';
 import { ThemeToggle } from './ThemeToggle';
-import { fetchLatestReading, fetchHistoricalData } from '../api/influxdb';
-import type { MeterData, CostData } from '../types/meter';
+import { fetchLatestReading, fetchHistoricalData, fetchMeterConfig, fetchPricingConfig } from '../api/influxdb';
+import type { MeterData, CostData, PricingConfig } from '../types/meter';
 import { getUserTimezone, getTimezoneAbbreviation, getUTCOffset, formatWithTimezone } from '../utils/timezone';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
 
-// Cost rates (configurable) - Canadian rates
-const COST_RATES = {
-  water: 0.0013, // per litre (approx $1.30 per cubic meter)
-  electric: 0.12, // per kWh
-  gas: 0.30, // per cubic meter
+// Calculate cost rate for a meter type from pricing configuration
+const calculateCostRate = (meterType: 'water' | 'electric' | 'gas', pricing: PricingConfig | null): number => {
+  if (!pricing) {
+    // Fallback rates if pricing not loaded
+    return meterType === 'water' ? 0.0013 : meterType === 'electric' ? 0.12 : 0.30;
+  }
+
+  try {
+    if (meterType === 'water' && pricing.water) {
+      // Water rate: water + wastewater + stormwater (per m³)
+      const { water, wastewater, stormwater } = pricing.water.volumetric_rate;
+      return water + wastewater + stormwater;
+    }
+
+    if (meterType === 'electric' && pricing.electricity) {
+      // Electricity: Use average of TOU rates + delivery charges (convert cents to dollars)
+      const { off_peak, mid_peak, on_peak } = pricing.electricity.time_of_use_rates;
+      const avgEnergyRate = (off_peak.rate + mid_peak.rate + on_peak.rate) / 3 / 100; // cents to dollars
+      const deliveryRate = (
+        pricing.electricity.delivery_charges.distribution_volumetric_charge +
+        pricing.electricity.delivery_charges.transmission_charge
+      ) / 100; // cents to dollars
+      return avgEnergyRate + deliveryRate;
+    }
+
+    if (meterType === 'gas' && pricing.natural_gas) {
+      // Gas: supply + delivery + transportation + carbon (convert cents to dollars)
+      const supply = pricing.natural_gas.gas_supply.total_effective_rate / 100;
+      const delivery = pricing.natural_gas.delivery_charges.volumetric_charge / 100;
+      const transport = pricing.natural_gas.transportation_charges.volumetric_charge / 100;
+      const carbon = (
+        pricing.natural_gas.carbon_charges.federal_carbon_charge.rate +
+        pricing.natural_gas.carbon_charges.facility_carbon_charge.rate
+      ) / 100;
+      return supply + delivery + transport + carbon;
+    }
+  } catch (error) {
+    console.warn(`Error calculating cost rate for ${meterType}:`, error);
+  }
+
+  // Fallback rates
+  return meterType === 'water' ? 0.0013 : meterType === 'electric' ? 0.12 : 0.30;
 };
 
 export function Dashboard() {
@@ -27,6 +66,20 @@ export function Dashboard() {
   useEffect(() => {
     localStorage.setItem('auto-refresh-enabled', autoRefreshEnabled.toString());
   }, [autoRefreshEnabled]);
+
+  // Fetch meter configuration (will be used when dashboard becomes dynamic)
+  const { data: _meterConfigs } = useQuery({
+    queryKey: ['config', 'meters'],
+    queryFn: fetchMeterConfig,
+  });
+
+  // Fetch pricing configuration
+  const { data: pricingData } = useQuery({
+    queryKey: ['config', 'pricing'],
+    queryFn: fetchPricingConfig,
+  });
+
+  const pricing = pricingData?.pricing || null;
 
   // Fetch latest readings for all meters
   const { data: waterReading, refetch: refetchWater } = useQuery({
@@ -103,25 +156,25 @@ export function Dashboard() {
   const electricData = calculateMeterData(electricReading, electricHistory || [], 'kWh');
   const gasData = calculateMeterData(gasReading, gasHistory || [], 'm³');
 
-  // Calculate costs
+  // Calculate costs using data-driven pricing
   const costs: CostData[] = [
     {
       meterType: 'water',
-      dailyCost: waterData.change24h * COST_RATES.water,
-      monthlyCost: waterData.change24h * COST_RATES.water * 30,
-      currency: 'CAD',
+      dailyCost: waterData.change24h * calculateCostRate('water', pricing),
+      monthlyCost: waterData.change24h * calculateCostRate('water', pricing) * 30,
+      currency: pricing?.metadata?.currency || 'CAD',
     },
     {
       meterType: 'electric',
-      dailyCost: electricData.change24h * COST_RATES.electric,
-      monthlyCost: electricData.change24h * COST_RATES.electric * 30,
-      currency: 'CAD',
+      dailyCost: electricData.change24h * calculateCostRate('electric', pricing),
+      monthlyCost: electricData.change24h * calculateCostRate('electric', pricing) * 30,
+      currency: pricing?.metadata?.currency || 'CAD',
     },
     {
       meterType: 'gas',
-      dailyCost: gasData.change24h * COST_RATES.gas,
-      monthlyCost: gasData.change24h * COST_RATES.gas * 30,
-      currency: 'CAD',
+      dailyCost: gasData.change24h * calculateCostRate('gas', pricing),
+      monthlyCost: gasData.change24h * calculateCostRate('gas', pricing) * 30,
+      currency: pricing?.metadata?.currency || 'CAD',
     },
   ];
 
@@ -158,34 +211,33 @@ export function Dashboard() {
             </div>
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <button
+              <Button
                 onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
-                className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
-                  autoRefreshEnabled
-                    ? 'bg-green-600 hover:bg-green-500 text-white shadow-lg shadow-green-900/30'
-                    : 'bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300'
-                }`}
+                variant={autoRefreshEnabled ? "default" : "secondary"}
+                size="default"
                 title={autoRefreshEnabled ? 'Auto-refresh enabled' : 'Auto-refresh disabled'}
+                className={autoRefreshEnabled ? 'bg-green-600 hover:bg-green-500' : ''}
               >
                 {autoRefreshEnabled ? (
                   <>
-                    <Pause className="w-4 h-4" />
+                    <Pause className="w-4 h-4 mr-2" />
                     <span className="hidden sm:inline">Auto</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-4 h-4" />
+                    <Play className="w-4 h-4 mr-2" />
                     <span className="hidden sm:inline">Manual</span>
                   </>
                 )}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleRefresh}
-                className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-blue-900/30"
+                variant="default"
+                size="default"
               >
-                <RefreshCw className="w-4 h-4" />
+                <RefreshCw className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Refresh</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -196,10 +248,10 @@ export function Dashboard() {
 
         {/* Current Readings Section */}
         <section className="mb-8">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-5">
             <div className="w-1 h-5 bg-blue-500 rounded-full"></div>
-            Current Readings
-          </h2>
+            <h2 className="text-lg font-semibold">Current Readings</h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <MeterCard type="water" data={waterData} />
             <MeterCard type="electric" data={electricData} />
@@ -209,19 +261,19 @@ export function Dashboard() {
 
         {/* Cost Tracking Section */}
         <section className="mb-8">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-5">
             <div className="w-1 h-5 bg-green-500 rounded-full"></div>
-            Cost Tracking
-          </h2>
+            <h2 className="text-lg font-semibold">Cost Tracking</h2>
+          </div>
           <CostTracker costs={costs} />
         </section>
 
         {/* Usage History Section */}
         <section className="mb-8">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-5">
             <div className="w-1 h-5 bg-purple-500 rounded-full"></div>
-            Usage History (7 Days)
-          </h2>
+            <h2 className="text-lg font-semibold">Usage History (7 Days)</h2>
+          </div>
           <div className="space-y-5">
             <MeterChart
               data={waterHistory || []}
@@ -245,16 +297,17 @@ export function Dashboard() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-12 pt-6 border-t border-slate-300/50 dark:border-slate-700/50">
+        <footer className="mt-12">
+          <Separator className="mb-6" />
           <div className="text-center space-y-2">
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-muted-foreground">
               Last updated: {formatWithTimezone(lastUpdate)}
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-500">
+            <p className="text-xs text-muted-foreground">
               {userTimezone} ({timezoneAbbr}) • {utcOffset}
             </p>
-            <p className="text-xs text-slate-400 dark:text-slate-600 mt-3">
-              Powered by Claude Vision AI • Flask • React
+            <p className="text-xs text-muted-foreground mt-3">
+              Powered by Claude Vision AI • Flask • React • shadcn/ui
             </p>
           </div>
         </footer>

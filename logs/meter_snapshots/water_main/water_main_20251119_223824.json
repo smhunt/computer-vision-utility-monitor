@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_223824.jpg",
+    "timestamp": "2025-11-19T22:38:24.216484",
+    "size": 374763
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.01,
+    "total_reading": 2271.81,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271 for whole cubic meters and 8 for tenths. The red needle points directly at the 0.01 mark on the circular dial. Needle angle calculated assuming 0 is at 12 o'clock.",
+    "timestamp": "2025-11-19T22:38:24.216484",
+    "format": "simple",
+    "dial_angle_degrees": 36,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 139,
+      "total_tokens": 2494,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

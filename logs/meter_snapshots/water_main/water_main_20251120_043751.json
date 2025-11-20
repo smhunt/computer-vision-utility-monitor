@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_043751.jpg",
+    "timestamp": "2025-11-20T04:37:51.279505",
+    "size": 373941
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.05,
+    "total_reading": 2271.15,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly read 2271.1. The red needle is precisely halfway between the 0.04 and 0.05 marks on the dial (representing 0.045 m\u00b3). Following standard rounding convention (round half up) to the specified 0.01 resolution, the dial value is taken as 0.05. The needle angle is calculated based on 0.045/0.10 * 360 degrees.",
+    "timestamp": "2025-11-20T04:37:51.279505",
+    "format": "simple",
+    "dial_angle_degrees": 162,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 187,
+      "total_tokens": 3682,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

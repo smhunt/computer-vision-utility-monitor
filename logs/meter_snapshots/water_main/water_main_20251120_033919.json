@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033919.jpg",
+    "timestamp": "2025-11-20T03:39:19.132336",
+    "size": 372921
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly read 02271.1 (or 2271.1). The rightmost white wheel (tenths place) is precisely on '1'. The red needle points directly at the 0.04 mark on the circular dial.",
+    "timestamp": "2025-11-20T03:39:19.132336",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 141,
+      "total_tokens": 3466,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

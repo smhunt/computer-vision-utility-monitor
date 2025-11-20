@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_052128.jpg",
+    "timestamp": "2025-11-20T05:21:28.896929",
+    "size": 373013
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer reads 02271.0. The rightmost white wheel shows '0' clearly, with the very top of '1' just appearing at the bottom of the window, consistent with the red needle reading. The red needle points precisely at the '0.04' mark on the dial. Assuming 12 o'clock is 0 degrees, 0.04 corresponds to 180 degrees.",
+    "timestamp": "2025-11-20T05:21:28.896929",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 176,
+      "total_tokens": 3301,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

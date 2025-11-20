@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_022032.jpg",
+    "timestamp": "2025-11-20T02:20:32.320348",
+    "size": 373808
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.05,
+    "total_reading": 2271.15,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly read 02271.1. The red needle points directly to the 0.05 mark on the dial, which is at the 6 o'clock position (180 degrees from 0.00).",
+    "timestamp": "2025-11-20T02:20:32.320348",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 136,
+      "total_tokens": 4043,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

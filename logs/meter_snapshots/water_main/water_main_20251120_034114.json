@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_034114.jpg",
+    "timestamp": "2025-11-20T03:41:14.293279",
+    "size": 372640
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.07,
+    "total_reading": 2271.87,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels read 02271.8 (the last digit '8' is clearly visible in the magnified crops). The red needle on the circular dial is positioned between the 0.06 and 0.07 marks. It is visually closer to the 0.07 mark, so, per the interpolation rule, it reads 0.07. The 0.07 mark corresponds to an angle of 7 * (360/10) = 252 degrees clockwise from the 0.00 (12 o'clock) position.",
+    "timestamp": "2025-11-20T03:41:14.293279",
+    "format": "simple",
+    "dial_angle_degrees": 252,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 211,
+      "total_tokens": 4044,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

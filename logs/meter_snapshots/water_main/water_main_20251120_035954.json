@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_035954.jpg",
+    "timestamp": "2025-11-20T03:59:54.177610",
+    "size": 372227
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.1 (2271.1 m\u00b3). The red dial needle is pointing exactly halfway between the 0.03 and 0.04 marks. Following standard rounding rules (round half up) for 'closest value' in an ambiguous halfway situation, the dial reading is interpreted as 0.04 m\u00b3.",
+    "timestamp": "2025-11-20T03:59:54.177610",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 165,
+      "total_tokens": 5194,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

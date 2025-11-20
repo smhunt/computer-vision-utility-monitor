@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_234450.jpg",
+    "timestamp": "2025-11-19T23:44:50.103217",
+    "size": 372774
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels clearly read 02271.1. The red pointer needle is positioned just past the 0.04 mark on the circular dial. Following the rule to interpolate to 0.01 resolution and choose the closest value, it is read as 0.04. The needle angle is estimated relative to the '0.00' mark on the dial (which is near 11 o'clock position), measuring clockwise. The needle's position at 0.04 corresponds to approximately 197 degrees from the '0.00' mark.",
+    "timestamp": "2025-11-19T23:44:50.103217",
+    "format": "simple",
+    "dial_angle_degrees": 197,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 207,
+      "total_tokens": 10641,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

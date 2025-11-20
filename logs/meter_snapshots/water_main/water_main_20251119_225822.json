@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_225822.jpg",
+    "timestamp": "2025-11-19T22:58:22.601470",
+    "size": 375531
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.02,
+    "total_reading": 2271.82,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The six white odometer wheels clearly show 02271.8. The red pointer is precisely on the 0.02 mark on the circular dial. The 0.00 mark is assumed to be at the 12 o'clock position; thus, the 0.02 mark corresponds to 72 degrees clockwise.",
+    "timestamp": "2025-11-19T22:58:22.601470",
+    "format": "simple",
+    "dial_angle_degrees": 72,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 156,
+      "total_tokens": 3891,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

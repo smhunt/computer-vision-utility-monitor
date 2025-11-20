@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_235443.jpg",
+    "timestamp": "2025-11-19T23:54:43.023810",
+    "size": 372534
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.8,
+    "notes": "Odometer wheels read 2271.1 (the leftmost '0' is assumed based on the expected range of 2000-3000 m\u00b3). The red needle is positioned exactly halfway between 0.03 and 0.04, which rounds up to 0.04 for 0.01 resolution.",
+    "timestamp": "2025-11-19T23:54:43.023810",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 160,
+      "total_tokens": 3880,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

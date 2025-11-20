@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033127.jpg",
+    "timestamp": "2025-11-20T03:31:27.263585",
+    "size": 373122
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.035,
+    "total_reading": 2271.135,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 02271.1. The red needle is positioned approximately halfway between the 0.03 and 0.04 marks on the dial. Assuming 0.00 is at 12 o'clock, 0.03 is around 160 degrees and 0.04 is around 220 degrees. The needle is at approximately 190 degrees.",
+    "timestamp": "2025-11-20T03:31:27.263585",
+    "format": "simple",
+    "dial_angle_degrees": 190,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 178,
+      "total_tokens": 6030,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

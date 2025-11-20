@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_001705.jpg",
+    "timestamp": "2025-11-20T00:17:05.000972",
+    "size": 374181
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.04,
+    "total_reading": 2271.84,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels are clearly read as 2271.8. For the red pointer dial, assuming '0' is at the 12 o'clock position (where 'm\u00b3' is) and values increase clockwise as per instructions. The needle points approximately 127.5 degrees clockwise from 12 o'clock. On a 0-9 scale, 0.03 is at 108 degrees and 0.04 is at 144 degrees. The needle is closer to 0.04 (16.5 degrees away) than 0.03 (19.5 degrees away), thus reading 0.04. Some printed labels on the dial (e.g., 0.00, 0.07-0.09) appear inconsistent with a standard clockwise 0-9 scale starting at 12 o'clock, which slightly lowers confidence in the dial reading, but the main labeled points (0.01, 0.02, 0.04) on the right side are consistent.",
+    "timestamp": "2025-11-20T00:17:05.000972",
+    "format": "simple",
+    "dial_angle_degrees": 127,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 317,
+      "total_tokens": 10524,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

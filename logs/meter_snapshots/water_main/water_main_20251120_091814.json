@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_091814.jpg",
+    "timestamp": "2025-11-20T09:18:14.579658",
+    "size": 375707
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.03,
+    "total_reading": 2271.43,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly display '02271.4', which translates to 2271.4 cubic meters. The red needle on the circular dial points precisely to the '0.03' mark. The dial's 0.00-0.09 scale represents 10 divisions, each 36 degrees; thus, the 0.03 mark is 3 * 36 = 108 degrees clockwise from the 0.00 mark.",
+    "timestamp": "2025-11-20T09:18:14.579658",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 188,
+      "total_tokens": 6657,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

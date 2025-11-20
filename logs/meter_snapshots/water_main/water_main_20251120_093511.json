@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_093511.jpg",
+    "timestamp": "2025-11-20T09:35:11.766469",
+    "size": 380970
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.03,
+    "total_reading": 2271.43,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 02271.4. The red needle points directly at the 0.03 mark on the circular dial, which corresponds to 165 degrees from 12 o'clock. Image is slightly blurry but readings are clear.",
+    "timestamp": "2025-11-20T09:35:11.766469",
+    "format": "simple",
+    "dial_angle_degrees": 165,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 140,
+      "total_tokens": 4695,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

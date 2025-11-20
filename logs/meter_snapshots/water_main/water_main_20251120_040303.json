@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_040303.jpg",
+    "timestamp": "2025-11-20T04:03:03.953411",
+    "size": 371675
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.03,
+    "total_reading": 2271.13,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The six white odometer wheels show '022711', representing 2271.1 cubic meters. The small red pointer on the circular dial is precisely on the '0,03' mark, indicating 0.03 cubic meters. The total reading is their sum. The needle angle is calculated relative to the '0,00' mark on the dial, where each hundredth unit represents 36 degrees (360 degrees / 10 units). Thus, 0.03 is 3 units * 36 degrees = 108 degrees.",
+    "timestamp": "2025-11-20T04:03:03.953411",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 210,
+      "total_tokens": 7628,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

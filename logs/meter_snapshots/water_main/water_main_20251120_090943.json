@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_090943.jpg",
+    "timestamp": "2025-11-20T09:09:43.279202",
+    "size": 373418
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.07,
+    "total_reading": 2271.47,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 2271.4. The red pointer is directly on the 0.07 mark.",
+    "timestamp": "2025-11-20T09:09:43.279202",
+    "format": "simple",
+    "dial_angle_degrees": 252,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 112,
+      "total_tokens": 2715,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

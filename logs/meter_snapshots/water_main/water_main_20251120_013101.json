@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_013101.jpg",
+    "timestamp": "2025-11-20T01:31:01.595728",
+    "size": 380057
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.1, which simplifies to 2271.1. The red needle on the dial is past 0.03 and points extremely close to the 0.04 mark (6 o'clock position), indicating 0.04. The needle angle is estimated relative to 12 o'clock being 0 degrees, with 0.04 being around 180 degrees.",
+    "timestamp": "2025-11-20T01:31:01.595728",
+    "format": "simple",
+    "dial_angle_degrees": 178,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 180,
+      "total_tokens": 4261,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

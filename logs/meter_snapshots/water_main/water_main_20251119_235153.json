@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_235153.jpg",
+    "timestamp": "2025-11-19T23:51:53.379236",
+    "size": 372722
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.06,
+    "total_reading": 2271.06,
+    "confidence": "high",
+    "confidence_numeric": 0.98,
+    "notes": "Odometer wheels read 02271.0, which simplifies to 2271.0. The rightmost wheel (tenths) shows a clear '0'. The red needle on the circular dial points precisely to the '0,06' mark, which corresponds to 0.06 cubic meters (at the 3 o'clock position). The angle is relative to 0 at 12 o'clock.",
+    "timestamp": "2025-11-19T23:51:53.379236",
+    "format": "simple",
+    "dial_angle_degrees": 90,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 174,
+      "total_tokens": 4873,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

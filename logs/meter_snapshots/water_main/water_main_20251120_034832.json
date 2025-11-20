@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_034832.jpg",
+    "timestamp": "2025-11-20T03:48:32.102906",
+    "size": 372426
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.0. The red needle is at the second minor tick mark past 0.03, which corresponds to 0.034. Following the '0.01 resolution' rule for the dial_value, 0.034 is rounded to 0.03. The angle is calculated based on the precise reading of 0.034.",
+    "timestamp": "2025-11-20T03:48:32.102906",
+    "format": "simple",
+    "dial_angle_degrees": 122,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 175,
+      "total_tokens": 5014,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

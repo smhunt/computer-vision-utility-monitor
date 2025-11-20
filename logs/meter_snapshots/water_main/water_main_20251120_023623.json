@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023623.jpg",
+    "timestamp": "2025-11-20T02:36:23.041118",
+    "size": 374679
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer digits are clear: 02271.1. The red needle points precisely to the first minor tick after the 0.04 mark, indicating 0.041. Per rules, rounded to 0.04 for 0.01 resolution. The 0.00 mark is assumed at 12 o'clock.",
+    "timestamp": "2025-11-20T02:36:23.041118",
+    "format": "simple",
+    "dial_angle_degrees": 147,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 162,
+      "total_tokens": 4088,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

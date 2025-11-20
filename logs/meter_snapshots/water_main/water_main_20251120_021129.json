@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_021129.jpg",
+    "timestamp": "2025-11-20T02:11:29.135679",
+    "size": 373781
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.03,
+    "total_reading": 2271.13,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.1, which is 2271.1 m\u00b3. The small red pointer dial has major marks labeled 0.00, 0.01, 0.02, etc. and five minor ticks between each major mark (each representing 0.002 m\u00b3). The needle is pointing between the 0.02 and 0.03 marks. Specifically, it is at approximately the 3rd minor tick past 0.02, indicating a value of 0.026 m\u00b3. Following the rule to interpolate to 0.01 resolution and choosing the closest value, 0.026 rounds to 0.03 m\u00b3. The '0.00' mark is approximately at 10:30 o'clock (285 degrees clockwise from 12 o'clock). The needle is approximately at 5:40 o'clock (170 degrees clockwise from 12 o'clock). The clockwise angle of the needle relative to the '0.00' mark is calculated as (170 - 285 + 360) = 245 degrees.",
+    "timestamp": "2025-11-20T02:11:29.135679",
+    "format": "simple",
+    "dial_angle_degrees": 245,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 342,
+      "total_tokens": 11699,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

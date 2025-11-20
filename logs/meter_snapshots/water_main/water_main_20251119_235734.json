@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_235734.jpg",
+    "timestamp": "2025-11-19T23:57:34.547238",
+    "size": 371852
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.025,
+    "total_reading": 2271.025,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly read 02271.0. The red needle on the circular dial is precisely halfway between the 0.02 and 0.03 marks. Following the 'interpolate to one decimal tick' rule, this is read as 0.025. The 0 mark is at 12 o'clock, so 0.025 corresponds to 2.5 divisions, which is 90 degrees clockwise.",
+    "timestamp": "2025-11-19T23:57:34.547238",
+    "format": "simple",
+    "dial_angle_degrees": 90,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 184,
+      "total_tokens": 5570,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

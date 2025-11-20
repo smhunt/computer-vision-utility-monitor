@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_095049.jpg",
+    "timestamp": "2025-11-20T09:50:49.564264",
+    "size": 381006
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.04,
+    "total_reading": 2271.44,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer reading is clear as 2271.4. The red dial pointer is visually past the 0.03 mark and slightly before the 0.04 mark, but clearly closer to 0.04. Therefore, 0.04 is chosen for the dial value, consistent with rounding to the nearest 0.01 tick.",
+    "timestamp": "2025-11-20T09:50:49.564264",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 162,
+      "total_tokens": 5451,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

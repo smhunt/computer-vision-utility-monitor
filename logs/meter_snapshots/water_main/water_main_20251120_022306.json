@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_022306.jpg",
+    "timestamp": "2025-11-20T02:23:06.029848",
+    "size": 372905
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The six odometer wheels display '022710', interpreted as 2271.0 cubic meters, with the rightmost black-on-white wheel indicating tenths. The red needle points precisely at the '0.05' mark on the dial (between 0.04 and 0.06), which corresponds to 180 degrees from the 0.00 mark at 12 o'clock.",
+    "timestamp": "2025-11-20T02:23:06.029848",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 174,
+      "total_tokens": 5054,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

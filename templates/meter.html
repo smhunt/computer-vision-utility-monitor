@@ -1225,6 +1225,10 @@
                     }).join('');
 
                     console.log('✅ Snapshot cards refreshed');
+                    // Also refresh the consumption chart so it reflects the newest reading
+                    if (typeof loadConsumptionChart === 'function') {
+                        loadConsumptionChart();
+                    }
                 }
             } catch (error) {
                 console.error('Failed to refresh snapshots:', error);

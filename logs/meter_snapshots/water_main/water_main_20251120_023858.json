@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023858.jpg",
+    "timestamp": "2025-11-20T02:38:58.849919",
+    "size": 373854
+  },
+  "meter_reading": {
+    "digital_reading": 2711,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2711.05,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02711.0, interpreted as 2711.0 cubic meters. The red needle is exactly at the midpoint between the 0.04 and 0.05 marks on the dial (specifically, at the 5th minor tick after 0.04). According to the '0.01 resolution' rule for the dial_value, and equidistant rounding practice, it is rounded up to 0.05. The needle angle is calculated from the 0.00 mark on the dial (approx. 9 o'clock position) to the 0.045 position (4.5 * 36 degrees per division = 162 degrees).",
+    "timestamp": "2025-11-20T02:38:58.849919",
+    "format": "simple",
+    "dial_angle_degrees": 162,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 237,
+      "total_tokens": 8110,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_012503.jpg",
+    "timestamp": "2025-11-20T01:25:03.269050",
+    "size": 380951
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 2271.1. The red pointer is between 0.03 and 0.04. Visually it's closer to 0.04, so it's rounded to 0.04 for the hundredths resolution as per the rules.",
+    "timestamp": "2025-11-20T01:25:03.269050",
+    "format": "simple",
+    "dial_angle_degrees": 45,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 147,
+      "total_tokens": 7413,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_050153.jpg",
+    "timestamp": "2025-11-20T05:01:53.596074",
+    "size": 372706
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.05,
+    "total_reading": 2271.15,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels clearly show 02271.1. The red needle on the circular dial is precisely between the 0.04 and 0.05 marks. Following the rule for ambiguous equidistant readings, the dial value is rounded up to 0.05. The angle is calculated as (0.045 / 0.1) * 360 degrees from the 0.00 mark.",
+    "timestamp": "2025-11-20T05:01:53.596074",
+    "format": "simple",
+    "dial_angle_degrees": 162,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 176,
+      "total_tokens": 5980,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

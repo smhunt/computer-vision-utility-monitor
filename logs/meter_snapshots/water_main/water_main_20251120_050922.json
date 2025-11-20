@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_050922.jpg",
+    "timestamp": "2025-11-20T05:09:22.471843",
+    "size": 375050
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer reads 2271.0. The rightmost white wheel shows a clear '0'. The red needle points precisely to '3' on the hundredths dial, indicating 0.03 m\u00b3. Total is 2271.03 m\u00b3.",
+    "timestamp": "2025-11-20T05:09:22.471843",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 144,
+      "total_tokens": 2754,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

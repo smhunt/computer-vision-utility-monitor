@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033503.jpg",
+    "timestamp": "2025-11-20T03:35:03.536920",
+    "size": 372290
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.06,
+    "total_reading": 2271.16,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer digits 02271.1 are clear, giving 2271.1 m\u00b3. The red needle points visibly past the 0.05 mark, approximately at 0.056-0.057. Following the rule to interpolate to 0.01 resolution, it rounds to 0.06 m\u00b3.",
+    "timestamp": "2025-11-20T03:35:03.536920",
+    "format": "simple",
+    "dial_angle_degrees": 216,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 158,
+      "total_tokens": 4125,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

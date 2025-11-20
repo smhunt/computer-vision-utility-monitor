@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_030651.jpg",
+    "timestamp": "2025-11-20T03:06:51.561987",
+    "size": 373712
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.05,
+    "total_reading": 2271.15,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.1 (or 2271.1 m\u00b3). The red needle on the circular dial is positioned between the 0.04 and 0.05 marks. Based on angular estimation (165 degrees from 0, where 0.04 is 144 degrees and 0.05 is 180 degrees), it is closer to 0.05. Therefore, the dial reading is 0.05 m\u00b3.",
+    "timestamp": "2025-11-20T03:06:51.561987",
+    "format": "simple",
+    "dial_angle_degrees": 165,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 194,
+      "total_tokens": 5772,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

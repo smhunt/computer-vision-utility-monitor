@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_012155.jpg",
+    "timestamp": "2025-11-20T01:21:55.950680",
+    "size": 381453
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The white odometer wheels read 2271.0. The rightmost wheel (tenths) is slightly blurry but identifiable as '0'. The red pointer is between 0.03 and 0.04 on the dial, visibly closer to 0.04, indicating approximately 0.039 m\u00b3. Following the rule for 0.01 resolution, this rounds to 0.04 m\u00b3.",
+    "timestamp": "2025-11-20T01:21:55.950680",
+    "format": "simple",
+    "dial_angle_degrees": 140,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 176,
+      "total_tokens": 3736,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

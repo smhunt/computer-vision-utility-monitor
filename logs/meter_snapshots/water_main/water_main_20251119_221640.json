@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_221640.jpg",
+    "timestamp": "2025-11-19T22:16:40.160157",
+    "size": 380326
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.01,
+    "total_reading": 2271.81,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer digits are somewhat blurry, especially the 4th (7), 5th (1), and the tenths digit (8). The red needle is clearly pointing to the '0,01' mark on the dial.",
+    "timestamp": "2025-11-19T22:30:56.992596",
+    "format": "simple",
+    "dial_angle_degrees": 36,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 129,
+      "total_tokens": 4468,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

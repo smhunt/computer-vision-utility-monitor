@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_032755.jpg",
+    "timestamp": "2025-11-20T03:27:55.601773",
+    "size": 372116
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.04,
+    "total_reading": 2271.84,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer reads 02271.8 (first '0' is partially obscured but implied, last digit '8' is clear despite slight blur). Red needle points directly at the 0.04 mark on the dial, which is approximately at the 7 o'clock position (210 degrees clockwise from 12 o'clock).",
+    "timestamp": "2025-11-20T03:27:55.601773",
+    "format": "simple",
+    "dial_angle_degrees": 210,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 158,
+      "total_tokens": 5333,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

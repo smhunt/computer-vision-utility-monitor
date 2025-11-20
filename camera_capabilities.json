@@ -1,0 +1,10 @@
+{
+  "camera_ip": "10.10.10.207",
+  "timestamp": "2025-11-18T15:15:21.130008",
+  "temperature_sources": {},
+  "http_endpoints": [
+    "/x/preview.cgi"
+  ],
+  "cgi_scripts": [],
+  "system_info": {}
+}

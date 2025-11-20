@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033256.jpg",
+    "timestamp": "2025-11-20T03:32:56.419553",
+    "size": 372734
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.02,
+    "total_reading": 2271.12,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer tenths wheel shows 1, with 2 just beginning to appear, consistent with the small red dial indicating 0.02. The red needle points very precisely at the 0.02 mark.",
+    "timestamp": "2025-11-20T03:32:56.419553",
+    "format": "simple",
+    "dial_angle_degrees": 72,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 129,
+      "total_tokens": 3821,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

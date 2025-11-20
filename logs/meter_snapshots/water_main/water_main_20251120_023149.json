@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023149.jpg",
+    "timestamp": "2025-11-20T02:31:49.492962",
+    "size": 373852
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly display 02271.0. The red needle points precisely to the 3rd small tick mark after 0.04. Given each major division (0.01) has 5 small ticks, each tick is 0.002. Thus, the needle is at 0.04 + (3 * 0.002) = 0.046. Rounding to 0.01 resolution, 0.046 becomes 0.05. The needle angle is calculated assuming 0.00 (implied at 12 o'clock) is 0 degrees, and the dial progresses clockwise, with each 0.01 increment representing 36 degrees.",
+    "timestamp": "2025-11-20T02:31:49.492962",
+    "format": "simple",
+    "dial_angle_degrees": 165,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 245,
+      "total_tokens": 5956,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

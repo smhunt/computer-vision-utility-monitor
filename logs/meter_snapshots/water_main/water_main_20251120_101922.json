@@ -1,0 +1,26 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_101922.jpg",
+    "timestamp": "2025-11-20T10:19:22.080662",
+    "size": 373357
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.014,
+    "dial_angle_degrees": 50,
+    "total_reading": 2271.414,
+    "confidence": "medium",
+    "notes": "Meter orientation check: BADGER METER text at top, digital display readable left-to-right. White digits (5 digits on left): 0 2 2 7 1 = 2271 m\u00b3. Black digit (single digit on right, separated): 4 = 0.4 m\u00b3. Red dial analysis: Dial orientation: '0' mark at top of dial, '5' mark at bottom of dial. Dial number scale position: pointing between 1 and 2, approximately at 1.4. Clock position: between 1 and 2 o'clock. Degrees: 50\u00b0 (pointing UP-RIGHT). Verification: Hand is pointing UP-RIGHT \u2713. Dial reading: 50/3600 = 0.014 m\u00b3. Total: 2271.414 m\u00b3. Note: Image is slightly blurry but all components are identifiable. The red sweep hand appears to be pointing at approximately 1.4 on the dial scale (roughly 50 degrees from top).",
+    "timestamp": "2025-11-20T10:19:22.080662",
+    "api_usage": {
+      "input_tokens": 5618,
+      "output_tokens": 318,
+      "model": "claude-sonnet-4-5-20250929"
+    },
+    "vision_model": "claude-sonnet-4-5-20250929",
+    "vision_provider": "anthropic",
+    "fallback_used": true,
+    "primary_method": "gemini"
+  }
+}

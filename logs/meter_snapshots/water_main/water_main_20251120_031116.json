@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_031116.jpg",
+    "timestamp": "2025-11-20T03:11:16.989690",
+    "size": 373080
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly show 02271.1. The red pointer is precisely on the 0.04 mark on the circular dial, representing 0.04 cubic meters. The '0' on the dial is at the 12 o'clock position; therefore, 0.04 corresponds to 144 degrees clockwise from 0.",
+    "timestamp": "2025-11-20T03:11:16.989690",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 163,
+      "total_tokens": 3798,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

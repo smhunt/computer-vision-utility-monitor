@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_034504.jpg",
+    "timestamp": "2025-11-20T03:45:04.531358",
+    "size": 372646
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.0. The red dial needle is pointing just past the 0.03 mark, but not halfway to 0.04. It's estimated at approximately 0.0319 (corresponding to 115 degrees), which rounds to 0.03 at 0.01 resolution.",
+    "timestamp": "2025-11-20T03:45:04.531358",
+    "format": "simple",
+    "dial_angle_degrees": 115,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 161,
+      "total_tokens": 4912,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

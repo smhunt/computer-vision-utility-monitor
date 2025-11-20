@@ -1,4 +1,6 @@
 import type { CostData } from '../types/meter';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Separator } from './ui/separator';
 
 interface CostTrackerProps {
   costs: CostData[];
@@ -22,52 +24,70 @@ export function CostTracker({ costs }: CostTrackerProps) {
   const currency = costs[0]?.currency || 'USD';
 
   return (
-    <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl border border-slate-300/50 dark:border-slate-700/50 p-7 shadow-xl">
-      {/* Total Costs */}
-      <div className="grid grid-cols-2 gap-6 mb-8 pb-8 border-b border-slate-300/50 dark:border-slate-700/50">
-        <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-xl p-5 border border-green-500/20">
-          <p className="text-sm font-medium text-green-700 dark:text-green-300 mb-2">Daily Total</p>
-          <p className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
-            ${totalDaily.toFixed(2)}
-            <span className="text-base font-normal text-slate-600 dark:text-slate-400 ml-2">{currency}</span>
-          </p>
+    <Card>
+      <CardContent className="pt-6">
+        {/* Total Costs */}
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/20">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-green-700 dark:text-green-300">
+                Daily Total
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold tracking-tight">
+                ${totalDaily.toFixed(2)}
+                <span className="text-base font-normal text-muted-foreground ml-2">{currency}</span>
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/20">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                Monthly Estimate
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold tracking-tight">
+                ${totalMonthly.toFixed(2)}
+                <span className="text-base font-normal text-muted-foreground ml-2">{currency}</span>
+              </p>
+            </CardContent>
+          </Card>
         </div>
-        <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl p-5 border border-blue-500/20">
-          <p className="text-sm font-medium text-blue-700 dark:text-blue-300 mb-2">Monthly Estimate</p>
-          <p className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
-            ${totalMonthly.toFixed(2)}
-            <span className="text-base font-normal text-slate-600 dark:text-slate-400 ml-2">{currency}</span>
-          </p>
-        </div>
-      </div>
 
-      {/* Individual Meter Costs */}
-      <div className="space-y-3">
-        {costs.map((cost) => (
-          <div key={cost.meterType} className="flex items-center justify-between py-3 px-4 bg-slate-200/30 dark:bg-slate-700/30 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className={`text-sm font-semibold ${meterColors[cost.meterType]}`}>
-                {meterLabels[cost.meterType]}
+        <Separator className="my-6" />
+
+        {/* Individual Meter Costs */}
+        <div className="space-y-3">
+          {costs.map((cost) => (
+            <div key={cost.meterType} className="flex items-center justify-between py-3 px-4 bg-secondary/50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className={`text-sm font-semibold ${meterColors[cost.meterType]}`}>
+                  {meterLabels[cost.meterType]}
+                </div>
+              </div>
+              <div className="flex gap-8 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Daily: </span>
+                  <span className="font-semibold">${cost.dailyCost.toFixed(2)}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Monthly: </span>
+                  <span className="font-semibold">${cost.monthlyCost.toFixed(2)}</span>
+                </div>
               </div>
             </div>
-            <div className="flex gap-8 text-sm">
-              <div>
-                <span className="text-slate-600 dark:text-slate-400">Daily: </span>
-                <span className="font-semibold text-slate-900 dark:text-white">${cost.dailyCost.toFixed(2)}</span>
-              </div>
-              <div>
-                <span className="text-slate-600 dark:text-slate-400">Monthly: </span>
-                <span className="font-semibold text-slate-900 dark:text-white">${cost.monthlyCost.toFixed(2)}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Note */}
-      <p className="text-xs text-slate-500 dark:text-slate-500 mt-6 pt-4 border-t border-slate-300/50 dark:border-slate-700/50">
-        * Monthly estimates based on current daily usage patterns
-      </p>
-    </div>
+        <Separator className="my-4" />
+
+        {/* Note */}
+        <p className="text-xs text-muted-foreground">
+          * Monthly estimates based on current daily usage patterns
+        </p>
+      </CardContent>
+    </Card>
   );
 }

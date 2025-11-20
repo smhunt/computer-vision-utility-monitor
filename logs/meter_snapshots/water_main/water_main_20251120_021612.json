@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_021612.jpg",
+    "timestamp": "2025-11-20T02:16:12.472709",
+    "size": 372548
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly read 02271.0. The red needle on the circular dial points directly at the 0.04 mark. The angle is calculated assuming 30 small ticks covering 360 degrees, making each tick 12 degrees. The needle is at the 12th tick from the 0.00 mark (12 * 12 = 144 degrees).",
+    "timestamp": "2025-11-20T02:16:12.472709",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 172,
+      "total_tokens": 7172,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

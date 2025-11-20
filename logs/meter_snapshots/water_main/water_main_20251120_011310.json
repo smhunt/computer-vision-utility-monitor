@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_011310.jpg",
+    "timestamp": "2025-11-20T01:13:10.593033",
+    "size": 381913
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer reads 02271.1 (first digit is a leading zero). The red needle is visibly positioned between 0.03 and 0.04, and is closer to 0.04, so it is rounded to 0.04 based on the 0.01 resolution rule. The angle reflects a position of approximately 0.039 for precision.",
+    "timestamp": "2025-11-20T01:13:10.593033",
+    "format": "simple",
+    "dial_angle_degrees": 140,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 171,
+      "total_tokens": 3937,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

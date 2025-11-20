@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_091629.jpg",
+    "timestamp": "2025-11-20T09:16:29.656214",
+    "size": 373468
+  },
+  "meter_reading": {
+    "digital_reading": 2274,
+    "black_digit": 4,
+    "dial_reading": 0.043,
+    "total_reading": 2274.443,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reads 02274.4. The last odometer wheel (tenths) shows a '4' primarily, with the top of '5' visible, indicating it's rolling towards '5'. The red needle (hundredths) is at 4.3, confirming the tenths wheel is still considered '4'. The red needle is clearly past the '4' mark and approximately 3/10ths of the way to '5', so 0.043.",
+    "timestamp": "2025-11-20T09:16:29.656214",
+    "format": "simple",
+    "dial_angle_degrees": 154,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 189,
+      "total_tokens": 3586,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

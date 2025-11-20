@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_010834.jpg",
+    "timestamp": "2025-11-20T01:08:34.508839",
+    "size": 382006
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.0 (rightmost '0' is clear, '1' just starting to appear). Red needle points directly to 0.03 on the dial. M3 label is at 12 o'clock, indicating 0.00 is at the top, and marks increase clockwise. Thus, 0.03 is 3 * (360/10) = 108 degrees from 0.00.",
+    "timestamp": "2025-11-20T01:08:34.508839",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 189,
+      "total_tokens": 2485,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

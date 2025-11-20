@@ -34,6 +34,32 @@ cp sd_card_ready/dafang/demo.bin /media/$USER/YOUR_SD_CARD/
 - RTSP: `rtsp://root:ismart12@192.168.1.XXX:554/live/ch00_0`
 - HTTP Snapshot: `http://root:ismart12@192.168.1.XXX/cgi-bin/currentpic.cgi`
 
+### Option 3: Thingino (Latest - Recommended for New Setups)
+
+**⚠️ Note:** Thingino uses `.img` format (not `.bin`), so it requires Balena Etcher for flashing.
+
+**Firmware Location:**
+- Desktop: `/Users/seanhunt/Desktop/wyze-cam-2-thingino.img` (120MB)
+- Official: https://github.com/themactep/thingino-firmware/releases
+
+**Flashing Process:**
+1. **Download Balena Etcher:** https://www.balena.io/etcher/
+2. **Flash image to SD card:**
+   - Open Balena Etcher
+   - Select `wyze-cam-2-thingino.img`
+   - Select your SD card
+   - Click "Flash!"
+3. **Insert SD card into camera**
+4. **Boot camera:** Hold SETUP button, plug in power, wait for blue LED
+
+**After WiFi setup:**
+- Web Interface: `http://CAMERA_IP` (configure admin password on first boot)
+- SSH: `ssh root@CAMERA_IP` (password set during setup)
+- HTTP Snapshot: `http://CAMERA_IP/api/image/snapshot` or `http://CAMERA_IP/api/v1/image/snapshot`
+- Temperature: `ssh root@CAMERA_IP "cat /sys/class/thermal/thermal_zone0/temp"` (returns millidegrees)
+
+**📖 Complete Guide:** See [THINGINO_QUICKSTART.md](../THINGINO_QUICKSTART.md) for detailed step-by-step instructions.
+
 ## Flashing Instructions
 
 1. **Format SD card as FAT32** (8-32GB recommended)
@@ -70,12 +96,20 @@ cp sd_card_ready/dafang/demo.bin /media/$USER/YOUR_SD_CARD/
 **OpenMiko** (v1.0.0-alpha.1):
 - File: `demo.bin`
 - Size: ~11MB
+- Format: Binary firmware file (copy to SD card)
 - Source: https://github.com/openmiko/openmiko/releases
 
 **Dafang Hacks** (cfw-1.2):
 - File: `demo.bin`
 - Size: ~11MB
+- Format: Binary firmware file (copy to SD card)
 - Source: https://github.com/EliasKotlyar/Xiaomi-Dafang-Hacks
+
+**Thingino**:
+- File: `wyze-cam-2-thingino.img`
+- Size: ~120MB
+- Format: Disk image (requires Balena Etcher)
+- Source: https://github.com/themactep/thingino-firmware/releases
 
 ## Using with Monitor Script
 
@@ -103,6 +137,31 @@ export WYZE_CAM_PASS=ismart12  # (or your new password)
 export ANTHROPIC_API_KEY=sk-ant-...
 
 python3 wyze_cam_monitor.py
+```
+
+### For Thingino:
+
+Update `config/meters.yaml` with Thingino-specific settings:
+
+```yaml
+meters:
+  water_main:
+    camera:
+      type: "thingino"
+      ip: "10.10.10.207"
+      snapshot_url: "http://10.10.10.207/api/image/snapshot"
+
+      # Optional: For temperature reading
+      ssh_user: "root"
+      ssh_password: "your_password"
+```
+
+Then run meter reading:
+
+```bash
+/takemetersnapshot
+# Or
+python3 run_meter_reading.py
 ```
 
 ## Troubleshooting

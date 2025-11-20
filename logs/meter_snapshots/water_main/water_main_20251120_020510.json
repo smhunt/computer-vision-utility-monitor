@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_020510.jpg",
+    "timestamp": "2025-11-20T02:05:10.371048",
+    "size": 372177
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.07,
+    "total_reading": 2271.17,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels read 02271.1. The first five digits are clear (02271). The sixth (rightmost) wheel, which indicates tenths, shows '1' prominently, with the digit '2' just beginning to appear at the top. Given the red pointer's position at 0.07, the tenths place is correctly read as '1'. The red pointer on the circular dial is precisely on the 0.07 mark. The angle is calculated relative to the 0.00 mark (9 o'clock position), with each increment (0.01) being 30 degrees clockwise.",
+    "timestamp": "2025-11-20T02:05:10.371048",
+    "format": "simple",
+    "dial_angle_degrees": 210,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 220,
+      "total_tokens": 4934,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

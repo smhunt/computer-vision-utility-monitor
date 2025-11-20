@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_030804.jpg",
+    "timestamp": "2025-11-20T03:08:04.308505",
+    "size": 372473
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.05,
+    "total_reading": 2271.15,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 02271.1 (or 2271.1). The red pointer needle is positioned precisely at the 0.05 mark on the circular dial, which is at the 6 o'clock position.",
+    "timestamp": "2025-11-20T03:08:04.308505",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 139,
+      "total_tokens": 4690,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}
