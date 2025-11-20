@@ -44,16 +44,17 @@ EOF
 
 **IMPORTANT:** Display the captured image using Read tool so user can see what was captured.
 
-### Step 3: Analyze with Claude Vision API
+### Step 3: Analyze with Vision API (Gemini + Claude fallback)
 
 ```bash
 source .env && python3 << 'EOF'
 import sys
 import json
 sys.path.insert(0, 'src')
-from llm_reader import read_meter_with_claude
+from gemini_reader import read_meter
 
-result = read_meter_with_claude('/tmp/meter_snapshot_{meter_name}_capture.jpg')
+# Use Gemini (free + accurate) with Claude fallback
+result = read_meter('/tmp/meter_snapshot_{meter_name}_capture.jpg', fallback_to_claude=True)
 print(json.dumps(result, indent=2))
 
 # Save result to temp file for use in later steps
