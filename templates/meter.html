@@ -178,6 +178,68 @@
         .confidence-high { background: #d4edda; color: #155724; }
         .confidence-medium { background: #fff3cd; color: #856404; }
         .confidence-low { background: #f8d7da; color: #721c24; }
+        .reprocess-btn {
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .reprocess-btn:hover {
+            background: #5a6268;
+        }
+        .reprocess-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .json-tooltip {
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 4px 8px;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            font-family: monospace;
+            display: inline-block;
+            transition: background 0.2s;
+            position: relative;
+        }
+        .json-tooltip:hover {
+            background: #0056b3;
+        }
+        .json-tooltip:hover::after {
+            content: "Click to view full JSON";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: normal;
+            white-space: nowrap;
+            margin-bottom: 5px;
+            z-index: 1000;
+        }
+        .json-tooltip:hover::before {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #333;
+            margin-bottom: 0px;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -299,13 +361,48 @@
                      class="snapshot-image"
                      onclick="openModal('{{ snapshot.image_url }}')">
                 <div class="snapshot-info">
-                    <div class="snapshot-time">{{ snapshot.snapshot.timestamp if snapshot.snapshot else 'Unknown' }}</div>
+                    <div class="snapshot-time">
+                        {{ snapshot.snapshot.timestamp if snapshot.snapshot else 'Unknown' }}
+                        {% if snapshot.meter_reading %}
+                            <span class="json-tooltip" onclick='showJSON({{ snapshot.meter_reading | tojson }})'>{ }</span>
+                        {% endif %}
+                    </div>
                     {% if snapshot.meter_reading %}
                         <div class="reading">{{ snapshot.meter_reading.total_reading }} m³</div>
+                        {% if snapshot.meter_reading.get('dial_angle_degrees') is not none %}
+                            <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                🧭 Dial: {{ snapshot.meter_reading.get('dial_angle_degrees') }}°
+                                {% set angle = snapshot.meter_reading.get('dial_angle_degrees') %}
+                                {% if angle == 0 %}(12 o'clock)
+                                {% elif angle >= 0 and angle < 30 %}(~12 o'clock)
+                                {% elif angle >= 30 and angle < 60 %}(~1 o'clock)
+                                {% elif angle >= 60 and angle < 90 %}(~2 o'clock)
+                                {% elif angle == 90 %}(3 o'clock)
+                                {% elif angle > 90 and angle < 120 %}(~4 o'clock)
+                                {% elif angle >= 120 and angle < 150 %}(~5 o'clock)
+                                {% elif angle >= 150 and angle < 180 %}(~6 o'clock)
+                                {% elif angle == 180 %}(6 o'clock)
+                                {% elif angle > 180 and angle < 210 %}(~7 o'clock)
+                                {% elif angle >= 210 and angle < 240 %}(~8 o'clock)
+                                {% elif angle >= 240 and angle < 270 %}(~9 o'clock)
+                                {% elif angle == 270 %}(9 o'clock)
+                                {% elif angle > 270 and angle < 300 %}(~10 o'clock)
+                                {% elif angle >= 300 and angle < 330 %}(~11 o'clock)
+                                {% else %}(~12 o'clock)
+                                {% endif %}
+                            </div>
+                        {% elif snapshot.meter_reading.dial_direction or snapshot.meter_reading.dial_clock_position %}
+                            <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                🧭 Dial: {{ snapshot.meter_reading.dial_direction or snapshot.meter_reading.dial_clock_position }}
+                            </div>
+                        {% endif %}
                         <span class="confidence confidence-{{ snapshot.meter_reading.confidence }}">
                             {{ snapshot.meter_reading.confidence }}
                         </span>
                     {% endif %}
+                    <button class="reprocess-btn" onclick="reprocessImage('{{ snapshot.snapshot.filename if snapshot.snapshot else '' }}')">
+                        🔄 Reprocess
+                    </button>
                 </div>
             </div>
             {% endfor %}
@@ -328,6 +425,102 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+        }
+
+        function showJSON(data) {
+            const formatted = JSON.stringify(data, null, 2);
+            const width = Math.min(800, window.innerWidth - 40);
+            const height = Math.min(600, window.innerHeight - 40);
+
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                max-width: ${width}px;
+                max-height: ${height}px;
+                overflow: auto;
+            `;
+
+            modal.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0;">Reading JSON Data</h3>
+                    <button onclick="this.parentElement.parentElement.remove(); document.getElementById('jsonOverlay').remove()"
+                            style="background: #dc3545; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer;">
+                        ✕ Close
+                    </button>
+                </div>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 4px; overflow: auto; margin: 0; font-size: 13px;">${formatted}</pre>
+            `;
+
+            const overlay = document.createElement('div');
+            overlay.id = 'jsonOverlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 9999;
+            `;
+            overlay.onclick = () => {
+                modal.remove();
+                overlay.remove();
+            };
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(modal);
+        }
+
+        async function reprocessImage(filename) {
+            if (!filename) return;
+
+            if (!confirm('Reprocess this image with the latest analysis settings?')) {
+                return;
+            }
+
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '⏳ Processing...';
+
+            try {
+                const response = await fetch('/api/reprocess/{{ meter_type }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filename: filename })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    btn.textContent = '✅ Done!';
+                    btn.style.background = '#28a745';
+                    // Don't auto-reload - user can refresh manually
+                } else {
+                    btn.textContent = '❌ Failed';
+                    alert('Reprocess failed: ' + (data.error || 'Unknown error'));
+                    btn.disabled = false;
+                    setTimeout(() => {
+                        btn.textContent = '🔄 Reprocess';
+                    }, 2000);
+                }
+            } catch (error) {
+                btn.textContent = '❌ Error';
+                alert('Error: ' + error.message);
+                btn.disabled = false;
+                setTimeout(() => {
+                    btn.textContent = '🔄 Reprocess';
+                }, 2000);
+            }
         }
 
         async function captureSnapshot() {
@@ -361,17 +554,19 @@
 
                     // Show success result
                     progressResult.className = 'progress-result';
+                    const sizeText = data.size ? `Size: <strong>${Math.round(data.size / 1024)} KB</strong><br>` : '';
                     progressResult.innerHTML = `
                         ✅ <strong>Success!</strong><br>
-                        Snapshot captured and saved.<br>
-                        Size: <strong>${Math.round(data.size / 1024)} KB</strong>
+                        Reading: <strong>${data.reading} m³</strong><br>
+                        ${sizeText}
+                        Confidence: <strong>${data.confidence}</strong>
                     `;
                     progressResult.style.display = 'block';
 
-                    // Reload page after 1.5 seconds to show new snapshot
+                    // Don't auto-reload - let user refresh manually when ready
                     setTimeout(() => {
-                        location.reload();
-                    }, 1500);
+                        btn.disabled = false;
+                    }, 2000);
                 } else {
                     progressBar.style.width = '100%';
                     progressBar.textContent = 'Error';
