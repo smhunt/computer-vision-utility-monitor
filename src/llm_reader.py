@@ -80,49 +80,83 @@ This meter has:
 
 3. **RED SWEEP HAND DIAL (Bottom circular gauge):**
 
-   **FIND THE SINGLE RED HAND - IT'S THE ONLY RED THING ON THE METER**
+   **IMPORTANT: USE A STEP-BY-STEP VISUAL ANALYSIS APPROACH**
 
-   The red sweep hand is:
-   - The ONLY red element on the entire meter face
-   - A SINGLE HAND that rotates around the center point of the dial
-   - It has a POINTED TIP that indicates the reading
-   - Like the hour hand on a clock, but it's RED
+   The dial has a RED SWEEP HAND (the ONLY red element on the meter) that rotates like a clock hand.
+   The dial face has numbers 0-10 printed around the edge, with 0 at the TOP (12 o'clock position).
 
-   **CRITICAL - WHICH WAY IS THE HAND POINTING?**
-   Look at the red hand and identify which EDGE of the meter face the pointed tip is nearest to:
-   - Is the tip near the TOP edge? → 0° (12 o'clock)
-   - Is the tip near the RIGHT edge? → 90° (3 o'clock)
-   - Is the tip near the BOTTOM edge? → 180° (6 o'clock)
-   - Is the tip near the LEFT edge? → 270° (9 o'clock)
+   **STEP 1: LOCATE THE DIAL AND ORIENT YOURSELF - CRITICAL ORIENTATION CHECKS**
 
-   **MEASURE THE ANGLE IN DEGREES:**
-   * 0° = pointing straight UP (12 o'clock, north, top of circle)
-   * 90° = pointing straight RIGHT (3 o'clock, east, right side)
-   * 180° = pointing straight DOWN (6 o'clock, south, bottom)
-   * 270° = pointing straight LEFT (9 o'clock, west, left side)
+   **HOW TO IDENTIFY "UP" ON THE METER:**
+   - Look for the "BADGER METER" brand text - this should be at the TOP of the meter face
+   - The digital display (white and black digits) should be horizontal and readable from left to right
+   - If you need to tilt your head to read "BADGER METER" or the digits, the image may be rotated
+   - The circular dial is BELOW the digital display (at the bottom of the meter face)
 
-   **EXAMPLES:**
-   - Red hand pointing straight up → 0°
-   - Red hand pointing up and slightly right → 30°
-   - Red hand pointing to upper right → 60°
-   - Red hand pointing straight right → 90°
-   - Red hand pointing down-right → 120°
-   - Red hand pointing straight down → 180°
-   - Red hand pointing down-left → 240°
-   - Red hand pointing straight left → 270°
-   - Red hand pointing up-left → 330°
+   **NOW ORIENT THE DIAL:**
+   - Find the circular dial at the bottom of the meter face
+   - Identify where "0" is marked on the dial edge (this should be at TOP/12 o'clock position of the dial)
+   - Identify where "5" is marked on the dial edge (this should be at BOTTOM/6 o'clock position of the dial)
+   - The numbers go clockwise: 0→1→2→3→4→5→6→7→8→9→10 (then back to 0)
+   - This establishes the reference frame for angle measurement
 
-   **YOUR TASK:**
-   - Find the red hand (it's the only red thing!)
-   - Estimate its angle from vertical (0° = straight up / 12 o'clock)
-   - Report the angle as a number (0-359)
-   - BE PRECISE: The dial scale goes 0-10 for one full rotation
+   **VERIFICATION:**
+   - If "BADGER METER" is readable and at the top, and "0" on the dial is at the top of the dial circle, your orientation is CORRECT
+   - If something seems wrong, describe what you see and where the text/numbers are positioned
 
-   **CRITICAL ANGLE CHECK:**
-   - Is the hand pointing UP? → Should be near 0°
-   - Is the hand pointing RIGHT? → Should be near 90°
-   - Is the hand pointing DOWN? → Should be near 180°
-   - Is the hand pointing LEFT? → Should be near 270°
+   **STEP 2: FIND THE RED HAND**
+   - Look for the RED sweep hand - it's the ONLY red element on the entire meter
+   - It's a triangular or arrow-shaped pointer that rotates around the center
+   - One end is the POINTED TIP (this is what indicates the reading)
+   - The other end is the BASE/TAIL (attached near the center)
+   - CRITICAL: Make sure you're reading the POINTED TIP, not the base!
+
+   **STEP 3: IDENTIFY WHICH NUMBER THE TIP IS POINTING TO**
+   - Look at where the POINTED TIP of the red hand is aimed
+   - Which number (0-10) on the dial edge is it closest to?
+   - If it's between two numbers, estimate the fraction (e.g., "between 1 and 2, closer to 1")
+   - Remember: The dial goes 0→1→2→3→4→5→6→7→8→9→10 clockwise around the circle
+   - The "0" and "10" positions are the same (both at top/12 o'clock)
+
+   **STEP 4: DETERMINE THE CLOCK POSITION**
+   - Based on the number the tip is pointing to, determine the clock position:
+     * Pointing at "0" → 12 o'clock (TOP)
+     * Pointing at "2.5" → 3 o'clock (RIGHT)
+     * Pointing at "5" → 6 o'clock (BOTTOM)
+     * Pointing at "7.5" → 9 o'clock (LEFT)
+
+   **STEP 5: CONVERT TO DEGREES**
+   - 12 o'clock (TOP, pointing at "0") = 0°
+   - 1 o'clock = 30°
+   - 2 o'clock = 60°
+   - 3 o'clock (RIGHT, pointing at "2.5") = 90°
+   - 4 o'clock = 120°
+   - 5 o'clock = 150°
+   - 6 o'clock (BOTTOM, pointing at "5") = 180°
+   - 7 o'clock = 210°
+   - 8 o'clock = 240°
+   - 9 o'clock (LEFT, pointing at "7.5") = 270°
+   - 10 o'clock = 300°
+   - 11 o'clock = 330°
+
+   **STEP 6: VERIFY YOUR ANSWER**
+   Before finalizing, double-check:
+   - If you said 0-45°, is the hand pointing UP-RIGHT? (between 12 and 3 o'clock)
+   - If you said 45-135°, is the hand pointing RIGHT? (between 3 and 6 o'clock)
+   - If you said 135-225°, is the hand pointing DOWN? (between 6 and 9 o'clock)
+   - If you said 225-315°, is the hand pointing LEFT? (between 9 and 12 o'clock)
+   - If you said 315-360°, is the hand pointing UP-LEFT? (between 9 and 12 o'clock)
+
+   **CRITICAL: COMMON MISTAKES TO AVOID**
+   - DON'T confuse the pointed tip with the base/tail of the hand
+   - DON'T assume the dial is rotated - "0" is always at the top
+   - DON'T report the angle of the BASE - we need the angle of the POINTED TIP
+   - DO verify that your degrees match the visual direction (UP/DOWN/LEFT/RIGHT)
+
+   **CALCULATION:**
+   - Dial scale number = angle_degrees × 10 / 360
+   - Example: 90° → 90×10/360 = 2.5 on dial scale
+   - Example: 180° → 180×10/360 = 5.0 on dial scale
 
    Set dial_reading to (dial_angle_degrees / 3600) and dial_angle_degrees to your angle estimate
 
@@ -169,25 +203,66 @@ Example 3: White "00995" + Black "9" + Dial "8"
 **CRITICAL: COUNT AND DESCRIBE ALL COMPONENTS - REQUIRED FORMAT**
 In your notes, you MUST describe what you see in this EXACT format:
 
-"White digits (5 digits on left): [digit] [digit] [digit] [digit] [digit] = [value] m³.
+"Meter orientation check: [BADGER METER text position (top/sideways/etc.), digital display readable (yes/no)].
+White digits (5 digits on left): [digit] [digit] [digit] [digit] [digit] = [value] m³.
 Black digit (single digit on right, separated): [digit] = [value] m³.
-Red dial hand: [angle]° (the red hand is pointing at [angle] degrees).
+Red dial analysis:
+  - Dial orientation: '0' mark at [position on dial], '5' mark at [position on dial]
+  - Dial number scale position: pointing at [number 0-10 on dial face]
+  - Clock position: [X] o'clock
+  - Degrees: [angle]° ([direction: UP/DOWN/LEFT/RIGHT or UP-RIGHT/DOWN-RIGHT/etc.])
+  - Verification: Hand is pointing [direction] ✓
+Dial reading: [angle]/3600 = [value] m³.
 Total: [sum]"
 
-Example: "White digits (5 digits on left): 0 2 2 7 1 = 2271 m³. Black digit (single digit on right, separated): 5 = 0.5 m³. Red dial hand: 90° (the red hand is pointing at 90 degrees). Dial reading: 90/3600 = 0.025 m³. Total: 2271.525 m³"
+Example: "Meter orientation check: BADGER METER text at top, digital display readable left-to-right. White digits (5 digits on left): 0 2 2 7 1 = 2271 m³. Black digit (single digit on right, separated): 5 = 0.5 m³. Red dial analysis: Dial orientation: '0' mark at top of dial, '5' mark at bottom of dial. Dial number scale position: pointing at 2.5, Clock position: 3 o'clock, Degrees: 90° (pointing RIGHT), Verification: Hand is pointing RIGHT ✓. Dial reading: 90/3600 = 0.025 m³. Total: 2271.525 m³"
 
-**CRITICAL OUTPUT FORMAT:**
+**CRITICAL OUTPUT FORMAT - STRICT JSON SCHEMA REQUIRED:**
 
-Return your response in JSON format:
+You MUST return ONLY valid JSON. No markdown, no code blocks, no extra text before or after.
+Your entire response must be parseable as JSON.
+
+**REQUIRED JSON STRUCTURE (all fields mandatory):**
+```json
 {
-    "digital_reading": <integer, 5 white digits with leading zeros removed, e.g., 2271>,
-    "black_digit": <integer, the black tenths digit 0-9, e.g., 5>,
-    "dial_reading": <float, calculated as dial_angle_degrees / 3600, e.g., 0.025>,
-    "dial_angle_degrees": <integer, angle 0-359 where 0=UP, 90=RIGHT, 180=DOWN, 270=LEFT>,
-    "total_reading": <float, digital_reading + (black_digit/10) + dial_reading, e.g., 2271.525>,
-    "confidence": "high|medium|low",
-    "notes": "<follow the format above>"
+    "digital_reading": <type: integer, value: 5 white digits with leading zeros removed, example: 2271>,
+    "black_digit": <type: integer, value: single black digit 0-9, example: 5>,
+    "dial_reading": <type: float, value: dial_angle_degrees / 3600, range: 0.000-0.099, example: 0.025>,
+    "dial_angle_degrees": <type: integer, value: angle 0-359 where 0°=UP/12-o'clock, 90°=RIGHT/3-o'clock, 180°=DOWN/6-o'clock, 270°=LEFT/9-o'clock, example: 90>,
+    "total_reading": <type: float, value: digital_reading + (black_digit/10) + dial_reading, example: 2271.525>,
+    "confidence": <type: string, value: one of exactly "high", "medium", or "low", example: "high">,
+    "notes": <type: string, value: must follow the format specified above with all required sections, example: "White digits...">
 }
+```
+
+**VALIDATION REQUIREMENTS:**
+- `digital_reading`: Must be integer, typically 1000-5000 for this meter
+- `black_digit`: Must be integer 0-9 (inclusive)
+- `dial_reading`: Must be float 0.000 to 0.099 (hundredths precision only)
+- `dial_angle_degrees`: Must be integer 0-359 (inclusive)
+- `total_reading`: Must equal digital_reading + (black_digit/10) + dial_reading
+- `confidence`: Must be exactly one of: "high", "medium", "low" (lowercase)
+- `notes`: Must be string containing the required format sections
+
+**EXAMPLE VALID OUTPUT:**
+```json
+{
+    "digital_reading": 2271,
+    "black_digit": 5,
+    "dial_reading": 0.025,
+    "dial_angle_degrees": 90,
+    "total_reading": 2271.525,
+    "confidence": "high",
+    "notes": "Meter orientation check: BADGER METER text at top, digital display readable left-to-right. White digits (5 digits on left): 0 2 2 7 1 = 2271 m³. Black digit (single digit on right, separated): 5 = 0.5 m³. Red dial analysis: Dial orientation: '0' mark at top of dial, '5' mark at bottom of dial. Dial number scale position: pointing at 2.5, Clock position: 3 o'clock, Degrees: 90° (pointing RIGHT), Verification: Hand is pointing RIGHT ✓. Dial reading: 90/3600 = 0.025 m³. Total: 2271.525 m³"
+}
+```
+
+**CRITICAL:**
+- Do NOT wrap the JSON in markdown code blocks (no ```json ... ```)
+- Do NOT add any text before or after the JSON
+- Your response must START with { and END with }
+- All string values must use double quotes, not single quotes
+- All numbers must be valid JSON numbers (no NaN, no Infinity)
 
 **VALIDATION CHECKS - CRITICAL FOR CONFIDENCE:**
 - Water meters only increase, never decrease
@@ -272,6 +347,67 @@ def encode_image(image_path: str, rotation: Optional[int] = None, auto_orient: b
     return base64_data, media_type
 
 
+def validate_dial_angle(dial_angle: int, notes: str) -> dict:
+    """
+    Validate dial angle reading for consistency
+
+    Args:
+        dial_angle: Reported angle in degrees (0-359)
+        notes: Claude's notes describing the reading
+
+    Returns:
+        Dictionary with validation results and warnings
+    """
+    warnings = []
+
+    # Check if angle is in valid range
+    if not (0 <= dial_angle <= 359):
+        warnings.append(f"Dial angle {dial_angle}° is out of range (should be 0-359)")
+
+    # Check for consistency between angle and directional words in notes
+    notes_lower = notes.lower()
+
+    # Define directional expectations
+    angle_directions = {
+        (0, 45): ['up', 'top', '12 o\'clock', '0 o\'clock', 'north', 'pointing up'],
+        (45, 135): ['right', 'east', '3 o\'clock', 'pointing right'],
+        (135, 225): ['down', 'bottom', '6 o\'clock', 'south', 'pointing down'],
+        (225, 315): ['left', 'west', '9 o\'clock', 'pointing left'],
+        (315, 360): ['up', 'top', '12 o\'clock', 'north', 'pointing up']
+    }
+
+    # Find expected direction based on angle
+    expected_keywords = []
+    for (min_angle, max_angle), keywords in angle_directions.items():
+        if min_angle <= dial_angle < max_angle:
+            expected_keywords = keywords
+            break
+
+    # Check if any expected keyword appears in notes
+    if expected_keywords:
+        found_match = any(keyword in notes_lower for keyword in expected_keywords)
+        if not found_match:
+            direction_name = {
+                (0, 45): "UP/TOP",
+                (45, 135): "RIGHT",
+                (135, 225): "DOWN/BOTTOM",
+                (225, 315): "LEFT",
+                (315, 360): "UP/TOP"
+            }
+            for (min_angle, max_angle), name in direction_name.items():
+                if min_angle <= dial_angle < max_angle:
+                    warnings.append(
+                        f"Angle {dial_angle}° suggests {name} direction, but notes don't confirm this. "
+                        f"Possible tip/base confusion or angle error."
+                    )
+                    break
+
+    return {
+        'is_valid': len(warnings) == 0,
+        'warnings': warnings
+    }
+
+
 def parse_claude_response(response_text: str) -> Dict:
     """
     Parse Claude's response and extract meter reading data
@@ -318,6 +454,21 @@ def parse_claude_response(response_text: str) -> Dict:
                 'error': f'Invalid dial_reading: {data.get("dial_reading")} (must be 0.00-0.099)',
                 'raw_response': response_text
             }
+
+        # Validate dial_angle_degrees if present
+        if 'dial_angle_degrees' in data:
+            validation = validate_dial_angle(
+                data['dial_angle_degrees'],
+                data.get('notes', '')
+            )
+
+            if not validation['is_valid']:
+                # Add warnings to the data but don't fail
+                data['dial_angle_warnings'] = validation['warnings']
+                # Optionally downgrade confidence if there are warnings
+                if data.get('confidence') == 'high' and validation['warnings']:
+                    data['confidence'] = 'medium'
+                    data['confidence_note'] = 'Downgraded due to dial angle validation warnings'
 
         # Add timestamp
         data['timestamp'] = datetime.now().isoformat()
