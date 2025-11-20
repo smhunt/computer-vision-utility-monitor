@@ -120,11 +120,25 @@ def main():
 
     # Step 5: Try InfluxDB (optional)
     try:
+        import sys as _sys
+        import io
+        # Suppress InfluxDB output
+        old_stdout = _sys.stdout
+        old_stderr = _sys.stderr
+        _sys.stdout = io.StringIO()
+        _sys.stderr = io.StringIO()
+
         from influx_logger import MeterInfluxLogger
         logger = MeterInfluxLogger()
         logger.log_reading(meter_name, meter_type, reading)
+
+        _sys.stdout = old_stdout
+        _sys.stderr = old_stderr
         print(f"✅ Logged to InfluxDB", file=sys.stderr)
     except Exception as e:
+        if 'old_stdout' in locals():
+            _sys.stdout = old_stdout
+            _sys.stderr = old_stderr
         print(f"⚠️  InfluxDB logging failed: {e}", file=sys.stderr)
 
     # Output final result as JSON
