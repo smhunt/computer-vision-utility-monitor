@@ -633,7 +633,7 @@
                         btn.disabled = false;
                     }, 2000);
 
-                    // Fade out success message after 15 seconds
+                    // Fade out success message after 5 seconds
                     setTimeout(() => {
                         progressResult.classList.add('fade-out');
                         progressContainer.classList.add('fade-out');
@@ -643,7 +643,7 @@
                             progressResult.style.display = 'none';
                             progressContainer.classList.remove('active');
                         }, 1000); // Wait for 1s fade animation
-                    }, 15000); // Wait 15 seconds before fading
+                    }, 5000); // Wait 5 seconds before fading
                 } else {
                     progressBar.style.width = '100%';
                     progressBar.textContent = 'Error';
