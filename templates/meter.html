@@ -542,8 +542,41 @@
                 opacity: 1;
             }
         }
+        .chart-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .chart-control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chart-control-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+        .chart-select {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .chart-select:hover {
+            border-color: #007bff;
+        }
+        .chart-select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
     <div class="nav-header">
@@ -558,9 +591,29 @@
             <div class="chart-title">
                 <span>💧 Water Consumption</span>
             </div>
-            <span class="chart-period">Last 24 Hours</span>
+            <span class="chart-period" id="chartPeriodLabel">Last 24 Hours</span>
         </div>
-        <canvas id="consumptionChart" style="max-height: 250px;"></canvas>
+        <div class="chart-controls">
+            <div class="chart-control-group">
+                <label class="chart-control-label">Time Period:</label>
+                <select class="chart-select" id="timePeriodSelect" onchange="loadConsumptionChart()">
+                    <option value="24h">Last 24 Hours</option>
+                    <option value="7d">Last 7 Days</option>
+                    <option value="10d">Last 10 Days</option>
+                    <option value="30d">Last 30 Days</option>
+                    <option value="90d">Last 90 Days</option>
+                </select>
+            </div>
+            <div class="chart-control-group">
+                <label class="chart-control-label">Interval:</label>
+                <select class="chart-select" id="intervalSelect" onchange="loadConsumptionChart()">
+                    <option value="hour">Hourly</option>
+                    <option value="day">Daily</option>
+                    <option value="week">Weekly</option>
+                </select>
+            </div>
+        </div>
+        <div id="consumptionChart" style="width:100%; height:400px;"></div>
     </div>
 
     <div class="live-preview-container">
@@ -1240,77 +1293,94 @@
         // Load consumption chart
         async function loadConsumptionChart() {
             try {
-                const response = await fetch('/api/consumption/{{ meter_type }}');
+                // Get selected options
+                const period = document.getElementById('timePeriodSelect').value;
+                const interval = document.getElementById('intervalSelect').value;
+
+                // Update period label
+                const periodLabels = {
+                    '24h': 'Last 24 Hours',
+                    '7d': 'Last 7 Days',
+                    '10d': 'Last 10 Days',
+                    '30d': 'Last 30 Days',
+                    '90d': 'Last 90 Days'
+                };
+                document.getElementById('chartPeriodLabel').textContent = periodLabels[period];
+
+                const response = await fetch(`/api/consumption/{{ meter_type }}?period=${period}&interval=${interval}`);
                 const data = await response.json();
 
-                if (data.status === 'success' && data.hours.length > 0) {
-                    const ctx = document.getElementById('consumptionChart').getContext('2d');
-
-                    new Chart(ctx, {
+                if (data.status === 'success' && data.hours && data.hours.length > 0) {
+                    const trace = {
+                        x: data.hours,
+                        y: data.consumption,
                         type: 'bar',
-                        data: {
-                            labels: data.hours,
-                            datasets: [{
-                                label: 'Water Usage (m³)',
-                                data: data.consumption,
-                                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: true,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return ' ' + context.parsed.y + ' m³';
-                                        }
-                                    }
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return value + ' m³';
-                                        }
-                                    }
-                                },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Hour'
-                                    }
-                                }
+                        marker: {
+                            color: 'rgba(54, 162, 235, 0.7)',
+                            line: {
+                                color: 'rgba(54, 162, 235, 1)',
+                                width: 1
                             }
-                        }
-                    });
+                        },
+                        hovertemplate: '<b>%{x}</b><br>Usage: %{y:.3f} m³<extra></extra>'
+                    };
+
+                    const layout = {
+                        margin: { t: 20, r: 20, b: 60, l: 60 },
+                        xaxis: {
+                            title: interval.charAt(0).toUpperCase() + interval.slice(1),
+                            showgrid: true,
+                            gridcolor: '#f0f0f0'
+                        },
+                        yaxis: {
+                            title: 'Consumption (m³)',
+                            showgrid: true,
+                            gridcolor: '#f0f0f0',
+                            rangemode: 'tozero'
+                        },
+                        plot_bgcolor: '#ffffff',
+                        paper_bgcolor: '#ffffff',
+                        hovermode: 'closest',
+                        showlegend: false
+                    };
+
+                    const config = {
+                        responsive: true,
+                        displayModeBar: true,
+                        modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+                        displaylogo: false
+                    };
+
+                    Plotly.newPlot('consumptionChart', [trace], layout, config);
                 } else {
-                    document.querySelector('.consumption-chart-container').innerHTML = `
-                        <div class="consumption-chart-header">
-                            <div class="chart-title">
-                                <span>💧 Water Consumption</span>
-                            </div>
-                            <span class="chart-period">Last 24 Hours</span>
-                        </div>
-                        <div style="text-align: center; padding: 40px; color: #666;">
-                            📊 No consumption data available yet. Data will appear after capturing multiple readings.
+                    document.getElementById('consumptionChart').innerHTML = `
+                        <div style="text-align: center; padding: 80px 20px; color: #666;">
+                            📊 No consumption data available yet.<br>
+                            Data will appear after capturing multiple readings.
                         </div>
                     `;
                 }
             } catch (error) {
                 console.error('Failed to load consumption chart:', error);
+                document.getElementById('consumptionChart').innerHTML = `
+                    <div style="text-align: center; padding: 80px 20px; color: #dc3545;">
+                        ⚠️ Failed to load chart. Please try refreshing the page.
+                    </div>
+                `;
             }
         }
 
-        // Load chart on page load
-        document.addEventListener('DOMContentLoaded', loadConsumptionChart);
+        // Load chart on page load and enable auto-capture by default
+        document.addEventListener('DOMContentLoaded', () => {
+            loadConsumptionChart();
+
+            // Enable auto-capture by default
+            const autoCaptureToggle = document.getElementById('autoCaptureToggle');
+            if (autoCaptureToggle && !autoCaptureToggle.checked) {
+                autoCaptureToggle.checked = true;
+                toggleAutoCapture(true);
+            }
+        });
     </script>
 </body>
 </html>

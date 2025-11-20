@@ -798,30 +798,48 @@ def api_get_snapshots(meter_name):
 
 @app.route('/api/consumption/<meter_type>', methods=['GET'])
 def api_get_consumption(meter_type):
-    """Get hourly consumption data for graphing"""
+    """Get consumption data for graphing with flexible time periods and intervals"""
     try:
         from datetime import datetime, timedelta
         from collections import defaultdict
+
+        # Get query parameters
+        period = request.args.get('period', '24h')
+        interval = request.args.get('interval', 'hour')
 
         log_file = LOG_DIR / f"{meter_type}_readings.jsonl"
         if not log_file.exists():
             return jsonify({
                 'status': 'success',
                 'hours': [],
-                'consumption': []
+                'consumption': [],
+                'unit': 'm³'
             })
 
-        # Read all valid readings from JSONL
+        # Parse period to determine cutoff time
+        now = datetime.now()
+        period_map = {
+            '24h': timedelta(hours=24),
+            '7d': timedelta(days=7),
+            '10d': timedelta(days=10),
+            '30d': timedelta(days=30),
+            '90d': timedelta(days=90)
+        }
+        cutoff_time = now - period_map.get(period, timedelta(hours=24))
+
+        # Read all valid readings from JSONL within time period
         readings = []
         with open(log_file, 'r') as f:
             for line in f:
                 try:
                     data = json.loads(line.strip())
                     if 'total_reading' in data and data.get('total_reading') is not None:
-                        readings.append({
-                            'timestamp': datetime.fromisoformat(data['timestamp'].replace('Z', '+00:00')),
-                            'total': float(data['total_reading'])
-                        })
+                        timestamp = datetime.fromisoformat(data['timestamp'].replace('Z', '+00:00'))
+                        if timestamp >= cutoff_time:
+                            readings.append({
+                                'timestamp': timestamp,
+                                'total': float(data['total_reading'])
+                            })
                 except (json.JSONDecodeError, KeyError, ValueError):
                     continue
 
@@ -829,35 +847,51 @@ def api_get_consumption(meter_type):
             return jsonify({
                 'status': 'success',
                 'hours': [],
-                'consumption': []
+                'consumption': [],
+                'unit': 'm³'
             })
 
         # Sort by timestamp
         readings.sort(key=lambda x: x['timestamp'])
 
-        # Calculate hourly consumption
-        hourly_data = defaultdict(lambda: {'readings': [], 'timestamps': []})
+        # Group by interval
+        interval_data = defaultdict(lambda: {'readings': [], 'timestamps': []})
 
         for reading in readings:
-            hour_key = reading['timestamp'].strftime('%Y-%m-%d %H:00')
-            hourly_data[hour_key]['readings'].append(reading['total'])
-            hourly_data[hour_key]['timestamps'].append(reading['timestamp'])
+            if interval == 'hour':
+                key = reading['timestamp'].strftime('%Y-%m-%d %H:00')
+                label = reading['timestamp'].strftime('%H:00')
+            elif interval == 'day':
+                key = reading['timestamp'].strftime('%Y-%m-%d')
+                label = reading['timestamp'].strftime('%b %d')
+            elif interval == 'week':
+                # Week starting on Monday
+                week_start = reading['timestamp'] - timedelta(days=reading['timestamp'].weekday())
+                key = week_start.strftime('%Y-W%U')
+                label = week_start.strftime('%b %d')
+            else:
+                key = reading['timestamp'].strftime('%Y-%m-%d %H:00')
+                label = reading['timestamp'].strftime('%H:00')
 
-        # Calculate consumption (max - min) for each hour
-        hours = []
+            interval_data[key]['readings'].append(reading['total'])
+            interval_data[key]['timestamps'].append(reading['timestamp'])
+            interval_data[key]['label'] = label
+
+        # Calculate consumption (max - min) for each interval
+        labels = []
         consumption = []
 
-        sorted_hours = sorted(hourly_data.keys())
-        for hour in sorted_hours[-24:]:  # Last 24 hours
-            data = hourly_data[hour]
+        sorted_keys = sorted(interval_data.keys())
+        for key in sorted_keys:
+            data = interval_data[key]
             if len(data['readings']) >= 2:
-                hour_consumption = max(data['readings']) - min(data['readings'])
-                hours.append(hour.split(' ')[1])  # Just the hour part
-                consumption.append(round(hour_consumption, 3))
+                interval_consumption = max(data['readings']) - min(data['readings'])
+                labels.append(data['label'])
+                consumption.append(round(interval_consumption, 3))
 
         return jsonify({
             'status': 'success',
-            'hours': hours,
+            'hours': labels,
             'consumption': consumption,
             'unit': 'm³'
         })
