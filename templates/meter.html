@@ -1259,6 +1259,9 @@
             const statusElement = document.getElementById('autoCaptureStatus');
             const countdownElement = document.getElementById('autoCaptureCountdown');
 
+            // Save state to localStorage
+            localStorage.setItem('autoCaptureEnabled', isEnabled ? 'true' : 'false');
+
             if (isEnabled) {
                 // Trigger immediate capture
                 console.log('🔄 Auto-capture enabled - triggering immediate capture');
@@ -1370,15 +1373,20 @@
             }
         }
 
-        // Load chart on page load and enable auto-capture by default
+        // Load chart on page load and restore auto-capture state
         document.addEventListener('DOMContentLoaded', () => {
             loadConsumptionChart();
 
-            // Enable auto-capture by default
+            // Restore auto-capture state from localStorage (default: enabled)
             const autoCaptureToggle = document.getElementById('autoCaptureToggle');
-            if (autoCaptureToggle && !autoCaptureToggle.checked) {
-                autoCaptureToggle.checked = true;
-                toggleAutoCapture(true);
+            if (autoCaptureToggle) {
+                const savedState = localStorage.getItem('autoCaptureEnabled');
+                const shouldEnable = savedState === null ? true : savedState === 'true';
+
+                autoCaptureToggle.checked = shouldEnable;
+                if (shouldEnable) {
+                    toggleAutoCapture(true);
+                }
             }
         });
     </script>
