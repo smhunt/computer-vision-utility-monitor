@@ -70,13 +70,17 @@ def test_with_openai(image_path: str, prompt_format: str = "simple") -> Dict:
         # Parse response
         result = parse_simple_response(response_text)
 
-        # Add usage info
+        # Add usage info and model tracking
         result['api_usage'] = {
             'input_tokens': response.usage.prompt_tokens,
             'output_tokens': response.usage.completion_tokens,
             'total_tokens': response.usage.total_tokens,
             'model': 'gpt-4o-mini'
         }
+
+        # Track vision model used
+        result['vision_model'] = 'gpt-4o-mini'
+        result['vision_provider'] = 'openai'
 
         return result
 
@@ -134,8 +138,12 @@ def test_with_gemini(image_path: str, prompt_format: str = "simple") -> Dict:
                 'input_tokens': response.usage_metadata.prompt_token_count,
                 'output_tokens': response.usage_metadata.candidates_token_count,
                 'total_tokens': response.usage_metadata.total_token_count,
-                'model': 'gemini-2.0-flash-exp'
+                'model': 'gemini-2.5-flash'
             }
+
+        # Track vision model used
+        result['vision_model'] = 'gemini-2.5-flash'
+        result['vision_provider'] = 'google'
 
         return result
 
@@ -201,6 +209,10 @@ def test_with_ollama(
             'local': True,
             'cost': 0.0
         }
+
+        # Track vision model used
+        result['vision_model'] = model
+        result['vision_provider'] = 'ollama'
 
         return result
 
@@ -272,6 +284,8 @@ def test_with_opencv(image_path: str) -> Dict:
             'confidence': 0.3,
             'notes': 'OpenCV only - no digit recognition, needle detection only',
             'method': 'opencv',
+            'vision_model': 'opencv-cv',
+            'vision_provider': 'local',
             'api_usage': {
                 'model': 'opencv',
                 'local': True,
