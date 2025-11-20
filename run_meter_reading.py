@@ -76,7 +76,7 @@ def main():
 
     # Step 2: Analyze with LLM
     print(f"🤖 Analyzing image...", file=sys.stderr)
-    reading = read_meter_with_claude(str(temp_path), meter_type=meter_type)
+    reading = read_meter_with_claude(str(temp_path))
 
     if 'error' in reading:
         print(json.dumps(reading))
