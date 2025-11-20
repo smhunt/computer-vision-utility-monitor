@@ -905,6 +905,68 @@ def api_get_consumption(meter_type):
         }), 500
 
 
+@app.route('/api/bill/upload', methods=['POST'])
+def api_bill_upload():
+    """Handle bill upload and parse with LLM"""
+    try:
+        from datetime import datetime
+        from werkzeug.utils import secure_filename
+        import sys
+        sys.path.insert(0, str(Path(__file__).parent / "src"))
+        from bill_parser import parse_bill_with_gemini, save_bill_data
+
+        # Get uploaded file
+        if 'bill' not in request.files:
+            return jsonify({'status': 'error', 'message': 'No file uploaded'}), 400
+
+        file = request.files['bill']
+        utility_type = request.form.get('utility_type', 'water')
+
+        if file.filename == '':
+            return jsonify({'status': 'error', 'message': 'No file selected'}), 400
+
+        # Save uploaded file temporarily
+        filename = secure_filename(file.filename)
+        upload_dir = LOG_DIR / 'bill_uploads' / utility_type
+        upload_dir.mkdir(parents=True, exist_ok=True)
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        save_path = upload_dir / f"{timestamp}_{filename}"
+
+        file.save(str(save_path))
+
+        # Parse bill with Gemini
+        result = parse_bill_with_gemini(str(save_path), utility_type)
+
+        if 'error' in result:
+            return jsonify({
+                'status': 'error',
+                'message': result['error']
+            }), 500
+
+        # Add upload metadata
+        result['uploaded_at'] = datetime.now().isoformat()
+        result['original_filename'] = filename
+
+        # Save to config
+        save_bill_data(result, config_path='config/pricing.json')
+
+        return jsonify({
+            'status': 'success',
+            'extracted': result.get('extracted', {}),
+            'api_usage': result.get('api_usage', {}),
+            'message': 'Bill parsed successfully'
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+
 @app.template_filter('timestamp')
 def timestamp_filter(iso_timestamp):
     """Template filter for formatting timestamps"""

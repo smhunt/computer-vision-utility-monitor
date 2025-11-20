@@ -518,6 +518,99 @@
             font-size: 14px;
             font-weight: 600;
         }
+
+        .bill-upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .upload-section:hover {
+            border-color: #007bff;
+            background: #f0f8ff;
+        }
+
+        .upload-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .upload-section input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .upload-section input[type="file"]::-webkit-file-upload-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .upload-section input[type="file"]::-webkit-file-upload-button:hover {
+            background: #0056b3;
+        }
+
+        .upload-status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            min-height: 40px;
+        }
+
+        .upload-status.processing {
+            background: #e7e3fc;
+            color: #4c1d95;
+            border-left: 4px solid #6f42c1;
+        }
+
+        .upload-status.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .upload-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .extracted-data {
+            margin-top: 10px;
+            text-align: left;
+            font-size: 12px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .extracted-data strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
     </style>
 </head>
 <body>
@@ -533,6 +626,35 @@
             Auto-refresh every 5 seconds
         </label>
         <span id="lastUpdate" class="last-update"></span>
+    </div>
+
+    <!-- Bill Upload Section -->
+    <div class="meter-card" style="margin-bottom: 20px;">
+        <div class="meter-header">
+            <div class="meter-name">📄 Upload Utility Bills</div>
+            <div class="meter-meta">
+                <span>Auto-extract account numbers and rates using AI</span>
+            </div>
+        </div>
+        <div class="meter-body">
+            <div class="bill-upload-grid">
+                <div class="upload-section">
+                    <h3>💧 Water Bill (Middlesex Centre)</h3>
+                    <input type="file" id="water-bill" accept=".pdf,.jpg,.jpeg,.png" onchange="uploadBill('water', this.files[0])">
+                    <div id="water-bill-status" class="upload-status"></div>
+                </div>
+                <div class="upload-section">
+                    <h3>⚡ Electricity Bill (Hydro One)</h3>
+                    <input type="file" id="electricity-bill" accept=".pdf,.jpg,.jpeg,.png" onchange="uploadBill('electricity', this.files[0])">
+                    <div id="electricity-bill-status" class="upload-status"></div>
+                </div>
+                <div class="upload-section">
+                    <h3>🔥 Gas Bill (Enbridge)</h3>
+                    <input type="file" id="gas-bill" accept=".pdf,.jpg,.jpeg,.png" onchange="uploadBill('gas', this.files[0])">
+                    <div id="gas-bill-status" class="upload-status"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="meters-grid">
@@ -1047,6 +1169,57 @@
 
         // Initial timestamp
         updateTimestamp();
+
+        // Bill Upload Function
+        async function uploadBill(utilityType, file) {
+            if (!file) return;
+
+            const statusEl = document.getElementById(`${utilityType}-bill-status`);
+            statusEl.className = 'upload-status processing';
+            statusEl.innerHTML = `🤖 Analyzing ${file.name} with AI...<br><small>Extracting account number, rates, and billing details...</small>`;
+
+            const formData = new FormData();
+            formData.append('bill', file);
+            formData.append('utility_type', utilityType);
+
+            try {
+                const response = await fetch('/api/bill/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    statusEl.className = 'upload-status success';
+
+                    let extractedHtml = '<strong>✓ Extracted Information:</strong><div class="extracted-data">';
+                    if (data.extracted.account_number) {
+                        extractedHtml += `<div>Account #: ${data.extracted.account_number}</div>`;
+                    }
+                    if (data.extracted.service_address) {
+                        extractedHtml += `<div>Address: ${data.extracted.service_address}</div>`;
+                    }
+                    if (data.extracted.billing_period) {
+                        extractedHtml += `<div>Period: ${data.extracted.billing_period}</div>`;
+                    }
+                    if (data.extracted.total_amount) {
+                        extractedHtml += `<div>Total: $${data.extracted.total_amount}</div>`;
+                    }
+                    extractedHtml += '</div>';
+
+                    statusEl.innerHTML = extractedHtml;
+
+                    // Auto-save to config
+                    console.log('Extracted data:', data.extracted);
+                } else {
+                    throw new Error(data.message || 'Upload failed');
+                }
+            } catch (error) {
+                statusEl.className = 'upload-status error';
+                statusEl.innerHTML = `✗ Error: ${error.message}<br><small>Please try again or contact support.</small>`;
+            }
+        }
     </script>
 </body>
 </html>
