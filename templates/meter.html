@@ -626,10 +626,44 @@
             }
 
             const btn = event.target;
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressMessage = document.getElementById('progressMessage');
+            const progressResult = document.getElementById('progressResult');
+
             btn.disabled = true;
             btn.textContent = '⏳ Processing...';
 
+            // Show progress container
+            progressContainer.classList.add('active');
+            progressContainer.classList.remove('fade-out');
+            progressResult.classList.remove('fade-out');
+            progressResult.style.display = 'none';
+
+            // Progress helper
+            const updateProgress = (percent, message) => {
+                progressBar.style.width = percent + '%';
+                progressBar.textContent = percent + '%';
+                progressMessage.textContent = message;
+            };
+
+            // Step 1: Loading image
+            updateProgress(10, '📂 Loading saved image...');
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            // Step 2: Analyzing
+            updateProgress(20, '🤖 Re-analyzing meter reading with AI...');
+
             try {
+                // Simulate AI processing progress
+                let aiProgress = 20;
+                const aiProgressInterval = setInterval(() => {
+                    if (aiProgress < 70) {
+                        aiProgress += 5;
+                        updateProgress(aiProgress, '🤖 Re-analyzing meter reading with AI...');
+                    }
+                }, 500);
+
                 const response = await fetch('/api/reprocess/{{ meter_type }}', {
                     method: 'POST',
                     headers: {
@@ -639,24 +673,67 @@
                 });
 
                 const data = await response.json();
+                clearInterval(aiProgressInterval);
 
                 if (data.status === 'success') {
+                    // Step 3: Updating metadata
+                    updateProgress(80, '💾 Updating metadata...');
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                    // Step 4: Logging
+                    updateProgress(90, '📝 Logging updated data...');
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                    // Step 5: Complete
+                    updateProgress(100, '✅ Reprocessing complete!');
+
+                    // Show success result
+                    progressResult.className = 'progress-result';
+                    progressResult.innerHTML = `
+                        ✅ <strong>Reprocessed!</strong><br>
+                        New Reading: <strong>${data.reading} m³</strong><br>
+                        Confidence: <strong>${data.confidence}</strong>
+                    `;
+                    progressResult.style.display = 'block';
+
                     btn.textContent = '✅ Done!';
                     btn.style.background = '#28a745';
 
                     // Refresh snapshot cards to show updated reading
                     refreshSnapshotCards();
+
+                    // Fade out success message after 5 seconds
+                    setTimeout(() => {
+                        progressResult.classList.add('fade-out');
+                        progressContainer.classList.add('fade-out');
+
+                        setTimeout(() => {
+                            progressResult.style.display = 'none';
+                            progressContainer.classList.remove('active');
+                            btn.textContent = '🔄 Reprocess';
+                            btn.style.background = '#6c757d';
+                            btn.disabled = false;
+                        }, 1000);
+                    }, 5000);
                 } else {
+                    updateProgress(100, '❌ Reprocessing failed');
+                    progressResult.className = 'progress-result error';
+                    progressResult.innerHTML = `❌ <strong>Error:</strong> ${data.error || 'Unknown error'}`;
+                    progressResult.style.display = 'block';
+
                     btn.textContent = '❌ Failed';
-                    alert('Reprocess failed: ' + (data.error || 'Unknown error'));
                     btn.disabled = false;
                     setTimeout(() => {
                         btn.textContent = '🔄 Reprocess';
                     }, 2000);
                 }
             } catch (error) {
+                updateProgress(100, '❌ Error occurred');
+                progressResult.className = 'progress-result error';
+                progressResult.innerHTML = `❌ <strong>Error:</strong> ${error.message}`;
+                progressResult.style.display = 'block';
+
                 btn.textContent = '❌ Error';
-                alert('Error: ' + error.message);
                 btn.disabled = false;
                 setTimeout(() => {
                     btn.textContent = '🔄 Reprocess';
@@ -679,21 +756,53 @@
             progressContainer.classList.remove('fade-out');
             progressResult.classList.remove('fade-out');
             progressResult.style.display = 'none';
-            progressBar.style.width = '50%';
-            progressBar.textContent = '50%';
-            progressMessage.textContent = 'Capturing snapshot from camera...';
+
+            // Progress simulation for better UX
+            const updateProgress = (percent, message) => {
+                progressBar.style.width = percent + '%';
+                progressBar.textContent = percent + '%';
+                progressMessage.textContent = message;
+            };
+
+            // Step 1: Connecting to camera
+            updateProgress(10, '📡 Connecting to camera...');
+
+            // Step 2: Capturing image (after 300ms)
+            await new Promise(resolve => setTimeout(resolve, 300));
+            updateProgress(20, '📸 Capturing image from meter...');
 
             try {
                 const response = await fetch('/api/snapshot/{{ meter_type }}', {
                     method: 'POST'
                 });
 
+                // Step 3: Processing (show progress during fetch)
+                updateProgress(30, '🤖 Analyzing meter reading with AI...');
+
+                // Simulate AI processing progress
+                let aiProgress = 30;
+                const aiProgressInterval = setInterval(() => {
+                    if (aiProgress < 70) {
+                        aiProgress += 5;
+                        updateProgress(aiProgress, '🤖 Analyzing meter reading with AI...');
+                    }
+                }, 500);
+
                 const data = await response.json();
+                clearInterval(aiProgressInterval);
 
                 if (data.status === 'success') {
-                    progressBar.style.width = '100%';
-                    progressBar.textContent = '100%';
-                    progressMessage.textContent = 'Snapshot captured successfully!';
+                    // Step 4: Archiving
+                    updateProgress(80, '📦 Archiving snapshot...');
+                    await new Promise(resolve => setTimeout(resolve, 400));
+
+                    // Step 5: Logging
+                    updateProgress(90, '📝 Logging data...');
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                    // Step 6: Complete
+                    updateProgress(100, '✅ Snapshot captured successfully!');
+                    await new Promise(resolve => setTimeout(resolve, 200));
 
                     // Show success result
                     progressResult.className = 'progress-result';
