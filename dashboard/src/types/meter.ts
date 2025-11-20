@@ -5,6 +5,7 @@ export interface MeterReading {
   meterType: 'water' | 'electric' | 'gas';
 }
 
+// Meter data interface for display
 export interface MeterData {
   current: number;
   unit: string;

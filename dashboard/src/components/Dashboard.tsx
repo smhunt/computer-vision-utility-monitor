@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Activity, RefreshCw } from 'lucide-react';
 import { MeterCard } from './MeterCard';
 import { MeterChart } from './MeterChart';
 import { CostTracker } from './CostTracker';
 import { fetchLatestReading, fetchHistoricalData } from '../api/influxdb';
-import { MeterData, CostData } from '../types/meter';
+import type { MeterData, CostData } from '../types/meter';
+import { getUserTimezone, getTimezoneAbbreviation, getUTCOffset, formatWithTimezone } from '../utils/timezone';
 
 // Cost rates (configurable)
 const COST_RATES = {
@@ -37,19 +38,19 @@ export function Dashboard() {
   });
 
   // Fetch historical data for charts
-  const { data: waterHistory } = useQuery({
+  const { data: waterHistory, refetch: refetchWaterHistory } = useQuery({
     queryKey: ['history', 'water'],
     queryFn: () => fetchHistoricalData('water', '-7d'),
     refetchInterval: 300000, // Refetch every 5 minutes
   });
 
-  const { data: electricHistory } = useQuery({
+  const { data: electricHistory, refetch: refetchElectricHistory } = useQuery({
     queryKey: ['history', 'electric'],
     queryFn: () => fetchHistoricalData('electric', '-7d'),
     refetchInterval: 300000,
   });
 
-  const { data: gasHistory } = useQuery({
+  const { data: gasHistory, refetch: refetchGasHistory } = useQuery({
     queryKey: ['history', 'gas'],
     queryFn: () => fetchHistoricalData('gas', '-7d'),
     refetchInterval: 300000,
@@ -115,28 +116,37 @@ export function Dashboard() {
   ];
 
   const handleRefresh = () => {
+    // Pull latest cards and charts together so the page stays in sync
     refetchWater();
     refetchElectric();
     refetchGas();
+    refetchWaterHistory();
+    refetchElectricHistory();
+    refetchGasHistory();
     setLastUpdate(new Date());
   };
 
+  // Get user timezone information
+  const userTimezone = getUserTimezone();
+  const timezoneAbbr = getTimezoneAbbreviation();
+  const utcOffset = getUTCOffset();
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm border-b border-neutral-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Activity className="w-8 h-8 text-blue-600" />
+              <Activity className="w-8 h-8 text-neutral-700" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Utility Monitor Dashboard</h1>
-                <p className="text-sm text-gray-500">Real-time meter readings with AI vision</p>
+                <h1 className="text-2xl font-semibold text-neutral-900">Utility Monitor Dashboard</h1>
+                <p className="text-sm text-neutral-600">Real-time meter readings with AI vision</p>
               </div>
             </div>
             <button
               onClick={handleRefresh}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white rounded-md hover:bg-neutral-900 transition-colors shadow-sm"
             >
               <RefreshCw className="w-4 h-4" />
               Refresh
@@ -182,9 +192,14 @@ export function Dashboard() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-8 text-center text-sm text-gray-500">
-          <p>Last updated: {lastUpdate.toLocaleString()}</p>
-          <p className="mt-1">Powered by Claude Vision AI + InfluxDB + Grafana</p>
+        <footer className="mt-12 pt-6 border-t border-neutral-200">
+          <div className="text-center text-sm text-neutral-500 space-y-2">
+            <p className="font-medium">Last updated: {formatWithTimezone(lastUpdate)}</p>
+            <p>Timezone: {userTimezone} ({timezoneAbbr}) • {utcOffset}</p>
+            <p className="text-xs text-neutral-400 mt-3">
+              Powered by Claude Vision AI • InfluxDB • Grafana
+            </p>
+          </div>
         </footer>
       </main>
     </div>
