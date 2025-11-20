@@ -44,6 +44,10 @@ PROJECT_ID = os.getenv("PROJECT_ID", "utility-meter-monitor")
 # Using Sonnet 4.5 for best performance with max tier access
 MODEL = "claude-sonnet-4-5-20250929"
 
+# Alternate model for experimentation (GPT-4o-mini style APIs)
+# Set METER_READER_MODEL env var to switch: "claude" (default) or "gpt4o-mini"
+ALTERNATE_MODEL = os.getenv("METER_READER_MODEL", "claude")
+
 # Prompt for water meter reading
 METER_READING_PROMPT = """You are analyzing a Badger Meter "Absolute Digital" residential water meter.
 
@@ -283,6 +287,45 @@ Your entire response must be parseable as JSON.
 - Only mark confidence as LOW if the image is blurry, digits are unclear, or you're uncertain
 """
 
+# Alternate prompt for GPT-4o-mini style vision models (simpler, odometer-based approach)
+METER_READING_PROMPT_SIMPLE = """You are analyzing an analog Bourdon-Water style water meter.
+Your task is to read the entire meter—including the white-background odometer wheels (which display the whole and tenths of cubic meters) and the small red pointer (which indicates hundredths of a cubic meter).
+
+METER CHARACTERISTICS:
+• The odometer wheels (white background) have six digits in total.
+• The leftmost five wheels show whole cubic meters and tenths (0–99999.0 m³).
+• The rightmost white wheel (black digits) shows the tenths place (0.0–0.9 m³).
+• The small red pointer needle on the circular dial (0–9 scale) shows hundredths of a cubic meter (0.00–0.09 m³).
+• Ignore any extra markings or branding.
+• Wheels advance clockwise; dial numbers increase clockwise.
+• Camera angle may be off-axis; compensate for perspective and glare.
+
+READING RULES:
+1. Read the six white odometer wheels left to right to get the reading in whole cubic meters plus tenths (e.g. 2271.3).
+2. Locate the red needle on the small circular dial and determine its position between 0 and 9.
+3. Convert that to hundredths by dividing by 100 (e.g. needle at "1" → 0.01 m³).
+4. If the needle is between marks, interpolate to one decimal tick (0.01 resolution).
+5. Sum wheel reading and dial reading for the final value (e.g. 2271.30 + 0.07 = 2271.37 m³).
+6. If ambiguous, choose the closest value and lower your confidence.
+
+OUTPUT FORMAT (strict JSON):
+
+{
+  "odometer_value": <number>,       // from wheels, e.g. 2271.3
+  "dial_value": <number>,           // from red pointer, e.g. 0.07
+  "total_reading": <number>,        // sum of the above, e.g. 2271.37
+  "needle_angle_degrees": <number>, // angle of red needle relative to 0 on dial
+  "confidence": <0–1>,              // 0.0 to 1.0, where 1.0 is highest confidence
+  "notes": "<short explanation>"
+}
+
+CRITICAL:
+- Return ONLY valid JSON, no markdown blocks
+- confidence must be a decimal between 0.0 and 1.0
+- All numbers must be valid JSON numbers
+- Expected range: 2000-3000 m³ for this meter
+"""
+
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -408,6 +451,86 @@ def validate_dial_angle(dial_angle: int, notes: str) -> dict:
     }
 
 
+def parse_simple_response(response_text: str) -> Dict:
+    """
+    Parse simple format response (odometer-based) and convert to standard format
+
+    Args:
+        response_text: Raw text response with simple JSON format
+
+    Returns:
+        Dictionary with reading data in standard format
+    """
+    try:
+        # Try to find JSON in the response
+        text = response_text.strip()
+
+        # Remove markdown code blocks if present
+        if '```json' in text:
+            text = text.split('```json')[1].split('```')[0].strip()
+        elif '```' in text:
+            text = text.split('```')[1].split('```')[0].strip()
+
+        # Parse JSON
+        data = json.loads(text)
+
+        # Validate required fields for simple format
+        required_fields = ['odometer_value', 'dial_value', 'total_reading', 'confidence']
+        for field in required_fields:
+            if field not in data:
+                return {
+                    'error': f'Missing required field: {field}',
+                    'raw_response': response_text
+                }
+
+        # Convert to standard format
+        odometer = data['odometer_value']
+        dial_val = data['dial_value']
+
+        # Extract digital_reading (whole number part) and black_digit (tenths)
+        digital_reading = int(odometer)
+        black_digit = int(round((odometer - digital_reading) * 10))
+
+        # Convert confidence from 0-1 to high/medium/low
+        conf_num = data['confidence']
+        if conf_num >= 0.8:
+            confidence = 'high'
+        elif conf_num >= 0.5:
+            confidence = 'medium'
+        else:
+            confidence = 'low'
+
+        # Build standard format result
+        result = {
+            'digital_reading': digital_reading,
+            'black_digit': black_digit,
+            'dial_reading': dial_val,
+            'total_reading': data['total_reading'],
+            'confidence': confidence,
+            'confidence_numeric': conf_num,
+            'notes': data.get('notes', 'Simple format response'),
+            'timestamp': datetime.now().isoformat(),
+            'format': 'simple'  # Tag to indicate which format was used
+        }
+
+        # Add dial angle if present
+        if 'needle_angle_degrees' in data:
+            result['dial_angle_degrees'] = int(data['needle_angle_degrees'])
+
+        return result
+
+    except json.JSONDecodeError as e:
+        return {
+            'error': f'Failed to parse JSON: {str(e)}',
+            'raw_response': response_text
+        }
+    except Exception as e:
+        return {
+            'error': f'Unexpected error: {str(e)}',
+            'raw_response': response_text
+        }
+
+
 def parse_claude_response(response_text: str) -> Dict:
     """
     Parse Claude's response and extract meter reading data
@@ -495,10 +618,11 @@ def read_meter_with_claude(
     image_path: str,
     api_key: str = None,
     model: str = MODEL,
-    prompt: str = METER_READING_PROMPT,
+    prompt: str = None,
     custom_prompt: str = None,
     rotation: Optional[int] = None,
-    auto_orient: bool = True
+    auto_orient: bool = True,
+    prompt_format: str = None
 ) -> Dict:
     """
     Read water meter from image using Claude Vision API
@@ -511,6 +635,8 @@ def read_meter_with_claude(
         custom_prompt: Alternative way to specify custom prompt (overrides prompt)
         rotation: Rotation angle in degrees (0, 90, 180, 270) or None
         auto_orient: Automatically correct orientation from EXIF data
+        prompt_format: Prompt format to use: "detailed" (default) or "simple"
+                      Can also be set via METER_READER_PROMPT env var
 
     Returns:
         Dictionary with reading data:
@@ -530,9 +656,24 @@ def read_meter_with_claude(
             'raw_response': str (optional)
         }
     """
-    # Use custom_prompt if provided, otherwise use prompt
+    # Determine prompt format
+    if prompt_format is None:
+        prompt_format = os.getenv('METER_READER_PROMPT', 'detailed')
+
+    # Use custom_prompt if provided, otherwise select based on format
     if custom_prompt is not None:
         prompt = custom_prompt
+        parser = parse_claude_response  # Use detailed parser for custom prompts
+    elif prompt is not None:
+        parser = parse_claude_response  # Use detailed parser for explicit prompts
+    else:
+        # Select prompt and parser based on format
+        if prompt_format == 'simple':
+            prompt = METER_READING_PROMPT_SIMPLE
+            parser = parse_simple_response
+        else:  # 'detailed' or default
+            prompt = METER_READING_PROMPT
+            parser = parse_claude_response
 
     # Get API key
     if api_key is None:
@@ -595,8 +736,8 @@ def read_meter_with_claude(
         # Extract text from response
         response_text = response.content[0].text
 
-        # Parse response
-        result = parse_claude_response(response_text)
+        # Parse response using the selected parser
+        result = parser(response_text)
 
         # Add usage info
         if hasattr(response, 'usage'):
