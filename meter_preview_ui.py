@@ -757,6 +757,45 @@ def api_reanalyze_snapshot(meter_type):
         }), 500
 
 
+@app.route('/api/snapshots/<meter_name>', methods=['GET'])
+def api_get_snapshots(meter_name):
+    """Get list of snapshots for a meter as JSON"""
+    try:
+        snapshots = []
+        snapshot_dir = LOG_DIR / "meter_snapshots" / meter_name
+
+        if snapshot_dir.exists():
+            # Get all JSON metadata files
+            json_files = sorted(
+                snapshot_dir.glob("*.json"),
+                key=lambda p: p.stat().st_mtime,
+                reverse=True  # Newest first
+            )
+
+            for json_file in json_files:
+                try:
+                    with open(json_file, 'r') as f:
+                        metadata = json.load(f)
+                        # Add the relative path for web serving
+                        image_filename = json_file.stem + '.jpg'
+                        metadata['image_url'] = f'/static/snapshots/{meter_name}/{image_filename}'
+                        snapshots.append(metadata)
+                except (json.JSONDecodeError, FileNotFoundError):
+                    continue
+
+        return jsonify({
+            'status': 'success',
+            'snapshots': snapshots,
+            'count': len(snapshots)
+        })
+
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+
 @app.template_filter('timestamp')
 def timestamp_filter(iso_timestamp):
     """Template filter for formatting timestamps"""
