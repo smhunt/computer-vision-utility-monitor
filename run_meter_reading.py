@@ -13,7 +13,7 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from utils.config_loader import load_config
-from llm_reader import read_meter_with_claude
+from gemini_reader import read_meter
 
 def main():
     # Load config
@@ -76,9 +76,9 @@ def main():
     print(f"✅ Captured {len(jpeg_data)} bytes at {capture_time.strftime('%H:%M:%S')}", file=sys.stderr)
     print(f"📸 Image saved to: {temp_path}", file=sys.stderr)
 
-    # Step 2: Analyze with LLM
+    # Step 2: Analyze with LLM (Gemini with Claude fallback)
     print(f"🤖 Analyzing fresh image captured at {capture_time.strftime('%H:%M:%S')}...", file=sys.stderr)
-    reading = read_meter_with_claude(str(temp_path))
+    reading = read_meter(str(temp_path), fallback_to_claude=True)
 
     if 'error' in reading:
         print(json.dumps(reading))
