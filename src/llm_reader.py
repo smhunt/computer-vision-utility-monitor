@@ -68,9 +68,9 @@ This meter has:
    - COUNT CAREFULLY: Read from LEFT to RIGHT
 
 2. **BLACK DIGIT (6th digit, right side of display - SEPARATE from white digits):**
-   - This is a SINGLE BLACK DIGIT (0-9) on the RIGHT side of the display
+   - This is a SINGLE WHITE DIGIT ON BLACK BACKGROOUND (0-9) on the RIGHT side of the display
    - It is PHYSICALLY SEPARATED from the 5 white digits with a small gap
-   - The black digit shows TENTHS of a cubic meter (first decimal place)
+   - The white digit with black background shows TENTHS of a cubic meter (first decimal place)
    - **CRITICAL - DO NOT CONFUSE:**
      * The rightmost WHITE digit and the BLACK digit are DIFFERENT
      * If you see "02271  5" → white digits = "02271", black digit = "5"
@@ -474,6 +474,10 @@ def parse_simple_response(response_text: str) -> Dict:
         elif '```' in text:
             text = text.split('```')[1].split('```')[0].strip()
 
+        # Remove // comments (Ollama and other models sometimes add these)
+        import re
+        text = re.sub(r'//.*$', '', text, flags=re.MULTILINE)
+
         # Parse JSON
         data = json.loads(text)
 
@@ -486,16 +490,16 @@ def parse_simple_response(response_text: str) -> Dict:
                     'raw_response': response_text
                 }
 
-        # Convert to standard format
-        odometer = data['odometer_value']
-        dial_val = data['dial_value']
+        # Convert to standard format (handle string or number values)
+        odometer = float(data['odometer_value'])
+        dial_val = float(data['dial_value'])
 
         # Extract digital_reading (whole number part) and black_digit (tenths)
         digital_reading = int(odometer)
         black_digit = int(round((odometer - digital_reading) * 10))
 
         # Convert confidence from 0-1 to high/medium/low
-        conf_num = data['confidence']
+        conf_num = float(data['confidence'])
         if conf_num >= 0.8:
             confidence = 'high'
         elif conf_num >= 0.5:
