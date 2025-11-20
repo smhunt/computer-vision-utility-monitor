@@ -746,12 +746,17 @@ def read_meter_with_claude(
         # Parse response using the selected parser
         result = parser(response_text)
 
-        # Add usage info
+        # Add usage info and model tracking
         if hasattr(response, 'usage'):
             result['api_usage'] = {
                 'input_tokens': response.usage.input_tokens,
-                'output_tokens': response.usage.output_tokens
+                'output_tokens': response.usage.output_tokens,
+                'model': model  # Track which model was used
             }
+
+        # Always track the vision model used
+        result['vision_model'] = model
+        result['vision_provider'] = 'anthropic'
 
         return result
 
