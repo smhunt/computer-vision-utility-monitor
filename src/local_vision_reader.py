@@ -106,7 +106,8 @@ def test_with_gemini(image_path: str, prompt_format: str = "simple") -> Dict:
     from llm_reader import METER_READING_PROMPT_SIMPLE, parse_simple_response
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    # Use latest stable flash model
+    model = genai.GenerativeModel('gemini-2.5-flash')
 
     try:
         print(f"🚀 Calling Google Gemini Flash...")
