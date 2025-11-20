@@ -67,15 +67,17 @@ def main():
         print(json.dumps({'error': f'Failed to capture image: {str(e)}'}))
         sys.exit(1)
 
-    # Save temp image
-    temp_path = Path(f'/tmp/meter_capture_{datetime.now().strftime("%Y%m%d_%H%M%S")}.jpg')
+    # Save temp image with timestamp
+    capture_time = datetime.now()
+    temp_path = Path(f'/tmp/meter_capture_{capture_time.strftime("%Y%m%d_%H%M%S")}.jpg')
     with open(temp_path, 'wb') as f:
         f.write(jpeg_data)
 
-    print(f"✅ Captured {len(jpeg_data)} bytes", file=sys.stderr)
+    print(f"✅ Captured {len(jpeg_data)} bytes at {capture_time.strftime('%H:%M:%S')}", file=sys.stderr)
+    print(f"📸 Image saved to: {temp_path}", file=sys.stderr)
 
     # Step 2: Analyze with LLM
-    print(f"🤖 Analyzing image...", file=sys.stderr)
+    print(f"🤖 Analyzing fresh image captured at {capture_time.strftime('%H:%M:%S')}...", file=sys.stderr)
     reading = read_meter_with_claude(str(temp_path))
 
     if 'error' in reading:
@@ -146,7 +148,9 @@ def main():
         'status': 'success',
         'reading': reading.get('total_reading'),
         'confidence': reading.get('confidence'),
-        'timestamp': reading.get('timestamp')
+        'timestamp': reading.get('timestamp'),
+        'size': len(jpeg_data),
+        'dial_angle_degrees': reading.get('dial_angle_degrees')
     }))
 
 if __name__ == '__main__':
