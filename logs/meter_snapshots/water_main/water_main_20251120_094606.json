@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_094606.jpg",
+    "timestamp": "2025-11-20T09:46:06.473851",
+    "size": 381171
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.07,
+    "total_reading": 2271.47,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.4. The red needle on the circular dial is slightly past the 0.07 mark, but it is distinctly closer to 0.07 than to 0.08. The dial's total angular span (from 0.00 to 0.09) is estimated at 120 degrees (from approx. 210 degrees to 330 degrees relative to 12 o'clock). The needle's position at 0.07 represents 7/9ths of this span, resulting in 93.33 degrees relative to the 0.00 mark on the dial.",
+    "timestamp": "2025-11-20T09:46:06.473851",
+    "format": "simple",
+    "dial_angle_degrees": 93,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 232,
+      "total_tokens": 8961,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

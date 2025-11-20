@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_044931.jpg",
+    "timestamp": "2025-11-20T04:49:31.555477",
+    "size": 372438
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "medium",
+    "confidence_numeric": 0.7,
+    "notes": "Odometer wheels are clearly 022710, resulting in 2271.0. The red needle is exactly at the midpoint between the 0.04 and 0.05 marks (i.e., 0.045). Following standard rounding for equidistant values to meet the 0.01 resolution requirement, it is rounded up to 0.05. Confidence is lowered due to this precise midpoint ambiguity.",
+    "timestamp": "2025-11-20T04:49:31.555477",
+    "format": "simple",
+    "dial_angle_degrees": 162,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 180,
+      "total_tokens": 4933,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

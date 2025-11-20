@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_014307.jpg",
+    "timestamp": "2025-11-20T01:43:07.745130",
+    "size": 371493
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 9,
+    "dial_reading": 0.04,
+    "total_reading": 2271.94,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.9. The red needle on the circular dial is positioned between the 0.04 and 0.05 marks. It is visually closer to the 0.04 mark (estimated at approximately 0.042). Following the rule to interpolate to one decimal tick (0.01 resolution), the dial reading is 0.04. The 0.00 mark is at 12 o'clock (0 degrees). The 0.04 mark is visibly at 6 o'clock (180 degrees), and the 0.05 mark is around 7:30 o'clock (approx. 210 degrees). The needle's position at approximately 0.042 corresponds to an angle of about 186.0 degrees from the 0.00 mark.",
+    "timestamp": "2025-11-20T01:43:07.745130",
+    "format": "simple",
+    "dial_angle_degrees": 186,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 274,
+      "total_tokens": 10386,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

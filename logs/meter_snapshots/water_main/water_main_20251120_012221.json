@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_012221.jpg",
+    "timestamp": "2025-11-20T01:22:21.212240",
+    "size": 381543
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reads 02271.0. The red needle is positioned between 0.03 and 0.04, but closer to 0.04. Therefore, the dial reading is 0.04. The total reading is 2271.0 + 0.04 = 2271.04 m\u00b3.",
+    "timestamp": "2025-11-20T01:22:21.212240",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 163,
+      "total_tokens": 3190,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

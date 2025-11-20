@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_020257.jpg",
+    "timestamp": "2025-11-20T02:02:57.115205",
+    "size": 372663
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.03,
+    "total_reading": 2271.13,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 2271.1. The red needle is pointing between 0.03 and 0.04 on the dial. It is at the second minor tick past 0.03. Each minor tick represents 0.002, so the precise reading is 0.03 + (2 * 0.002) = 0.034. Following the rule to interpolate to '0.01 resolution', 0.034 is rounded to 0.03 for the 'dial_value'. The needle angle is calculated from the precise 0.034 reading: (0.034 / 0.1) * 360 = 122.4 degrees.",
+    "timestamp": "2025-11-20T02:02:57.115205",
+    "format": "simple",
+    "dial_angle_degrees": 122,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 250,
+      "total_tokens": 6418,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_020121.jpg",
+    "timestamp": "2025-11-20T02:01:21.096850",
+    "size": 372325
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly show 02271.0. The red needle on the small circular dial points precisely to the 0.05 mark. The 0,00 mark is at 0 degrees (12 o'clock), so 0,05 is at 180 degrees (6 o'clock).",
+    "timestamp": "2025-11-20T02:01:21.096850",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 156,
+      "total_tokens": 3501,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

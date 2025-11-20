@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_032151.jpg",
+    "timestamp": "2025-11-20T03:21:51.061008",
+    "size": 373667
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.98,
+    "notes": "Odometer wheels read 02271.0. The red needle points directly to the 0.04 mark on the dial. The sum is 2271.04.",
+    "timestamp": "2025-11-20T03:21:51.061008",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 128,
+      "total_tokens": 2027,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

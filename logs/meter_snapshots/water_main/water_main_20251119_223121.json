@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_223121.jpg",
+    "timestamp": "2025-11-19T22:31:21.965962",
+    "size": 375523
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.01,
+    "total_reading": 2271.81,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels read 02271.8. The red needle points directly at the '0.01' mark on the dial, following the rule that dial numbers increase clockwise from 0.00. The needle's position corresponds to approximately 45 degrees if 12 o'clock is 0 degrees.",
+    "timestamp": "2025-11-19T22:41:04.433641",
+    "format": "simple",
+    "dial_angle_degrees": 45,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 152,
+      "total_tokens": 5576,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

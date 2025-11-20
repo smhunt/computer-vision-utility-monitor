@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_015541.jpg",
+    "timestamp": "2025-11-20T01:55:41.538064",
+    "size": 371308
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels clearly display 02271.1, which simplifies to 2271.1 cubic meters. The red needle on the circular dial points directly to the 0.04 mark, indicating 0.04 cubic meters. The total reading is the sum of these two values.",
+    "timestamp": "2025-11-20T01:55:41.538064",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 151,
+      "total_tokens": 3134,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

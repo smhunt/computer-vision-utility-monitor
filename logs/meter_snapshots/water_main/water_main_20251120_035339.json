@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_035339.jpg",
+    "timestamp": "2025-11-20T03:53:39.207091",
+    "size": 373270
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The six white odometer wheels clearly display 02271.0 (0 whole cubic meters, 2271 whole cubic meters, and 0 tenths). The red pointer needle is positioned between the 0.03 and 0.04 marks on the circular dial. It is visually past the midpoint between these two marks, therefore, it is rounded up to 0.04 for the hundredths place. The needle angle is estimated relative to 0 degrees at the 12 o'clock position, increasing clockwise.",
+    "timestamp": "2025-11-20T03:53:39.207091",
+    "format": "simple",
+    "dial_angle_degrees": 172,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 198,
+      "total_tokens": 5513,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

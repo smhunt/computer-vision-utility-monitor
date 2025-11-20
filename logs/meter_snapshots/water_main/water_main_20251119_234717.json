@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_234717.jpg",
+    "timestamp": "2025-11-19T23:47:17.103565",
+    "size": 372937
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels read 2271.0. The red needle is precisely at 90 degrees (3 o'clock position), which corresponds to 0.025 m\u00b3. According to the 'interpolate to one decimal tick (0.01 resolution)' rule, this value is rounded to 0.03 m\u00b3. This rounding introduces a slight ambiguity, hence the confidence rating.",
+    "timestamp": "2025-11-19T23:47:17.103565",
+    "format": "simple",
+    "dial_angle_degrees": 90,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 166,
+      "total_tokens": 6189,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

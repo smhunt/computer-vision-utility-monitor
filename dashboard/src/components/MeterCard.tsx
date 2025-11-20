@@ -1,5 +1,8 @@
 import { Droplets, Zap, Flame, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { MeterData } from '../types/meter';
+import type { MeterData } from '../types/meter';
+import { formatInLocalTimezone } from '../utils/timezone';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
 
 interface MeterCardProps {
   type: 'water' | 'electric' | 'gas';
@@ -30,10 +33,10 @@ const meterConfig = {
   },
 };
 
-const confidenceBadgeColors = {
-  high: 'bg-green-100 text-green-800',
-  medium: 'bg-yellow-100 text-yellow-800',
-  low: 'bg-red-100 text-red-800',
+const confidenceBadgeVariant = {
+  high: 'default' as const,
+  medium: 'secondary' as const,
+  low: 'destructive' as const,
 };
 
 export function MeterCard({ type, data }: MeterCardProps) {
@@ -43,41 +46,46 @@ export function MeterCard({ type, data }: MeterCardProps) {
   const TrendIcon = data.trend === 'up' ? TrendingUp : data.trend === 'down' ? TrendingDown : Minus;
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className={`${config.color} p-3 rounded-lg`}>
-            <Icon className="w-6 h-6 text-white" />
+    <Card className="hover:shadow-lg transition-all duration-200">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3">
+            <div className={`${config.color} p-2.5 rounded-xl shadow-lg`}>
+              <Icon className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <CardTitle className="text-base">{config.label}</CardTitle>
+              <CardDescription className="text-xs mt-1">
+                {formatInLocalTimezone(data.lastUpdated, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+              </CardDescription>
+            </div>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">{config.label}</h3>
-            <p className="text-xs text-gray-500">Last updated: {new Date(data.lastUpdated).toLocaleTimeString()}</p>
+          <Badge variant={confidenceBadgeVariant[data.confidence]}>
+            {data.confidence}
+          </Badge>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        {/* Current Reading */}
+        <div className="mb-5">
+          <div className="text-3xl font-bold tracking-tight">
+            {data.current.toLocaleString()}
+            <span className="text-base font-normal text-muted-foreground ml-2">{data.unit}</span>
           </div>
         </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-medium ${confidenceBadgeColors[data.confidence]}`}>
-          {data.confidence}
-        </span>
-      </div>
 
-      {/* Current Reading */}
-      <div className="mb-4">
-        <div className="text-3xl font-bold text-gray-900">
-          {data.current.toLocaleString()}
-          <span className="text-lg font-normal text-gray-500 ml-2">{data.unit}</span>
-        </div>
-      </div>
-
-      {/* 24h Change */}
-      <div className="flex items-center gap-2">
-        <TrendIcon className={`w-4 h-4 ${data.trend === 'up' ? 'text-red-500' : data.trend === 'down' ? 'text-green-500' : 'text-gray-400'}`} />
-        <span className="text-sm text-gray-600">
-          <span className={`font-semibold ${data.trend === 'up' ? 'text-red-600' : data.trend === 'down' ? 'text-green-600' : 'text-gray-600'}`}>
-            {Math.abs(data.change24h).toFixed(2)} {data.unit}
+        {/* 24h Change */}
+        <div className="flex items-center gap-2 pt-4 border-t">
+          <TrendIcon className={`w-4 h-4 ${data.trend === 'up' ? 'text-red-500' : data.trend === 'down' ? 'text-green-500' : 'text-muted-foreground'}`} />
+          <span className="text-sm">
+            <span className={`font-semibold ${data.trend === 'up' ? 'text-red-500' : data.trend === 'down' ? 'text-green-500' : ''}`}>
+              {Math.abs(data.change24h).toFixed(2)} {data.unit}
+            </span>
+            <span className="ml-1 text-muted-foreground">in last 24h</span>
           </span>
-          <span className="ml-1">in last 24h</span>
-        </span>
-      </div>
-    </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

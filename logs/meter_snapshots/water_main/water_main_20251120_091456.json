@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_091456.jpg",
+    "timestamp": "2025-11-20T09:14:56.347949",
+    "size": 373322
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.04,
+    "total_reading": 2271.44,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.4. The small red needle points precisely to the 0.04 mark on the circular dial. The dial's 0-9 scale (0.00-0.09) spans 360 degrees, so each step is 36 degrees. The needle is at 4 steps from 0.00, resulting in 144 degrees relative to the 0.00 mark.",
+    "timestamp": "2025-11-20T09:14:56.347949",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 184,
+      "total_tokens": 7874,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

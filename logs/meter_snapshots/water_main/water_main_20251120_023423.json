@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023423.jpg",
+    "timestamp": "2025-11-20T02:34:23.038532",
+    "size": 373470
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.1. The red needle is visually centered exactly between the 0.03 and 0.04 marks (at 0.035). Following standard rounding for exact midpoints (rounding up), the dial value is 0.04 for 0.01 resolution. The corresponding actual angle for 0.035 is 126.0 degrees (0 at 12 o'clock, 36 degrees per 0.01 increment).",
+    "timestamp": "2025-11-20T02:34:23.038532",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 198,
+      "total_tokens": 4802,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

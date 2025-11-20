@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_233136.jpg",
+    "timestamp": "2025-11-19T23:31:36.231901",
+    "size": 372049
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 02271.0. The rightmost wheel (tenths) is a clear '0'. The red pointer is exactly on the '0.05' tick mark, which is midway between the '0.04' and '0.06' labels. The needle angle is estimated based on 0.04 at approximately 180 degrees (6 o'clock) and 0.06 at approximately 240 degrees (8 o'clock), placing 0.05 at 210 degrees (7 o'clock).",
+    "timestamp": "2025-11-19T23:31:36.231901",
+    "format": "simple",
+    "dial_angle_degrees": 210,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 208,
+      "total_tokens": 4871,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

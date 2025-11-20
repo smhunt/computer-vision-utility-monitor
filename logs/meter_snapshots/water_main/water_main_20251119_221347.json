@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_221347.jpg",
+    "timestamp": "2025-11-19T22:13:47.427873",
+    "size": 378250
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.02,
+    "total_reading": 2271.82,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels read as 02271.8. The rightmost white wheel displays 8 for the tenths place. The red needle is precisely at the 8th sub-tick past the 0.01 mark (indicating 0.018). Following the '0.01 resolution' rule, 0.018 is rounded to the nearest hundredth mark, resulting in 0.02.",
+    "timestamp": "2025-11-19T22:41:37.630429",
+    "format": "simple",
+    "dial_angle_degrees": 64,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 175,
+      "total_tokens": 5643,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_004749.jpg",
+    "timestamp": "2025-11-20T00:47:49.173532",
+    "size": 375938
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.036,
+    "total_reading": 2271.136,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer reads 2271.1 m\u00b3. The red needle is past the 0.03 mark, pointing at approximately the 3rd minor tick after 0.03, which corresponds to 0.036 m\u00b3 (each minor tick represents 0.002 m\u00b3). The angle is calculated assuming 0.00 is at 180 degrees (6 o'clock) and increases clockwise, with each 0.01 increment being 36 degrees.",
+    "timestamp": "2025-11-20T00:47:49.173532",
+    "format": "simple",
+    "dial_angle_degrees": 309,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 195,
+      "total_tokens": 5722,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

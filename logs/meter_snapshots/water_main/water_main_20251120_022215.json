@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_022215.jpg",
+    "timestamp": "2025-11-20T02:22:15.238143",
+    "size": 373360
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels show 02271.0. The rightmost wheel (tenths place) shows '0' clearly visible with '1' just starting to appear at the bottom. The red needle on the small circular dial points precisely to the '0.04' mark, which is at the 6 o'clock position relative to the dial's center and the M\u00b3 label at 12 o'clock.",
+    "timestamp": "2025-11-20T02:22:15.238143",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 172,
+      "total_tokens": 7569,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_094112.jpg",
+    "timestamp": "2025-11-20T09:41:12.384115",
+    "size": 380957
+  },
+  "meter_reading": {
+    "digital_reading": 2274,
+    "black_digit": 9,
+    "dial_reading": 0.08,
+    "total_reading": 2274.98,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer: The leftmost digit '0' is partially obscured but inferred. Digits '227' are clear. The '4' is slightly blurry but discernible. The tenths digit '9' is clear. Dial: The red needle points very close to the '0.08' mark on the circular dial, indicating 0.08 m\u00b3.",
+    "timestamp": "2025-11-20T09:41:12.384115",
+    "format": "simple",
+    "dial_angle_degrees": 288,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 161,
+      "total_tokens": 3986,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

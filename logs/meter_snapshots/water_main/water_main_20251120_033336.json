@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033336.jpg",
+    "timestamp": "2025-11-20T03:33:36.186612",
+    "size": 372783
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.0,
+    "total_reading": 2271.0,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly show 02271.0. The rightmost white wheel shows '0' for the tenths place. The red needle on the small circular dial points precisely to the '0.00' mark, indicating 0 hundredths. The M\u00b3 label is at the top, confirming orientation.",
+    "timestamp": "2025-11-20T03:33:36.186612",
+    "format": "simple",
+    "dial_angle_degrees": 0,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 147,
+      "total_tokens": 1919,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

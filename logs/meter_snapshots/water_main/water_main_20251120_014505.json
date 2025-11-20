@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_014505.jpg",
+    "timestamp": "2025-11-20T01:45:05.385034",
+    "size": 372154
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.0. The 'C' for the tenths digit is interpreted as '0' due to context and appearance. The red needle points to the 9th minor tick after the '0,02' mark. Given 10 minor ticks between '0,02' and '0,04' (a 0.02 span), each tick represents 0.002 m\u00b3. Thus, the needle is at 0.02 + (9 * 0.002) = 0.038. Rounding to 0.01 resolution (as per rules), 0.038 becomes 0.04. The needle angle is calculated clockwise from the '0.00' mark (at 9 o'clock). The '0.02' mark is at 3 o'clock (180 degrees relative to '0.00'), and the '0.04' mark is at 5 o'clock (240 degrees relative to '0.00'). Each 0.002 interval between these marks is 6 degrees. The needle is 9 intervals past '0.02', so 180 + (9 * 6) = 234 degrees.",
+    "timestamp": "2025-11-20T01:45:05.385034",
+    "format": "simple",
+    "dial_angle_degrees": 234,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 363,
+      "total_tokens": 8050,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_231503.jpg",
+    "timestamp": "2025-11-19T23:15:03.561390",
+    "size": 374432
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.025,
+    "total_reading": 2271.825,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels read 02271.8. The red pointer is precisely at the midpoint between the 0.02 and the implied 0.03 mark on the circular dial, indicating 0.025 m\u00b3.",
+    "timestamp": "2025-11-19T23:15:03.561390",
+    "format": "simple",
+    "dial_angle_degrees": 90,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 138,
+      "total_tokens": 2808,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

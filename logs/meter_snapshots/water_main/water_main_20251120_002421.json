@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_002421.jpg",
+    "timestamp": "2025-11-20T00:24:21.712070",
+    "size": 380573
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.037,
+    "total_reading": 2271.037,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 02271.0. The red needle is past the '0,03' mark and points to approximately the 7th tick mark after it, indicating 0.037. The angle is calculated relative to the '0,00' mark (at 9 o'clock position, 270 degrees from 12 o'clock).",
+    "timestamp": "2025-11-20T00:24:21.712070",
+    "format": "simple",
+    "dial_angle_degrees": 133,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 171,
+      "total_tokens": 4011,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

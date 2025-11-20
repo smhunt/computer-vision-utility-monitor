@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_220444.jpg",
+    "timestamp": "2025-11-19T22:04:44.989346",
+    "size": 379234
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.01,
+    "total_reading": 2271.81,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 2271.8. The red pointer is precisely on the 0.01 mark on the circular dial.",
+    "timestamp": "2025-11-19T22:42:06.675447",
+    "format": "simple",
+    "dial_angle_degrees": 66,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 113,
+      "total_tokens": 3494,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

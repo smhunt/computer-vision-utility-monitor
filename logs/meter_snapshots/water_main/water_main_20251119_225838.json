@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_225838.jpg",
+    "timestamp": "2025-11-19T22:58:38.170686",
+    "size": 375207
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.03,
+    "total_reading": 2271.83,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.8, with the rightmost '8' indicating the tenths place based on the rule 'The rightmost white wheel (black digits) shows the tenths place (0.0\u20130.9 m\u00b3).'. The red needle points precisely to the '0.03' mark on the circular dial, indicating 0.03 m\u00b3. The '0' on the dial is assumed to be at 12 o'clock, so 0.03 is 3 divisions clockwise, each being 36 degrees (360/10).",
+    "timestamp": "2025-11-19T22:58:38.170686",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 212,
+      "total_tokens": 5351,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

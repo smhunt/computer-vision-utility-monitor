@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_014930.jpg",
+    "timestamp": "2025-11-20T01:49:30.633261",
+    "size": 372008
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly show 02271.1 (2271.1 m\u00b3). The red pointer on the small circular dial is precisely on the 0.04 mark, indicating 0.04 m\u00b3.",
+    "timestamp": "2025-11-20T01:49:30.633261",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 134,
+      "total_tokens": 3312,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

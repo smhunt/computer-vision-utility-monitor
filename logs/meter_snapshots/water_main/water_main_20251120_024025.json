@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_024025.jpg",
+    "timestamp": "2025-11-20T02:40:25.794370",
+    "size": 373898
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.035,
+    "total_reading": 2271.035,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 2271.0. The red needle is positioned exactly halfway between the 0.03 and 0.04 marks on the circular dial, leading to an interpolated value of 0.035. The angle is calculated assuming 0 degrees at 12 o'clock and clockwise increase for 0.00-0.09 scale.",
+    "timestamp": "2025-11-20T02:40:25.794370",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 171,
+      "total_tokens": 4645,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

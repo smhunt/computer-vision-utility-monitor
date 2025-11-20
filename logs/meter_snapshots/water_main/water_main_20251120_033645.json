@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033645.jpg",
+    "timestamp": "2025-11-20T03:36:45.095317",
+    "size": 371881
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.035,
+    "total_reading": 2271.035,
+    "confidence": "high",
+    "confidence_numeric": 0.8,
+    "notes": "Odometer's tenths digit appears as a 'C'. Interpreted as '0' to comply with the rule that it 'shows the tenths place (0.0\u20130.9 m\u00b3)' and is the closest numerical interpretation for the given shape. Red needle reading is clear at 0.035.",
+    "timestamp": "2025-11-20T03:36:45.095317",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 152,
+      "total_tokens": 6226,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_014809.jpg",
+    "timestamp": "2025-11-20T01:48:09.630627",
+    "size": 371806
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.037,
+    "total_reading": 2271.137,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels read 02271.1 (2271.1 m\u00b3). The red needle on the circular dial is positioned at the 7th small tick mark past 0.03, indicating 0.037 m\u00b3. The angle is calculated assuming 0.00 is at 0 degrees (12 o'clock) and each 0.01 increment is 36 degrees clockwise (3.7 * 36 = 133.2).",
+    "timestamp": "2025-11-20T01:48:09.630627",
+    "format": "simple",
+    "dial_angle_degrees": 133,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 194,
+      "total_tokens": 7299,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_050335.jpg",
+    "timestamp": "2025-11-20T05:03:35.639271",
+    "size": 373043
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 02271.1. The red needle points to approximately 6 ticks past the 0.03 mark, indicating a value of 0.036. Rounded to 0.01 resolution, this becomes 0.04. The needle angle is calculated based on linear interpolation between 0.03 (at ~150 deg) and 0.04 (at ~210 deg), resulting in 186 degrees for 0.036.",
+    "timestamp": "2025-11-20T05:03:35.639271",
+    "format": "simple",
+    "dial_angle_degrees": 186,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 197,
+      "total_tokens": 7291,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

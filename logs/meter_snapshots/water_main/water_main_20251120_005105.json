@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_005105.jpg",
+    "timestamp": "2025-11-20T00:51:05.478358",
+    "size": 381076
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.0. The red needle points at the 3rd minor tick past 0.03 (indicating 0.033). Per rules, this is rounded to the nearest 0.01 resolution, resulting in 0.03. Needle angle calculated relative to the 0.00 mark on the dial.",
+    "timestamp": "2025-11-20T00:51:05.478358",
+    "format": "simple",
+    "dial_angle_degrees": 118,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 165,
+      "total_tokens": 6302,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

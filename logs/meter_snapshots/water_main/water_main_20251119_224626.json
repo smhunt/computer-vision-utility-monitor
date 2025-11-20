@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_224626.jpg",
+    "timestamp": "2025-11-19T22:46:26.842170",
+    "size": 377646
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.02,
+    "total_reading": 2271.82,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.8. The red needle is pointing very close to the 0.02 mark on the dial, past the halfway point between 0.01 and 0.02, thus rounded to 0.02. The angle for 0.02 is 72 degrees clockwise from the 0.00 mark.",
+    "timestamp": "2025-11-19T22:46:26.842170",
+    "format": "simple",
+    "dial_angle_degrees": 72,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 167,
+      "total_tokens": 3615,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_012934.jpg",
+    "timestamp": "2025-11-20T01:29:34.616054",
+    "size": 379914
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reading 2271.1 is clear. The red needle is exactly midway between the 0.03 and 0.04 marks on the dial. Per instructions, when ambiguous and equidistant, the closest value (rounding up) was chosen for the dial_value (0.04). The needle_angle_degrees reflects its precise physical position midway between 0.03 (108 deg) and 0.04 (144 deg).",
+    "timestamp": "2025-11-20T01:29:34.616054",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 186,
+      "total_tokens": 4401,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

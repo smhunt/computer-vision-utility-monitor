@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_012925.jpg",
+    "timestamp": "2025-11-20T01:29:25.147048",
+    "size": 380466
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read as 02271. The rightmost wheel (tenths) shows 0, with a slight hint of 1 appearing at the bottom, indicating it's still 0. The red needle on the dial is clearly past 0.03 and very close to 0.04. Rounding to the nearest 0.01 increment, it is 0.04. The total reading is 2271.0 + 0.04 = 2271.04 m\u00b3.",
+    "timestamp": "2025-11-20T01:29:25.147048",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 202,
+      "total_tokens": 4330,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

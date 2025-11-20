@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_032949.jpg",
+    "timestamp": "2025-11-20T03:29:49.145624",
+    "size": 371188
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels clearly show 02271.0. The red needle points to the second small tick mark after the 0.05 major mark on the circular dial. This corresponds to a reading of 0.054 m\u00b3. According to rule 4, this is interpolated to the nearest 0.01 resolution, making it 0.05 as it is closer to 0.05 than 0.06. The 0.05 mark is at 180 degrees (6 o'clock) and 0.06 is at 210 degrees (7 o'clock), making the needle angle 180 + 0.4 * 30 = 192 degrees.",
+    "timestamp": "2025-11-20T03:29:49.145624",
+    "format": "simple",
+    "dial_angle_degrees": 192,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 244,
+      "total_tokens": 8802,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

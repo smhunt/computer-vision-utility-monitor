@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_042006.jpg",
+    "timestamp": "2025-11-20T04:20:06.694716",
+    "size": 373551
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels are clear, showing 02271.1. The red needle on the hundredths dial is pointing directly at the 0.04 mark. The angle is estimated based on 0.01 at ~60 deg, 0.02 at ~90 deg, 0.03 at ~120 deg, and 0.04 at ~150 deg from 12 o'clock.",
+    "timestamp": "2025-11-20T04:20:06.694716",
+    "format": "simple",
+    "dial_angle_degrees": 150,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 182,
+      "total_tokens": 6889,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_094734.jpg",
+    "timestamp": "2025-11-20T09:47:34.681265",
+    "size": 380574
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 4,
+    "dial_reading": 0.05,
+    "total_reading": 2271.45,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reads 2271.4. Red needle is visually between 0.04 and 0.05, approximately 0.045. Following the rule to interpolate to one decimal tick (0.01 resolution), 0.045 rounds up to 0.05. Angle calculated based on visual position 0.045. Slight ambiguity on needle position, hence confidence is 0.9.",
+    "timestamp": "2025-11-20T09:47:34.681265",
+    "format": "simple",
+    "dial_angle_degrees": 162,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 177,
+      "total_tokens": 4230,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

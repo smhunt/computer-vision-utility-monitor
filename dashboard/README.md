@@ -8,12 +8,16 @@ A modern React dashboard for viewing real-time utility meter readings powered by
 - **Historical Charts**: 7-day historical data visualization using Chart.js
 - **Cost Tracking**: Automatic cost calculation based on usage
 - **Confidence Scoring**: Visual indicators for AI reading confidence (high/medium/low)
+- **Modern UI Components**: Built with shadcn/ui for accessible, beautiful components
+- **Dark/Light Mode**: Theme toggle with system preference detection
+- **Auto-Refresh**: Configurable automatic data refresh with localStorage persistence
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 
 ## Tech Stack
 
 - **React 18** with TypeScript
 - **Vite** for fast development and building
+- **shadcn/ui** - High-quality, accessible React components built on Radix UI
 - **Tailwind CSS** for styling
 - **Chart.js** (react-chartjs-2) for data visualization
 - **TanStack Query** for data fetching and caching
@@ -80,17 +84,26 @@ dashboard/
 │   ├── api/
 │   │   └── influxdb.ts          # InfluxDB API client
 │   ├── components/
+│   │   ├── ui/                  # shadcn/ui components
+│   │   │   ├── card.tsx         # Card component
+│   │   │   ├── badge.tsx        # Badge component
+│   │   │   ├── button.tsx       # Button component
+│   │   │   └── separator.tsx    # Separator component
 │   │   ├── Dashboard.tsx        # Main dashboard component
 │   │   ├── MeterCard.tsx        # Individual meter card
 │   │   ├── MeterChart.tsx       # Historical data chart
-│   │   └── CostTracker.tsx      # Cost tracking component
+│   │   ├── CostTracker.tsx      # Cost tracking component
+│   │   └── ThemeToggle.tsx      # Dark/light mode toggle
 │   ├── types/
 │   │   └── meter.ts             # TypeScript types
+│   ├── utils/
+│   │   └── timezone.ts          # Timezone utilities
 │   ├── App.tsx                  # Root component
 │   ├── main.tsx                 # Application entry point
 │   └── index.css                # Global styles
 ├── public/                      # Static assets
 ├── .env.example                 # Environment variables template
+├── components.json              # shadcn/ui configuration
 ├── tailwind.config.js           # Tailwind CSS configuration
 ├── tsconfig.json                # TypeScript configuration
 ├── vite.config.ts               # Vite configuration

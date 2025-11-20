@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_233423.jpg",
+    "timestamp": "2025-11-19T23:34:23.313967",
+    "size": 371731
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.0. The red needle points precisely to the 0.03 mark on the dial. The 0.00 mark is at 9 o'clock, and the dial increases clockwise. The 0.03 mark is at 12 o'clock, which is 3 segments of 36 degrees each (3 * 36 = 108 degrees) from the 0.00 mark.",
+    "timestamp": "2025-11-19T23:34:23.313967",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 187,
+      "total_tokens": 2795,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

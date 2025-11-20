@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_091010.jpg",
+    "timestamp": "2025-11-20T09:10:10.460545",
+    "size": 373384
+  },
+  "meter_reading": {
+    "digital_reading": 2274,
+    "black_digit": 9,
+    "dial_reading": 0.05,
+    "total_reading": 2274.95,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels: 02274.9. The first digit (10,000s place) is blurry but inferred as '0' to fit the expected reading range of 2000-3000 m\u00b3. The red needle clearly points to the 0.05 mark. The 0.04 mark is at the 12 o'clock position (0 degrees), and the 0.05 mark is 36 degrees clockwise from it.",
+    "timestamp": "2025-11-20T09:10:10.460545",
+    "format": "simple",
+    "dial_angle_degrees": 36,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 187,
+      "total_tokens": 7241,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

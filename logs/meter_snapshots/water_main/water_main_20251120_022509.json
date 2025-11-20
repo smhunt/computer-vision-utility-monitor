@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_022509.jpg",
+    "timestamp": "2025-11-20T02:25:09.374141",
+    "size": 374036
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.1. The red needle is pointing just shy of the 0.04 mark on the dial, but clearly past the midpoint between 0.03 and 0.04. Therefore, it is rounded up to 0.04. The 0.00 mark is considered at 0 degrees (top), and each 0.01 increment is 36 degrees clockwise.",
+    "timestamp": "2025-11-20T02:25:09.374141",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 180,
+      "total_tokens": 4811,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_035734.jpg",
+    "timestamp": "2025-11-20T03:57:34.016956",
+    "size": 371907
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.035,
+    "total_reading": 2271.035,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels read 02271.0. The red needle is precisely at the 5th minor tick mark between the 0.03 and 0.04 major marks, indicating 0.035. The needle angle is calculated based on a 0-9 scale where 0 is at 12 o'clock and each increment is 36 degrees (3.5 * 36 = 126 degrees).",
+    "timestamp": "2025-11-20T03:57:34.016956",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 184,
+      "total_tokens": 5886,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

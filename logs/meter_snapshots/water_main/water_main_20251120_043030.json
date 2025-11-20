@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_043030.jpg",
+    "timestamp": "2025-11-20T04:30:30.822622",
+    "size": 373119
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The six white odometer wheels read 02271.0, with the rightmost black-digit wheel clearly showing 0 for tenths. The red pointer needle is pointing precisely at the 0.04 mark on the circular dial for hundredths.",
+    "timestamp": "2025-11-20T04:30:30.822622",
+    "format": "simple",
+    "dial_angle_degrees": 145,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 137,
+      "total_tokens": 2871,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

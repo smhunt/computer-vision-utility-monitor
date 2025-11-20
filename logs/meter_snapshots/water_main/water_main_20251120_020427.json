@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_020427.jpg",
+    "timestamp": "2025-11-20T02:04:27.394289",
+    "size": 371693
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reads 2271.0. The rightmost wheel shows '0'. The red needle points between 0.04 and 0.05, slightly closer to 0.05 (approximately 0.049), which rounds to 0.05 for 0.01 resolution. The angle corresponds to 0.049.",
+    "timestamp": "2025-11-20T02:04:27.394289",
+    "format": "simple",
+    "dial_angle_degrees": 176,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 165,
+      "total_tokens": 5278,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

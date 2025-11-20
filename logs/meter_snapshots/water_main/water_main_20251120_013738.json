@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_013738.jpg",
+    "timestamp": "2025-11-20T01:37:38.104308",
+    "size": 376619
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.037,
+    "total_reading": 2271.037,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels read 02271 for whole m\u00b3 and 0 for tenths. The red needle points between 0.03 and 0.04, estimated at 0.037 due to slight blur.",
+    "timestamp": "2025-11-20T01:37:38.104308",
+    "format": "simple",
+    "dial_angle_degrees": 133,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 132,
+      "total_tokens": 2875,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

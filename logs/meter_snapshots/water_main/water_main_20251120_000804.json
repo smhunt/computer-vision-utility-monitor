@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_000804.jpg",
+    "timestamp": "2025-11-20T00:08:04.579531",
+    "size": 371907
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.0. The red needle points between 0.03 and 0.04, estimated at 0.036 (based on finer tick marks), which rounds up to 0.04 for the 0.01 resolution requirement. The needle angle is calculated from this finer reading (0.036) relative to the 0.00 mark on the dial (3.6 * 36 degrees).",
+    "timestamp": "2025-11-20T00:08:04.579531",
+    "format": "simple",
+    "dial_angle_degrees": 129,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 188,
+      "total_tokens": 7387,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

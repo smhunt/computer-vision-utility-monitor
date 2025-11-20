@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_043623.jpg",
+    "timestamp": "2025-11-20T04:36:23.526095",
+    "size": 373133
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 3,
+    "dial_reading": 0.043,
+    "total_reading": 2271.343,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The white odometer wheels clearly show '02271.3'. The small red pointer is positioned between the '0.04' and '0.05' marks on the circular dial. It appears to be approximately 3/10ths of the way past the '0.04' mark, leading to an interpolated dial value of 0.043 m\u00b3. The needle angle is calculated relative to 0 degrees at the 12 o'clock position (where the m\u00b3 label is), increasing clockwise. The 0.04 mark is at 180 degrees and the 0.05 mark is at 210 degrees; therefore, 0.043 corresponds to 180 + (0.3 * 30) = 189 degrees.",
+    "timestamp": "2025-11-20T04:36:23.526095",
+    "format": "simple",
+    "dial_angle_degrees": 189,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 259,
+      "total_tokens": 6357,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

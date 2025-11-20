@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_024503.jpg",
+    "timestamp": "2025-11-20T02:45:03.869193",
+    "size": 372734
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer reads 02271.0, which simplifies to 2271.0. The red dial needle is pointing between 0.04 and 0.05, slightly past 0.04. Interpolating to 0.01 resolution, it is closest to 0.04.",
+    "timestamp": "2025-11-20T02:45:03.869193",
+    "format": "simple",
+    "dial_angle_degrees": 151,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 155,
+      "total_tokens": 5918,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

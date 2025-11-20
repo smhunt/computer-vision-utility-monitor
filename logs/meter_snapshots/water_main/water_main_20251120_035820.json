@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_035820.jpg",
+    "timestamp": "2025-11-20T03:58:20.809271",
+    "size": 373419
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly read 02271. The tenths wheel is transitioning between 0 and 1, but since the hundredths dial is at 0.04, the tenths value is still 0. The red needle is pointing just past 0.04, closer to 0.04 than 0.05, so rounded to 0.01 resolution, it's 0.04. The angle for 0.04 is 4 * 36 = 144 degrees from 0 (12 o'clock).",
+    "timestamp": "2025-11-20T03:58:20.809271",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 209,
+      "total_tokens": 5067,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

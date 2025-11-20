@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1em;
+        }
+
+        .nav-links {
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            background: #334155;
+            color: #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #475569;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .flash.success {
+            background: #064e3b;
+            color: #6ee7b7;
+            border-left-color: #10b981;
+        }
+
+        .flash.error {
+            background: #7f1d1d;
+            color: #fecaca;
+            border-left-color: #ef4444;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1200px) {
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .config-section {
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #334155;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            background: #334155;
+            padding: 20px;
+            border-bottom: 1px solid #475569;
+        }
+
+        .section-header h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 0.95em;
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 500px;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: #6b7280;
+        }
+
+        button.secondary:hover {
+            background: #4b5563;
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+        }
+
+        .help-text {
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            margin-top: 20px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .help-text strong {
+            color: #dbeafe;
+        }
+
+        .help-text code {
+            background: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+        }
+
+        .warning-box {
+            background: #7f1d1d;
+            color: #fecaca;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+            margin-bottom: 20px;
+        }
+
+        .warning-box strong {
+            color: #fee2e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚙️ Configuration Editor</h1>
+        <p>Edit meter hardware settings and utility pricing rates</p>
+    </div>
+
+    <div class="nav-links">
+        <a href="/">← Back to Dashboard</a>
+        <a href="/settings">View Live Meters</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="warning-box">
+        <strong>⚠️ Warning:</strong> Changes to configuration files will reload the system. Make sure your YAML and JSON syntax is correct before saving.
+    </div>
+
+    <div class="config-grid">
+        <!-- Meter Configuration -->
+        <div class="config-section">
+            <div class="section-header">
+                <h2>📹 Meter Configuration</h2>
+                <p>Camera IPs, reading intervals, and meter hardware setup</p>
+            </div>
+            <div class="section-body">
+                <form method="POST" action="/config/save/meters">
+                    <label for="meters_config">meters.yaml</label>
+                    <textarea id="meters_config" name="meters_config" spellcheck="false">{{ meters_config }}</textarea>
+
+                    <div class="button-group">
+                        <button type="submit">💾 Save Meter Config</button>
+                        <button type="button" class="secondary" onclick="location.reload()">🔄 Reset</button>
+                    </div>
+
+                    <div class="help-text">
+                        <strong>Format:</strong> YAML<br>
+                        <strong>Example:</strong><br>
+                        <code>meters:</code><br>
+                        <code>  - name: "water_main"</code><br>
+                        <code>    type: "water"</code><br>
+                        <code>    camera_ip: "10.10.10.207"</code><br>
+                        <code>    reading_interval: 600</code>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Pricing Configuration -->
+        <div class="config-section">
+            <div class="section-header">
+                <h2>💰 Pricing Configuration</h2>
+                <p>Utility rates, household info, and cost calculations</p>
+            </div>
+            <div class="section-body">
+                <form method="POST" action="/config/save/pricing">
+                    <label for="pricing_config">pricing.json</label>
+                    <textarea id="pricing_config" name="pricing_config" spellcheck="false">{{ pricing_config }}</textarea>
+
+                    <div class="button-group">
+                        <button type="submit">💾 Save Pricing Config</button>
+                        <button type="button" class="secondary" onclick="location.reload()">🔄 Reset</button>
+                    </div>
+
+                    <div class="help-text">
+                        <strong>Format:</strong> JSON<br>
+                        <strong>Contains:</strong><br>
+                        • Household address and timezone<br>
+                        • Utility account numbers<br>
+                        • Water, electricity, and gas rates<br>
+                        • Bill upload history
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-grow textareas
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.style.height = textarea.scrollHeight + 'px';
+        });
+
+        // Confirm before leaving with unsaved changes
+        let formChanged = false;
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', () => {
+                formChanged = true;
+            });
+        });
+
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', () => {
+                formChanged = false;
+            });
+        });
+
+        window.addEventListener('beforeunload', (e) => {
+            if (formChanged) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        });
+    </script>
+</body>
+</html>

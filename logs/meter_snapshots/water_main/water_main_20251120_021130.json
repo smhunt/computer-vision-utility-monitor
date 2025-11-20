@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_021130.jpg",
+    "timestamp": "2025-11-20T02:11:30.338223",
+    "size": 372988
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.07,
+    "total_reading": 2271.17,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels clearly show 02271.1. The red needle on the circular dial points directly to the '7' mark, indicating 0.07 hundredths of a cubic meter. The image quality is good, allowing for a confident reading.",
+    "timestamp": "2025-11-20T02:11:30.338223",
+    "format": "simple",
+    "dial_angle_degrees": 252,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 141,
+      "total_tokens": 2257,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

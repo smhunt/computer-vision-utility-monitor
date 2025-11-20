@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_003839.jpg",
+    "timestamp": "2025-11-20T00:38:39.489040",
+    "size": 376322
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.02,
+    "total_reading": 2271.82,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.8, which is 2271.8 m\u00b3. The red dial pointer is positioned exactly halfway between the 0.02 and 0.03 marks (representing 0.025 m\u00b3). Following the rule to interpolate to 0.01 resolution, and in cases of exact halfway ambiguity, a conservative reading of 0.02 m\u00b3 was chosen for the dial_value. The needle_angle_degrees reflects the true physical position of the needle at 0.025 (90 degrees clockwise from 0.00).",
+    "timestamp": "2025-11-20T00:38:39.489040",
+    "format": "simple",
+    "dial_angle_degrees": 90,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 216,
+      "total_tokens": 5256,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

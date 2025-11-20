@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_043340.jpg",
+    "timestamp": "2025-11-20T04:33:40.608264",
+    "size": 373363
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels read 2271.0. The red needle is positioned between 0.04 and 0.05, visually past the midpoint and thus rounded to 0.05 based on 0.01 resolution. The angle is calculated assuming the '0.00' mark (co-located with '0.09' at the top-left) is 0 degrees, and each 0.01 increment represents 36 degrees clockwise.",
+    "timestamp": "2025-11-20T04:33:40.608264",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 187,
+      "total_tokens": 6667,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

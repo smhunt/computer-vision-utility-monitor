@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_004309.jpg",
+    "timestamp": "2025-11-20T00:43:09.725276",
+    "size": 380647
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.038,
+    "total_reading": 2271.038,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels show 02271.0. The red needle is positioned at the 4th small tick mark after the 0.03 indication on the dial. Each small tick represents 0.002 m\u00b3 (0.01/5). Thus, 0.03 + (4 * 0.002) = 0.038 m\u00b3. The '0.00' mark is at the 6 o'clock position (0 degrees for the dial calculation). Each 0.01 increment is 36 degrees. So, 3.8 * 36 = 136.8 degrees.",
+    "timestamp": "2025-11-20T00:43:09.725276",
+    "format": "simple",
+    "dial_angle_degrees": 136,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 229,
+      "total_tokens": 3753,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

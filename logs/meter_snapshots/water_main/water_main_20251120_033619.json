@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033619.jpg",
+    "timestamp": "2025-11-20T03:36:19.480068",
+    "size": 372438
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reading of 2271.0 is clear. The red needle is positioned between 0.04 and 0.05 marks. Visually, it is past the halfway point towards 0.05 (~0.046). Per instructions to interpolate to 0.01 resolution and choose the closest value, 0.05 is selected. The needle angle reflects its actual physical position, approximately 65% of the way from the 0.04 mark (180 degrees) to the 0.05 mark (225 degrees).",
+    "timestamp": "2025-11-20T03:36:19.480068",
+    "format": "simple",
+    "dial_angle_degrees": 209,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 210,
+      "total_tokens": 7362,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

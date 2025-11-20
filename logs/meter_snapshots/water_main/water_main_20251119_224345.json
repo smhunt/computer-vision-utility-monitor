@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_224345.jpg",
+    "timestamp": "2025-11-19T22:43:45.808459",
+    "size": 376384
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 3,
+    "dial_reading": 0.01,
+    "total_reading": 2271.31,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly show 02271.3. The red needle on the circular dial points precisely to the 0.01 mark. The 'm\u00b3' label is at 12 o'clock, and the 0.01 mark is approximately 30 degrees clockwise from 12 o'clock.",
+    "timestamp": "2025-11-19T22:44:24.105717",
+    "format": "simple",
+    "dial_angle_degrees": 30,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 147,
+      "total_tokens": 6194,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

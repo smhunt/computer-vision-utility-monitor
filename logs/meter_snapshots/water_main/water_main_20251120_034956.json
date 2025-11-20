@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_034956.jpg",
+    "timestamp": "2025-11-20T03:49:56.277508",
+    "size": 373462
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels clearly show 02271.0. The red needle is pointing approximately one-third of the way between the 0.03 and 0.04 marks, closer to 0.03. Per instructions, this is rounded to 0.03 for the hundredths place.",
+    "timestamp": "2025-11-20T03:49:56.277508",
+    "format": "simple",
+    "dial_angle_degrees": 118,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 148,
+      "total_tokens": 3950,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

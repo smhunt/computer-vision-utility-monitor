@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023457.jpg",
+    "timestamp": "2025-11-20T02:34:57.929831",
+    "size": 372589
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels show 02271.1. The units digit (fifth from left) and tenths digit (rightmost white wheel) are both clearly showing '1', even though the next digit '2' is just beginning to appear below. The red needle on the circular dial is pointing between the '0.03' and '0.04' marks. It is visually past the halfway point, making it closer to '0.04'. The dial has 10 divisions (0.00-0.09), each representing 36 degrees. Relative to the 0.00 mark, the 0.04 mark is at 4 * 36 = 144 degrees.",
+    "timestamp": "2025-11-20T02:34:57.929831",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 238,
+      "total_tokens": 7010,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

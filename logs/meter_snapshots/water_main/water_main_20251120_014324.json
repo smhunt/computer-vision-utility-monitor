@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_014324.jpg",
+    "timestamp": "2025-11-20T01:43:24.897257",
+    "size": 371057
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.03,
+    "total_reading": 2271.83,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer reads 2271.8 clearly. Red needle points directly at the 0.03 mark on the dial. Angle calculated assuming 0.00 is at 0 degrees (12 o'clock) and each 0.01 increment is 36 degrees clockwise.",
+    "timestamp": "2025-11-20T01:43:24.897257",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 148,
+      "total_tokens": 3145,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

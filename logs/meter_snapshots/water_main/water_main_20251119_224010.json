@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_224010.jpg",
+    "timestamp": "2025-11-19T22:40:10.686193",
+    "size": 375056
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.012,
+    "total_reading": 2271.812,
+    "confidence": "high",
+    "confidence_numeric": 0.85,
+    "notes": "The six odometer wheels read 022718, with the '8' being the tenths digit, resulting in 2271.8. The red needle on the circular dial is pointing past the 0.01 mark, specifically to the second minor tick after 0.01, which corresponds to 0.012. The sum is 2271.812. Some blur on the first odometer digit and fine interpolation for the needle reduce confidence slightly.",
+    "timestamp": "2025-11-19T22:40:10.686193",
+    "format": "simple",
+    "dial_angle_degrees": 43,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 191,
+      "total_tokens": 5425,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

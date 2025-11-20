@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_011143.jpg",
+    "timestamp": "2025-11-20T01:11:43.300110",
+    "size": 381101
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.03,
+    "total_reading": 2271.13,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.1. The red needle points precisely to the 0.03 mark on the circular dial. Needle angle is estimated relative to the 12 o'clock position (where M\u00b3 is located).",
+    "timestamp": "2025-11-20T01:11:43.300110",
+    "format": "simple",
+    "dial_angle_degrees": 150,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 136,
+      "total_tokens": 7366,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

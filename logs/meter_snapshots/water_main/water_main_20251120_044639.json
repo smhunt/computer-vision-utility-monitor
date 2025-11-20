@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_044639.jpg",
+    "timestamp": "2025-11-20T04:46:39.571049",
+    "size": 373167
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.05,
+    "total_reading": 2271.05,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The six odometer wheels read 02271.0 (leftmost five for whole m\u00b3, rightmost black-on-white wheel for tenths). The red needle on the circular dial points between 0.04 and 0.05. It appears to be slightly past the halfway point towards 0.05 (bottom center), so it is rounded up to 0.05 for the hundredths place, as per the 0.01 resolution rule.",
+    "timestamp": "2025-11-20T04:46:39.571049",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 184,
+      "total_tokens": 5423,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

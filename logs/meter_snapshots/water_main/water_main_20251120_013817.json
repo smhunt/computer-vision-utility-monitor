@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_013817.jpg",
+    "timestamp": "2025-11-20T01:38:17.261460",
+    "size": 377294
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.03,
+    "total_reading": 2271.03,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 02271.0. The red needle points to approximately 90 degrees (3 o'clock position, relative to 12 o'clock as 0 degrees clockwise). The dial marks indicate 0.03 is around 80-85 degrees and 0.04 is around 110-115 degrees. The needle is visually closer to the 0.03 mark, so 0.03 is chosen for the hundredths place.",
+    "timestamp": "2025-11-20T01:38:17.261460",
+    "format": "simple",
+    "dial_angle_degrees": 90,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 191,
+      "total_tokens": 7798,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

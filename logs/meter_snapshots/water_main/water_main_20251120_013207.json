@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_013207.jpg",
+    "timestamp": "2025-11-20T01:32:07.494133",
+    "size": 380922
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271. The rightmost wheel (tenths place) shows the top of a '0' and the bottom of a '1', indicating it's transitioning from 0 to 1. Given the red needle for hundredths is at 0.04, the tenths place is still considered 0. The red needle is clearly past 0.03 and very close to 0.04, so it is rounded to 0.04.",
+    "timestamp": "2025-11-20T01:32:07.494133",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 189,
+      "total_tokens": 3939,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

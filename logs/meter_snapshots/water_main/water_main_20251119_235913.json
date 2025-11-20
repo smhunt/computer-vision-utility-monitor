@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_235913.jpg",
+    "timestamp": "2025-11-19T23:59:13.534418",
+    "size": 371586
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly read 02271.0, which simplifies to 2271.0 m\u00b3. The red needle points precisely at the 4th minor tick after the 0.03 mark on the dial. Each major segment (e.g., 0.03 to 0.04) has 5 sub-segments (4 ticks), meaning each sub-segment is 0.002 m\u00b3. Therefore, the needle's physical position indicates 0.03 + (4 * 0.002) = 0.038 m\u00b3. However, per the '0.01 resolution' rule for `dial_value`, this was rounded to the nearest hundredth, resulting in 0.04 m\u00b3. The `needle_angle_degrees` reflects the actual position of 0.038, assuming 0.00 at 0 degrees (12 o'clock) and a 360-degree sweep for 0.10 m\u00b3 (0.38 * 360 = 136.8 degrees).",
+    "timestamp": "2025-11-19T23:59:13.534418",
+    "format": "simple",
+    "dial_angle_degrees": 136,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 322,
+      "total_tokens": 7237,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

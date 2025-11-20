@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023128.jpg",
+    "timestamp": "2025-11-20T02:31:28.599498",
+    "size": 373854
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.98,
+    "notes": "Odometer wheels read 02271.0, which is 2271.0 m\u00b3. The red needle on the circular dial points between 0.03 and 0.04. Visually, it is estimated to be at approximately 0.037. Following the rule to interpolate to one decimal tick (0.01 resolution), 0.037 rounds up to 0.04. The dial scale has 9 main divisions (0.00 to 0.08) covering 360 degrees, meaning each 0.01 unit represents 40 degrees. With 0.00 at 0 degrees, 0.037 corresponds to an angle of 148.0 degrees (0.037 * 40 / 0.01 = 148).",
+    "timestamp": "2025-11-20T02:31:28.599498",
+    "format": "simple",
+    "dial_angle_degrees": 148,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 271,
+      "total_tokens": 7421,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_002125.jpg",
+    "timestamp": "2025-11-20T00:21:25.814119",
+    "size": 376193
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels read 02271.1. The leftmost '0' is clear. The tenths digit '1' is slightly blurry but identifiable as a '1'. The red needle is pointing very close to the '0.04' mark on the circular dial. Following the rule to interpolate to 0.01 resolution, 0.04 is the closest value. The 0.00 mark is at 0 degrees (12 o'clock), and each 0.01 increment is 36 degrees clockwise, so 0.04 corresponds to 144 degrees.",
+    "timestamp": "2025-11-20T00:21:25.814119",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 214,
+      "total_tokens": 4641,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

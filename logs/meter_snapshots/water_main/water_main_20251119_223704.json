@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251119_223704.jpg",
+    "timestamp": "2025-11-19T22:37:04.720595",
+    "size": 375425
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.01,
+    "total_reading": 2271.81,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels show '022718'. Interpreting the leftmost five as whole cubic meters and the rightmost '8' as tenths results in 2271.8 m\u00b3. The small red needle on the circular dial points precisely to the first minor tick mark past the '0.01' major mark. Given there are 5 subdivisions between 0.01 and 0.02, each minor tick represents 0.002 m\u00b3. Thus, the exact reading is 0.012 m\u00b3. According to the '0.01 resolution' rule for interpolation, 0.012 is rounded to the nearest hundredth, which is 0.01 m\u00b3. The needle angle is calculated based on 0.00 at 0 degrees and each 0.01 unit being 36 degrees, thus 1.2 * 36 = 43.2 degrees.",
+    "timestamp": "2025-11-19T22:37:04.720595",
+    "format": "simple",
+    "dial_angle_degrees": 43,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 282,
+      "total_tokens": 6019,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

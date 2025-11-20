@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_032322.jpg",
+    "timestamp": "2025-11-20T03:23:22.217500",
+    "size": 372689
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.98,
+    "notes": "Odometer wheels clearly show 02271.1. The red needle points precisely to the '0,04' mark on the circular dial. The needle angle is calculated as 4/10ths of a 360-degree rotation (4 * 36 degrees), assuming the 0.00 mark is the 0-degree reference for the dial's scale.",
+    "timestamp": "2025-11-20T03:23:22.217500",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 170,
+      "total_tokens": 5069,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

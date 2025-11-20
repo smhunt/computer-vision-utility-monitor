@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_035435.jpg",
+    "timestamp": "2025-11-20T03:54:35.733109",
+    "size": 372185
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 02271.1 (or 2271.1 m\u00b3). The red needle on the small circular dial points precisely to the 0.04 mark. The 0.04 mark is located at approximately 6:30 position, which is 195 degrees clockwise from 12 o'clock.",
+    "timestamp": "2025-11-20T03:54:35.733109",
+    "format": "simple",
+    "dial_angle_degrees": 195,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 163,
+      "total_tokens": 6592,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-11-18T14:48:16.209442",
+  "camera": "10.10.10.207",
+  "results": [
+    {
+      "mode": "Night Mode (IR ON)",
+      "success": true,
+      "confidence": "low",
+      "total_reading": 1395.0,
+      "score": 40,
+      "notes": "Image taken in very low light conditions with infrared/night vision. Digital display appears to show 01395, but dial reading cannot be accurately determined due to poor visibility. The four bright spots appear to be LED reflections rather than part of the reading. Recommend retaking image with better lighting for accurate reading.",
+      "snapshot": "logs/preinspection/Night_Mode_IR_ON_20251118_144746.jpg",
+      "api_usage": {
+        "input_tokens": 1796,
+        "output_tokens": 252
+      }
+    },
+    {
+      "mode": "Day Mode (IR OFF)",
+      "success": true,
+      "confidence": "low",
+      "total_reading": null,
+      "score": 20,
+      "notes": "Image is too dark and unclear to reliably read either the digital display or the analog dial. The infrared/night vision lighting creates reflections that obscure the digital readout, and the dial markings and needle position cannot be determined. Better lighting conditions or a different camera mode would be needed for accurate meter reading.",
+      "snapshot": "logs/preinspection/Day_Mode_IR_OFF_20251118_144727.jpg",
+      "api_usage": {
+        "input_tokens": 1796,
+        "output_tokens": 222
+      }
+    },
+    {
+      "mode": "Auto Mode",
+      "success": true,
+      "confidence": "low",
+      "total_reading": null,
+      "score": 20,
+      "notes": "Image taken in low light/infrared conditions with LED reflections obscuring the meter face. Neither the digital display nor the analog dial readings are clearly visible. The four bright spots appear to be infrared LED reflections. Better lighting conditions or a different camera angle would be needed for an accurate reading.",
+      "snapshot": "logs/preinspection/Auto_Mode_20251118_144806.jpg",
+      "api_usage": {
+        "input_tokens": 1796,
+        "output_tokens": 240
+      }
+    }
+  ]
+}

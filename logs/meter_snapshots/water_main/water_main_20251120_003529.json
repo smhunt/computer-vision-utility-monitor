@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_003529.jpg",
+    "timestamp": "2025-11-20T00:35:29.617120",
+    "size": 381528
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.02,
+    "total_reading": 2271.12,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels clearly display 02271.1, which corresponds to 2271.1 m\u00b3. The small red needle points to the 4th small tick mark after the 0.02 indication on the circular dial, representing 0.024 m\u00b3. Applying the rule to interpolate to one decimal tick (0.01 resolution), 0.024 is rounded down to 0.02 m\u00b3. The total reading is 2271.1 + 0.02 = 2271.12 m\u00b3. The needle angle is calculated based on a 360-degree dial representing 0.1 m\u00b3, so 0.024 m\u00b3 corresponds to (0.024/0.1)*360 = 86.4 degrees relative to the 0.00 mark.",
+    "timestamp": "2025-11-20T00:35:29.617120",
+    "format": "simple",
+    "dial_angle_degrees": 86,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 271,
+      "total_tokens": 8248,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

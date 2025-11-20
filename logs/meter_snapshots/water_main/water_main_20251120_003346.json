@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_003346.jpg",
+    "timestamp": "2025-11-20T00:33:46.142465",
+    "size": 376231
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reads 2271.0. The red needle points precisely to the 0.04 mark on the dial. The angle is estimated based on the 0.04 mark being approximately at 5 o'clock.",
+    "timestamp": "2025-11-20T00:33:46.142465",
+    "format": "simple",
+    "dial_angle_degrees": 150,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 128,
+      "total_tokens": 3710,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_013949.jpg",
+    "timestamp": "2025-11-20T01:39:49.186441",
+    "size": 375692
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The white odometer wheels read 02271.0 (leftmost five digits are 02271 for whole m\u00b3, and the rightmost white wheel clearly shows '0' for tenths). The red pointer on the circular dial is pointing extremely close to the '0.04' mark. Adhering to the '0.01 resolution' rule for interpolation, 0.04 is the closest value for the hundredths place. The total reading is the sum of these values.",
+    "timestamp": "2025-11-20T01:39:49.186441",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 191,
+      "total_tokens": 4416,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

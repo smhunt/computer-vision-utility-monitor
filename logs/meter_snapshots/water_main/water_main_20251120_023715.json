@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_023715.jpg",
+    "timestamp": "2025-11-20T02:37:15.672467",
+    "size": 373246
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.035,
+    "total_reading": 2271.035,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.0. The first five wheels are 02271, and the rightmost white wheel (tenths place) is clearly showing '0'. The red needle on the circular dial is precisely at the 5th minor tick mark after 0.03, indicating 0.035. The dial increases clockwise, with 0.00 at the 12 o'clock position. The angle is calculated clockwise from 0.00.",
+    "timestamp": "2025-11-20T02:37:15.672467",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 194,
+      "total_tokens": 5358,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

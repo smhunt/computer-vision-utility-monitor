@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_093157.jpg",
+    "timestamp": "2025-11-20T09:31:57.154427",
+    "size": 380705
+  },
+  "meter_reading": {
+    "digital_reading": 2274,
+    "black_digit": 4,
+    "dial_reading": 0.02,
+    "total_reading": 2274.42,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels show 02274. The tenths wheel is exactly between 4 and 5. The red pointer is precisely on the 0.02 mark, indicating the tenths digit is still 4. The dial increments clockwise from 0 (at 12 o'clock) to 0.09, so 0.02 is 72 degrees clockwise from 0.",
+    "timestamp": "2025-11-20T09:31:57.154427",
+    "format": "simple",
+    "dial_angle_degrees": 72,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 169,
+      "total_tokens": 3524,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

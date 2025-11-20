@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_041350.jpg",
+    "timestamp": "2025-11-20T04:13:50.888937",
+    "size": 372702
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 2,
+    "dial_reading": 0.03,
+    "total_reading": 2271.23,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels show 02271. The rightmost white wheel (tenths) clearly displays '2', with '3' just beginning to appear at the top. The red pointer is exactly on the '0.03' mark. Given the small hundredths value (0.03), the tenths wheel has not yet fully advanced to '3', thus 2271.2 is correct for the odometer. The needle's position at '3' corresponds to 108 degrees clockwise from 0.",
+    "timestamp": "2025-11-20T04:13:50.888937",
+    "format": "simple",
+    "dial_angle_degrees": 108,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 196,
+      "total_tokens": 3401,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

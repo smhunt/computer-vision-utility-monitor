@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_031751.jpg",
+    "timestamp": "2025-11-20T03:17:51.027646",
+    "size": 372276
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.02,
+    "total_reading": 2271.02,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer wheels clearly show 02271.0. The red needle is pointing at the 3rd small tick past the '0.02' mark. Each small tick represents 0.001 m\u00b3. Thus, the reading is 0.023 m\u00b3. Rounding to the requested 0.01 resolution, the dial value is 0.02 m\u00b3.",
+    "timestamp": "2025-11-20T03:17:51.027646",
+    "format": "simple",
+    "dial_angle_degrees": 82,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 169,
+      "total_tokens": 4846,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_004144.jpg",
+    "timestamp": "2025-11-20T00:41:44.484018",
+    "size": 380190
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 2,
+    "dial_reading": 0.037,
+    "total_reading": 2271.237,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels are read as 02271.2 (the '2' is the rightmost black-digit wheel for tenths). The red needle on the circular dial is positioned between the implied 0.03 mark and the labeled 0.04 mark. Visually, it's approximately 70% of the way from 0.03 to 0.04, leading to an interpolated reading of 0.037. The '0.00' position is assumed at 12 o'clock, with values increasing clockwise.",
+    "timestamp": "2025-11-20T00:41:44.484018",
+    "format": "simple",
+    "dial_angle_degrees": 133,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 208,
+      "total_tokens": 6858,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

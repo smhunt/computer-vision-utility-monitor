@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_031716.jpg",
+    "timestamp": "2025-11-20T03:17:16.105183",
+    "size": 372835
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 2,
+    "dial_reading": 0.035,
+    "total_reading": 2271.235,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271. For the tenths digit, the wheel is between 2 and 3. Since the hundredths dial has not passed 0.09, the tenths digit is read as the lower value, 2. So, odometer_value is 2271.2. The red needle points between 0.03 and 0.04, approximately halfway, making it 0.035. The 0 on the dial is at 0 degrees, 0.01 at 36 degrees, 0.03 at 108 degrees, and 0.04 at 144 degrees. Halfway between 0.03 and 0.04 is 126 degrees.",
+    "timestamp": "2025-11-20T03:17:16.105183",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 253,
+      "total_tokens": 4566,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

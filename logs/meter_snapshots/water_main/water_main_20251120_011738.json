@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_011738.jpg",
+    "timestamp": "2025-11-20T01:17:38.831114",
+    "size": 380816
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "Odometer wheels read 02271.1 (the leftmost '0' is partially obscured but visible, the last '1' is the tenths digit). The red needle points slightly past the 0.04 mark on the small circular dial, but it is clearly closer to 0.04 than 0.05. Following the rule for 0.01 resolution, the dial reading is 0.04 m\u00b3.",
+    "timestamp": "2025-11-20T01:17:38.831114",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 180,
+      "total_tokens": 5479,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

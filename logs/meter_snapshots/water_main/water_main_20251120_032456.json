@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_032456.jpg",
+    "timestamp": "2025-11-20T03:24:56.217714",
+    "size": 374750
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.03,
+    "total_reading": 2271.13,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "Odometer reads 02271.1 (first 0 is leading). The red needle on the circular dial points directly at the 0.03 mark, which is at the 6 o'clock position. Assuming 0.00 is at 12 o'clock, 0.03 corresponds to 180 degrees.",
+    "timestamp": "2025-11-20T03:24:56.217714",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 158,
+      "total_tokens": 6018,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

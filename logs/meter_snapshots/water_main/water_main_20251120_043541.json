@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_043541.jpg",
+    "timestamp": "2025-11-20T04:35:41.438427",
+    "size": 373476
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 8,
+    "dial_reading": 0.04,
+    "total_reading": 2271.84,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "The odometer wheels read 02271.8. The red needle is visually pointing approximately at 0.037 on the 0-0.09 scale, which rounds up to 0.04 for the hundredths place. The needle angle is calculated relative to the 0.00 mark on the dial, assuming a 360-degree sweep for the full 0.1 m\u00b3 range.",
+    "timestamp": "2025-11-20T04:35:41.438427",
+    "format": "simple",
+    "dial_angle_degrees": 133,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 176,
+      "total_tokens": 6654,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

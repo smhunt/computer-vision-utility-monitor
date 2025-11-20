@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_000040.jpg",
+    "timestamp": "2025-11-20T00:00:40.440278",
+    "size": 371303
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels clearly display '02271.0'. Following standard practice, the leading zero is dropped for the whole number, resulting in 2271.0 m\u00b3. The red pointer on the circular dial is positioned between the '0.03' and '0.04' marks. It is significantly closer to '0.04'. Adhering to the 0.01 resolution rule, the dial reading is 0.04 m\u00b3. The dial progresses clockwise, with 10 major divisions (0.00 to 0.09). Each division is 36 degrees (360/10). The needle pointing at 0.04 represents 4 divisions from 0.00, resulting in an angle of 4 * 36 = 144 degrees relative to the 0.00 mark.",
+    "timestamp": "2025-11-20T00:00:40.440278",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 271,
+      "total_tokens": 5531,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

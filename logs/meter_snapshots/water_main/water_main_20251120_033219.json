@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_033219.jpg",
+    "timestamp": "2025-11-20T03:32:19.694729",
+    "size": 372980
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The six white odometer wheels read 02271.1 (or 2271.1). The red pointer on the circular dial is between the 0.03 and 0.04 marks. It is visually estimated to be at approximately 0.038, which is 136.8 degrees clockwise from the 0.00 mark (12 o'clock). Following the rule to interpolate to one decimal tick (0.01 resolution), 0.038 is rounded to 0.04 for the dial_value.",
+    "timestamp": "2025-11-20T03:32:19.694729",
+    "format": "simple",
+    "dial_angle_degrees": 136,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 209,
+      "total_tokens": 5813,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

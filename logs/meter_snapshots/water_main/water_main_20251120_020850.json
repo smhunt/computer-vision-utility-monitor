@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_020850.jpg",
+    "timestamp": "2025-11-20T02:08:50.933409",
+    "size": 372618
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 1.0,
+    "notes": "The odometer wheels clearly show '02271.0'. The red needle on the circular dial points directly at the '0,04' mark. The '0,01' mark is at the 12 o'clock position (0 degrees), and the needle pointing to '0,04' is at the 6 o'clock position, which is 180 degrees clockwise from 0 degrees.",
+    "timestamp": "2025-11-20T02:08:50.933409",
+    "format": "simple",
+    "dial_angle_degrees": 180,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 172,
+      "total_tokens": 4843,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

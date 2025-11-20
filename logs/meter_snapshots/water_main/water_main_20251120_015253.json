@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_015253.jpg",
+    "timestamp": "2025-11-20T01:52:53.624017",
+    "size": 371585
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer wheels clearly show 2271.1. The red needle is precisely halfway between the 0.03 and 0.04 marks on the dial. Following the '0.01 resolution' rule and common meter reading practice when ambiguous at midpoint, it is rounded up to 0.04. The needle angle reflects its exact visual position.",
+    "timestamp": "2025-11-20T01:52:53.624017",
+    "format": "simple",
+    "dial_angle_degrees": 126,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 162,
+      "total_tokens": 5045,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

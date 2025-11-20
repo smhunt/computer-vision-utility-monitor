@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_010543.jpg",
+    "timestamp": "2025-11-20T01:05:43.240730",
+    "size": 377132
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 0,
+    "dial_reading": 0.04,
+    "total_reading": 2271.04,
+    "confidence": "high",
+    "confidence_numeric": 0.95,
+    "notes": "The odometer wheels read 2271.0 (leftmost five as whole, rightmost black-on-white as tenths). The red needle points between 0.03 and 0.04, specifically to the 4th small tick mark, which is 0.038. Per the reading rules, this is rounded to the nearest 0.01 resolution, which is 0.04.",
+    "timestamp": "2025-11-20T01:05:43.240730",
+    "format": "simple",
+    "dial_angle_degrees": 76,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 175,
+      "total_tokens": 6103,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "snapshot": {
+    "filename": "water_main_20251120_013513.jpg",
+    "timestamp": "2025-11-20T01:35:13.864452",
+    "size": 377537
+  },
+  "meter_reading": {
+    "digital_reading": 2271,
+    "black_digit": 1,
+    "dial_reading": 0.04,
+    "total_reading": 2271.14,
+    "confidence": "high",
+    "confidence_numeric": 0.9,
+    "notes": "Odometer reads 2271.1. Red needle points between 0.03 and 0.04, slightly past the midpoint, so rounded to 0.04. The 0.00 mark is at 9 o'clock. Each 0.01 division is 36 degrees. A reading of 0.04 is 4 * 36 = 144 degrees clockwise from the 0.00 mark.",
+    "timestamp": "2025-11-20T01:35:13.864452",
+    "format": "simple",
+    "dial_angle_degrees": 144,
+    "api_usage": {
+      "input_tokens": 900,
+      "output_tokens": 178,
+      "total_tokens": 4466,
+      "model": "gemini-2.5-flash"
+    },
+    "vision_model": "gemini-2.5-flash",
+    "vision_provider": "google"
+  }
+}
