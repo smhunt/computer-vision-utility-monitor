@@ -504,7 +504,9 @@
                 if (data.status === 'success') {
                     btn.textContent = '✅ Done!';
                     btn.style.background = '#28a745';
-                    // Don't auto-reload - user can refresh manually
+
+                    // Refresh snapshot cards to show updated reading
+                    refreshSnapshotCards();
                 } else {
                     btn.textContent = '❌ Failed';
                     alert('Reprocess failed: ' + (data.error || 'Unknown error'));
@@ -563,7 +565,9 @@
                     `;
                     progressResult.style.display = 'block';
 
-                    // Don't auto-reload - let user refresh manually when ready
+                    // Refresh snapshot cards to show new capture
+                    refreshSnapshotCards();
+
                     setTimeout(() => {
                         btn.disabled = false;
                     }, 2000);
@@ -591,6 +595,98 @@
 
                 // Re-enable button
                 btn.disabled = false;
+            }
+        }
+
+        async function refreshSnapshotCards() {
+            try {
+                const response = await fetch('/api/snapshots/{{ meter_name }}');
+                const data = await response.json();
+
+                if (data.status === 'success' && data.snapshots) {
+                    const grid = document.querySelector('.snapshot-grid');
+                    if (!grid) return;
+
+                    // Render new snapshot cards
+                    grid.innerHTML = data.snapshots.map(snapshot => {
+                        const timestamp = snapshot.snapshot?.timestamp || 'Unknown';
+                        const filename = snapshot.snapshot?.filename || '';
+                        const reading = snapshot.meter_reading;
+
+                        // Helper function to get clock position from angle
+                        const getClockPosition = (angle) => {
+                            if (angle === null || angle === undefined) return '';
+                            if (angle === 0) return '(12 o\'clock)';
+                            if (angle >= 0 && angle < 30) return '(~12 o\'clock)';
+                            if (angle >= 30 && angle < 60) return '(~1 o\'clock)';
+                            if (angle >= 60 && angle < 90) return '(~2 o\'clock)';
+                            if (angle === 90) return '(3 o\'clock)';
+                            if (angle > 90 && angle < 120) return '(~4 o\'clock)';
+                            if (angle >= 120 && angle < 150) return '(~5 o\'clock)';
+                            if (angle >= 150 && angle < 180) return '(~6 o\'clock)';
+                            if (angle === 180) return '(6 o\'clock)';
+                            if (angle > 180 && angle < 210) return '(~7 o\'clock)';
+                            if (angle >= 210 && angle < 240) return '(~8 o\'clock)';
+                            if (angle >= 240 && angle < 270) return '(~9 o\'clock)';
+                            if (angle === 270) return '(9 o\'clock)';
+                            if (angle > 270 && angle < 300) return '(~10 o\'clock)';
+                            if (angle >= 300 && angle < 330) return '(~11 o\'clock)';
+                            return '(~12 o\'clock)';
+                        };
+
+                        let dialInfo = '';
+                        if (reading?.dial_angle_degrees !== null && reading?.dial_angle_degrees !== undefined) {
+                            dialInfo = `<div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                🧭 Dial: ${reading.dial_angle_degrees}° ${getClockPosition(reading.dial_angle_degrees)}
+                            </div>`;
+                        } else if (reading?.dial_direction || reading?.dial_clock_position) {
+                            dialInfo = `<div style="font-size: 12px; color: #666; margin-top: 4px;">
+                                🧭 Dial: ${reading.dial_direction || reading.dial_clock_position}
+                            </div>`;
+                        }
+
+                        // Helper for vision model badge
+                        let visionBadge = '';
+                        if (reading?.vision_model) {
+                            const provider = reading.vision_provider || 'unknown';
+                            const model = reading.vision_model;
+                            const badgeColor = provider === 'google' ? '#4285f4' : provider === 'anthropic' ? '#c57c3f' : '#666';
+                            visionBadge = `<div style="font-size: 10px; color: ${badgeColor}; margin-top: 4px;">
+                                🤖 ${model}
+                            </div>`;
+                        }
+
+                        return `
+                            <div class="snapshot-card">
+                                <img src="${snapshot.image_url}"
+                                     alt="${filename}"
+                                     class="snapshot-image"
+                                     onclick="openModal('${snapshot.image_url}')">
+                                <div class="snapshot-info">
+                                    <div class="snapshot-time">
+                                        ${timestamp}
+                                        ${reading ? `<span class="json-tooltip" onclick='showJSON(${JSON.stringify(reading)})'>{ }</span>` : ''}
+                                    </div>
+                                    ${reading ? `
+                                        <div class="reading">${reading.total_reading} m³</div>
+                                        ${dialInfo}
+                                        ${visionBadge}
+                                        <span class="confidence confidence-${reading.confidence}">
+                                            ${reading.confidence}
+                                        </span>
+                                    ` : ''}
+                                    <button class="reprocess-btn" onclick="reprocessImage('${filename}')">
+                                        🔄 Reprocess
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    console.log('✅ Snapshot cards refreshed');
+                }
+            } catch (error) {
+                console.error('Failed to refresh snapshots:', error);
             }
         }
     </script>
