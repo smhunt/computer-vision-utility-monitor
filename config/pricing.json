@@ -1,0 +1,170 @@
+{
+  "household": {
+    "address": {
+      "street": "2 Mayapple Crescent",
+      "city": "Ilderton",
+      "province": "Ontario",
+      "postal_code": "",
+      "country": "Canada"
+    },
+    "timezone": "America/Toronto"
+  },
+  "utility_accounts": {
+    "water": {
+      "account_number": "",
+      "provider": "Middlesex Centre Municipality",
+      "meter_type": "water_main",
+      "notes": "Upload bill to auto-populate account details"
+    },
+    "electricity": {
+      "account_number": "",
+      "provider": "Hydro One",
+      "meter_type": "electricity_main",
+      "notes": "Upload bill to auto-populate account details"
+    },
+    "gas": {
+      "account_number": "",
+      "provider": "Enbridge Gas",
+      "meter_type": "gas_main",
+      "notes": "Upload bill to auto-populate account details"
+    }
+  },
+  "utility_rates": {
+    "metadata": {
+      "location": "Ilderton, Ontario, Canada (Middlesex Centre)",
+      "effective_date": "2025-01-01",
+      "last_updated": "2025-11-19",
+      "currency": "CAD",
+      "notes": "Rates based on 2024-2025 public utility data for Ontario. Upload your bills to get exact rates for your location."
+    },
+    "water": {
+      "provider": "Middlesex Centre Municipality",
+      "volumetric_rate": {
+        "water": 1.75,
+        "wastewater": 2.00,
+        "stormwater": 0.15,
+        "unit": "CAD per m³",
+        "notes": "Estimated based on typical Ontario rates and 2025 increases (water +2%, wastewater +4%). Upload bill for exact rates."
+      },
+      "fixed_charges": {
+        "monthly_service_charge": 20.00,
+        "unit": "CAD per month"
+      },
+      "minimum_usage": {
+        "amount": 8,
+        "unit": "m³ per month"
+      },
+      "tiered_pricing": false
+    },
+    "electricity": {
+      "provider": "Hydro One",
+      "rate_plan": "Time-of-Use (TOU)",
+      "effective_date": "2025-11-01",
+      "time_of_use_rates": {
+        "off_peak": {
+          "rate": 9.8,
+          "unit": "cents per kWh",
+          "winter_hours": {
+            "weekdays": ["19:00-23:59", "00:00-07:00"],
+            "weekends_holidays": ["00:00-23:59"]
+          },
+          "summer_hours": {
+            "weekdays": ["19:00-23:59", "00:00-07:00"],
+            "weekends_holidays": ["00:00-23:59"]
+          }
+        },
+        "mid_peak": {
+          "rate": 15.7,
+          "unit": "cents per kWh",
+          "winter_hours": {
+            "weekdays": ["11:00-17:00"]
+          },
+          "summer_hours": {
+            "weekdays": ["07:00-11:00", "17:00-19:00"]
+          }
+        },
+        "on_peak": {
+          "rate": 20.3,
+          "unit": "cents per kWh",
+          "winter_hours": {
+            "weekdays": ["07:00-11:00", "17:00-19:00"]
+          },
+          "summer_hours": {
+            "weekdays": ["11:00-17:00"]
+          }
+        }
+      },
+      "seasonal_periods": {
+        "winter": {
+          "start": "11-01",
+          "end": "04-30"
+        },
+        "summer": {
+          "start": "05-01",
+          "end": "10-31"
+        }
+      },
+      "delivery_charges": {
+        "monthly_service_charge": 40.00,
+        "distribution_volumetric_charge": 2.5,
+        "transmission_charge": 1.0,
+        "unit": "CAD per month for fixed, cents per kWh for volumetric",
+        "notes": "Upload bill for exact delivery charges for your location"
+      },
+      "rebates_and_taxes": {
+        "ontario_electricity_rebate": {
+          "rate": 23.5,
+          "unit": "percent",
+          "effective_date": "2025-11-01",
+          "applies_to": "Electricity charges before HST"
+        },
+        "hst": {
+          "rate": 13,
+          "unit": "percent",
+          "applies_to": "Total bill amount"
+        }
+      }
+    },
+    "natural_gas": {
+      "provider": "Enbridge Gas",
+      "rate_zone": "Rate 1 - EGD (former Enbridge Gas Distribution)",
+      "effective_date": "2025-10-01",
+      "gas_supply": {
+        "commodity_charge": 12.2755,
+        "gas_cost_adjustment": -2.9559,
+        "rate_adjustment": 0.0003,
+        "total_effective_rate": 9.3199,
+        "unit": "cents per m³",
+        "notes": "Gas supply rates adjusted quarterly by OEB"
+      },
+      "delivery_charges": {
+        "volumetric_charge": 11.0,
+        "unit": "cents per m³"
+      },
+      "transportation_charges": {
+        "volumetric_charge": 5.8,
+        "unit": "cents per m³"
+      },
+      "fixed_charges": {
+        "monthly_customer_charge": 25.00,
+        "unit": "CAD per month"
+      },
+      "carbon_charges": {
+        "federal_carbon_charge": {
+          "rate": 0,
+          "unit": "cents per m³",
+          "notes": "Removed effective April 1, 2025"
+        },
+        "facility_carbon_charge": {
+          "rate": 0.0123,
+          "unit": "cents per m³"
+        }
+      }
+    }
+  },
+  "bill_uploads": {
+    "water": [],
+    "electricity": [],
+    "gas": []
+  }
+}
