@@ -313,6 +313,17 @@
             color: #28a745;
             font-weight: 600;
         }
+        .auto-capture-countdown {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+        .auto-capture-countdown #countdownTimer {
+            font-weight: 700;
+            color: #007bff;
+            font-size: 14px;
+        }
 
         .json-tooltip {
             cursor: pointer;
@@ -462,6 +473,9 @@
                 <span class="slider"></span>
             </label>
             <span class="auto-capture-status" id="autoCaptureStatus" style="display: none;">ON</span>
+        </div>
+        <div class="auto-capture-countdown" id="autoCaptureCountdown" style="display: none;">
+            Next capture in: <span id="countdownTimer">60s</span>
         </div>
     </div>
 
@@ -862,19 +876,42 @@
 
         // Auto-capture functionality
         let autoCaptureInterval = null;
+        let countdownInterval = null;
+        let countdownSeconds = 60;
+
+        function updateCountdown() {
+            const timerElement = document.getElementById('countdownTimer');
+            timerElement.textContent = countdownSeconds + 's';
+
+            countdownSeconds--;
+
+            if (countdownSeconds < 0) {
+                countdownSeconds = 60;
+            }
+        }
 
         function toggleAutoCapture(isEnabled) {
             const statusElement = document.getElementById('autoCaptureStatus');
+            const countdownElement = document.getElementById('autoCaptureCountdown');
 
             if (isEnabled) {
+                // Reset countdown
+                countdownSeconds = 60;
+                updateCountdown();
+
+                // Start countdown timer (updates every second)
+                countdownInterval = setInterval(updateCountdown, 1000);
+
                 // Start auto-capture every 60 seconds
                 autoCaptureInterval = setInterval(() => {
                     console.log('🔄 Auto-capture triggered');
+                    countdownSeconds = 60; // Reset countdown on capture
                     captureSnapshot();
                 }, 60000); // 60 seconds
 
                 statusElement.style.display = 'inline';
                 statusElement.textContent = 'ON';
+                countdownElement.style.display = 'block';
                 console.log('✅ Auto-capture enabled (every 1 min)');
             } else {
                 // Stop auto-capture
@@ -883,7 +920,14 @@
                     autoCaptureInterval = null;
                 }
 
+                // Stop countdown
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+
                 statusElement.style.display = 'none';
+                countdownElement.style.display = 'none';
                 console.log('⏸️ Auto-capture disabled');
             }
         }
