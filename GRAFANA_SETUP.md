@@ -19,7 +19,7 @@ This starts:
 
 - **URL:** http://localhost:3000
 - **Username:** admin
-- **Password:** ***REMOVED***
+- **Password:** (from GRAFANA_ADMIN_PASSWORD in .env)
 
 ### 3. View Dashboard
 

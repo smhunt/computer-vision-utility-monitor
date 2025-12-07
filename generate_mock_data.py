@@ -221,7 +221,7 @@ if __name__ == "__main__":
         print("✓ Successfully generated all mock data!")
         print()
         print("Next steps:")
-        print("  1. Access Grafana at http://localhost:3000 (admin/***REMOVED***)")
+        print("  1. Access Grafana at http://localhost:3000 (use GRAFANA_ADMIN_PASSWORD from .env)")
         print("  2. View the Utility Meters Dashboard")
         print("  3. Explore usage patterns and trends")
         print()

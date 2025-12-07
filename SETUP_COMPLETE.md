@@ -66,7 +66,7 @@ Access:
    - Port: 5432
    - Database: utility_monitor
    - Username: postgres
-   - Password: ***REMOVED***
+   - Password: (from POSTGRES_PASSWORD in .env)
 
 Now you can browse tables, run queries, and manage data directly from VS Code!
 

@@ -9,7 +9,7 @@ Your utility monitor now has **PostgreSQL** integrated alongside **InfluxDB** fo
 - **Port**: 5432
 - **Database**: `utility_monitor`
 - **User**: `postgres`
-- **Password**: `***REMOVED***` (configured in [.env](file:///Users/seanhunt/Code/computer-vision-utility-monitor/.env))
+- **Password**: Configured via `POSTGRES_PASSWORD` in `.env`
 
 ### ✅ Database Schema
 7 tables created:
@@ -83,7 +83,7 @@ Access:
    - Port: `5432`
    - Database: `utility_monitor`
    - User: `postgres`
-   - Password: `***REMOVED***`
+   - Password: (from `POSTGRES_PASSWORD` in `.env`)
 
 3. **Browse Tables**: Open SQLTools sidebar → Connect → Browse tables
 
@@ -268,7 +268,7 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 POSTGRES_DB=utility_monitor
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=***REMOVED***
+POSTGRES_PASSWORD=your_secure_password
 ```
 
 ### API Routes Not Working

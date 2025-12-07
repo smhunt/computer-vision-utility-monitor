@@ -31,7 +31,7 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 POSTGRES_DB=utility_monitor
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=***REMOVED***  # Change in production!
+POSTGRES_PASSWORD=your_secure_password  # Change this!
 ```
 
 ### 3. Initialize Database
