@@ -47,7 +47,7 @@ python3 wyze_cam_monitor.py
 ### 4. View Dashboard
 Open: http://localhost:3000
 - User: sean@ecoworks.ca
-- Password: ***REMOVED***
+- Password: (set GRAFANA_PASSWORD in .env.local)
 
 ---
 
@@ -110,15 +110,15 @@ water-meter-monitoring/
 📱 Camera (Thingino)
    IP:       10.10.10.207
    User:     root
-   Password: ***REMOVED***
+   Password: (set WATER_CAM_PASS in .env.local)
 
 📊 Grafana Dashboard
    URL:      http://localhost:3000
    User:     sean@ecoworks.ca
-   Password: ***REMOVED***
+   Password: (set GRAFANA_PASSWORD in .env.local)
 
 🔑 Anthropic API
-   Key:      ***REMOVED***... (in .env.local)
+   Key:      (set ANTHROPIC_API_KEY in .env.local)
 ```
 
 ### Security Status
@@ -200,7 +200,7 @@ docker-compose restart
 ### Camera Connection Failed
 ```bash
 # Test snapshot endpoint
-curl -v http://root:***REMOVED***@10.10.10.207/mjpeg
+curl -v http://root:$WATER_CAM_PASS@10.10.10.207/mjpeg
 
 # Check camera is powered on
 # Verify network connectivity
@@ -214,7 +214,7 @@ ls -la .env .env.local
 
 # Load manually
 export GRAFANA_USER=sean@ecoworks.ca
-export GRAFANA_PASSWORD=***REMOVED***
+export GRAFANA_PASSWORD=your_grafana_password
 ```
 
 ---
@@ -323,7 +323,7 @@ git status
 python3 view_logs.py --stats
 
 # Test components
-curl http://root:***REMOVED***@10.10.10.207/mjpeg
+curl http://root:$WATER_CAM_PASS@10.10.10.207/mjpeg
 python3 -c "from src.llm_reader import read_meter_with_claude; ..."
 ```
 
@@ -336,7 +336,7 @@ Before considering setup complete:
 - [ ] Camera is at 10.10.10.207 and responding
 - [ ] Docker services running (InfluxDB, Grafana)
 - [ ] Grafana accessible at http://localhost:3000
-- [ ] Can login with sean@ecoworks.ca / ***REMOVED***
+- [ ] Can login with sean@ecoworks.ca / (your GRAFANA_PASSWORD)
 - [ ] Monitoring script runs without errors
 - [ ] First readings appear in Grafana
 - [ ] Snapshots saved in logs/snapshots/

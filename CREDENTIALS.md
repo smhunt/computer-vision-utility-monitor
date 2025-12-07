@@ -39,7 +39,7 @@ This document explains how credentials are securely managed in this project.
 - **Example:**
   ```
   GRAFANA_USER=sean@ecoworks.ca
-  GRAFANA_PASSWORD=***REMOVED***
+  GRAFANA_PASSWORD=your_grafana_password
   ANTHROPIC_API_KEY=sk-ant-...
   ```
 
@@ -50,17 +50,17 @@ This document explains how credentials are securely managed in this project.
 ### Camera Access
 - **IP:** 10.10.10.207
 - **User:** root
-- **Password:** ***REMOVED***
-- **Location:** `.env`
+- **Password:** (set in .env.local as WATER_CAM_PASS)
+- **Location:** `.env.local`
 
 ### Grafana Dashboard
 - **URL:** http://localhost:3000
 - **User:** sean@ecoworks.ca
-- **Password:** ***REMOVED***
+- **Password:** (set in .env.local as GRAFANA_PASSWORD)
 - **Location:** `.env.local`
 
 ### Anthropic API
-- **Key:** ***REMOVED***...
+- **Key:** (set in .env.local as ANTHROPIC_API_KEY)
 - **Location:** `.env`
 - **Note:** Only this summary shown; full key in `.env.local`
 

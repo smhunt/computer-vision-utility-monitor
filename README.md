@@ -110,7 +110,7 @@ set -a && source .env && source .env.local && set +a
 export ANTHROPIC_API_KEY=sk-ant-...
 export WATER_CAM_IP=10.10.10.207         # Your camera IP
 export WATER_CAM_USER=root               # Thingino default
-export WATER_CAM_PASS=***REMOVED***    # Set in .env.local
+export WATER_CAM_PASS=your_password      # Set in .env.local
 ```
 
 ### 4. Start Docker Services (InfluxDB + Grafana)
@@ -267,7 +267,7 @@ cp .env.example .env
 # Create private credentials file (git-ignored)
 cat > .env.local << 'EOF'
 GRAFANA_USER=sean@ecoworks.ca
-GRAFANA_PASSWORD=***REMOVED***
+GRAFANA_PASSWORD=your_grafana_password
 EOF
 
 # Set permissions (critical for security)
@@ -455,7 +455,7 @@ python meter_preview_ui.py --port 5001
 ping 10.10.10.207
 
 # Test connection manually
-curl -u root:***REMOVED*** http://10.10.10.207/mjpeg
+curl -u root:$WATER_CAM_PASS http://10.10.10.207/mjpeg
 ```
 
 ### Web UI Not Loading

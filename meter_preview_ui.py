@@ -367,7 +367,7 @@ def api_stream(meter_type):
 
         camera_ip = meter_config.get('camera_ip', '').replace('${WATER_CAM_IP:', '').replace('}', '').split(':')[-1] or '10.10.10.207'
         camera_user = meter_config.get('camera_user', '').replace('${WATER_CAM_USER:', '').replace('}', '').split(':')[-1] or 'root'
-        camera_pass = meter_config.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or '***REMOVED***'
+        camera_pass = meter_config.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or os.getenv('WATER_CAM_PASS', '')
 
         # Stream MJPEG from camera
         mjpeg_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/mjpeg"

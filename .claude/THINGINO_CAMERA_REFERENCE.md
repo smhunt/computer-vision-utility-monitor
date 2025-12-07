@@ -35,14 +35,14 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 url = "http://10.10.10.207/mjpeg"
-auth = HTTPBasicAuth("root", "***REMOVED***")
+auth = HTTPBasicAuth("root", os.getenv("WATER_CAM_PASS"))
 response = requests.get(url, auth=auth, stream=True)
 ```
 
 ### Still Image
 ```python
 url = "http://10.10.10.207/x/image.cgi"
-auth = HTTPBasicAuth("root", "***REMOVED***")
+auth = HTTPBasicAuth("root", os.getenv("WATER_CAM_PASS"))
 response = requests.get(url, auth=auth)
 image_data = response.content
 ```
@@ -54,7 +54,7 @@ The camera supports day/night mode control via `/x/config-daynight.cgi`:
 ```python
 import requests
 
-url = "http://root:***REMOVED***@10.10.10.207/x/config-daynight.cgi"
+url = f"http://root:{os.getenv('WATER_CAM_PASS')}@10.10.10.207/x/config-daynight.cgi"
 settings = {
     "day_night_enabled": "false",  # true = auto, false = manual
     "day_night_ir850": "true",     # IR LEDs on/off
@@ -163,7 +163,7 @@ meters:
   - name: "water_main"
     camera_ip: "10.10.10.207"
     camera_user: "root"
-    camera_pass: "***REMOVED***"
+    camera_pass: "${WATER_CAM_PASS}"
     stream_url: "http://10.10.10.207/mjpeg"
 ```
 

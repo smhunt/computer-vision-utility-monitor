@@ -13,7 +13,7 @@ import requests
 
 DEFAULT_CAMERA_IP = os.getenv("WATER_CAM_IP", "10.10.10.207")
 DEFAULT_CAMERA_USER = os.getenv("WATER_CAM_USER", "root")
-DEFAULT_CAMERA_PASS = os.getenv("WATER_CAM_PASS", "***REMOVED***")
+DEFAULT_CAMERA_PASS = os.getenv("WATER_CAM_PASS", "")
 
 # Preset modes
 PRESETS = {

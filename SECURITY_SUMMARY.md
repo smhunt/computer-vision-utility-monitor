@@ -9,8 +9,8 @@
 ## 🔐 What's Secured
 
 ### Credentials Managed
-- ✅ Grafana Dashboard (sean@ecoworks.ca / ***REMOVED***)
-- ✅ Camera Root Access (root / ***REMOVED***)
+- ✅ Grafana Dashboard (sean@ecoworks.ca / GRAFANA_PASSWORD in .env.local)
+- ✅ Camera Root Access (root / WATER_CAM_PASS in .env.local)
 - ✅ Anthropic API Key (sk-ant-...)
 - ✅ InfluxDB Tokens
 - ✅ MQTT Credentials (if used)

@@ -34,7 +34,7 @@ def main():
     # Step 1: Capture image
     import requests
     camera_user = meter.get('camera_user', '').replace('${WATER_CAM_USER:', '').replace('}', '').split(':')[-1] or 'root'
-    camera_pass = meter.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or '***REMOVED***'
+    camera_pass = meter.get('camera_pass', '').replace('${WATER_CAM_PASS:', '').replace('}', '').split(':')[-1] or os.getenv('WATER_CAM_PASS', '')
     mjpeg_url = f"http://{camera_user}:{camera_pass}@{camera_ip}/mjpeg"
 
     try:

@@ -7,7 +7,7 @@ meters:
     type: "water"
     camera_ip: "${WATER_CAM_IP:10.10.10.207}"
     camera_user: "${WATER_CAM_USER:root}"
-    camera_pass: "${WATER_CAM_PASS:***REMOVED***}"
+    camera_pass: "${WATER_CAM_PASS}"
     stream_url: "http://${WATER_CAM_IP:10.10.10.207}/mjpeg"
     reading_interval: 600
     max_change_per_reading: 10.0

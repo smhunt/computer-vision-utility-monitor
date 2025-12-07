@@ -21,7 +21,7 @@ from llm_reader import read_meter_with_claude
 # Camera configuration
 CAMERA_IP = os.getenv("WATER_CAM_IP", "10.10.10.207")
 CAMERA_USER = os.getenv("WATER_CAM_USER", "root")
-CAMERA_PASS = os.getenv("WATER_CAM_PASS", "***REMOVED***")
+CAMERA_PASS = os.getenv("WATER_CAM_PASS", "")
 CAMERA_BASE_URL = f"http://{CAMERA_USER}:{CAMERA_PASS}@{CAMERA_IP}"
 
 # Test configurations to try
