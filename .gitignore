@@ -27,7 +27,11 @@ build/
 # Logs and data
 logs/*.log
 logs/*.jsonl
+logs/meter_snapshots/
 *.log
+
+# Personal documents
+*.pdf
 
 # Temporary files
 /tmp/
