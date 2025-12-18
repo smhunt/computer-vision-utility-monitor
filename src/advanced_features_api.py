@@ -61,8 +61,7 @@ class AdvancedFeaturesAPI:
         else:
             self.device_registry = {
                 'devices': {},
-                'qr_codes': {},
-                'pending_registrations': {}
+                'qr_codes': {}
             }
     
     def _save_device_registry(self):
@@ -297,7 +296,11 @@ class AdvancedFeaturesAPI:
                 }), 401
             
             # Process pushed data
-            timestamp = datetime.fromisoformat(data.get('timestamp', datetime.now().isoformat()))
+            timestamp_str = data.get('timestamp')
+            if timestamp_str:
+                timestamp = datetime.fromisoformat(timestamp_str)
+            else:
+                timestamp = datetime.now()
             
             # Save image if provided
             if 'image_base64' in data:
@@ -589,6 +592,35 @@ class AdvancedFeaturesAPI:
                 'message': str(e)
             }), 500
     
+    def _haversine_distance(self, lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+        """
+        Calculate distance between two points on Earth using Haversine formula
+        
+        Args:
+            lat1, lon1: First point coordinates
+            lat2, lon2: Second point coordinates
+            
+        Returns:
+            Distance in kilometers
+        """
+        import math
+        
+        # Convert to radians
+        lat1_rad = math.radians(lat1)
+        lat2_rad = math.radians(lat2)
+        delta_lat = math.radians(lat2 - lat1)
+        delta_lon = math.radians(lon2 - lon1)
+        
+        # Haversine formula
+        a = math.sin(delta_lat / 2) ** 2 + \
+            math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lon / 2) ** 2
+        c = 2 * math.asin(math.sqrt(a))
+        
+        # Earth's radius in kilometers
+        earth_radius_km = 6371.0
+        
+        return earth_radius_km * c
+    
     def get_devices_by_location(self):
         """
         Get devices near a specific location
@@ -612,22 +644,19 @@ class AdvancedFeaturesAPI:
                 if 'geolocation' not in device:
                     continue
                 
-                # Simple distance calculation (Haversine formula would be more accurate)
                 device_lat = device['geolocation']['latitude']
                 device_lon = device['geolocation']['longitude']
                 
-                # Approximate distance (simplified)
-                lat_diff = abs(device_lat - latitude)
-                lon_diff = abs(device_lon - longitude)
-                distance_approx = ((lat_diff ** 2 + lon_diff ** 2) ** 0.5) * 111  # rough km conversion
+                # Calculate accurate distance using Haversine formula
+                distance_km = self._haversine_distance(latitude, longitude, device_lat, device_lon)
                 
-                if distance_approx <= radius_km:
+                if distance_km <= radius_km:
                     nearby_devices.append({
                         'device_id': device_id,
                         'meter_type': device['meter_type'],
                         'location': device.get('location'),
                         'geolocation': device['geolocation'],
-                        'distance_km': round(distance_approx, 2)
+                        'distance_km': round(distance_km, 2)
                     })
             
             return jsonify({
