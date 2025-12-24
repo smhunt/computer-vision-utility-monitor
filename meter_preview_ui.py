@@ -2589,6 +2589,14 @@ def main():
         print("✅ Database API routes registered")
     except Exception as e:
         print(f"⚠️  Warning: Could not register database routes: {e}")
+    
+    # Register advanced features API routes
+    try:
+        from src.advanced_features_api import register_advanced_features_routes
+        register_advanced_features_routes(app, log_dir=str(LOG_DIR))
+        print("✅ Advanced features API routes registered")
+    except Exception as e:
+        print(f"⚠️  Warning: Could not register advanced features routes: {e}")
 
     # Create templates
     create_templates()

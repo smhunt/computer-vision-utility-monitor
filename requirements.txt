@@ -11,6 +11,9 @@ sqlalchemy>=2.0.0
 psycopg2-binary>=2.9.9
 python-dotenv>=1.0.0
 
+# Advanced features dependencies
+qrcode>=7.4.0
+
 # Optional dependencies
 # paho-mqtt>=1.6.1  # For MQTT publishing (uncomment if needed)
 flask-cors
